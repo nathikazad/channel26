@@ -1,0 +1,25 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+Lupo:
+    first_name: Chris
+    last_name: Lupo
+    location: Bld 14 Rm 228
+    department: Comp Sci
+    number: 8057869123
+    office_hours: M12001300.W12001300.F13001400
+
+ 
+# column: value
+#
+Julie:
+    first_name: Julie
+    last_name: Workman
+    location: Bld 14 Rm 229
+    department: Comp Sci
+    number: 8057869122
+    office_hours: M15001600.W13001400
+#  column: value
