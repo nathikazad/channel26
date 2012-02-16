@@ -5,27 +5,32 @@
 # below each fixture, per the syntax in the comments below
 #
 Nathik:
+    id: 1
     first_name: Nathik
     last_name: Salam
     major: Computer Engineering
     CellPhone: 5309170565
 
 Arnesh:
+    id: 2
     first_name: Arnesh
     last_name: Mudaliar
     major: Computer Science
     CellPhone: 9255778896
 Max:
+    id: 3
     first_name: Max
     last_name: Evans
     major: Computer Science
     CellPhone: 8053155821
 Brent:
+    id: 4
     first_name: Brent
     last_name: Astrosky
     major: Industrial Management Engineer
     CellPhone: 2072396654
 Vince:
+    id: 5
     first_name: Vinodh
     last_name: Narasimhan
     major: BioMedical Engineer

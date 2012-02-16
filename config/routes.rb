@@ -1,8 +1,9 @@
 TestBaby::Application.routes.draw do
   resources :classrooms
   resources :students
-  resources :teachers
   resources :assignments
+  resources :teachers
+  resources :classrooms_students
   resources :grades
   
   get "classrooms/show"

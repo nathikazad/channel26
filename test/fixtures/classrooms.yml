@@ -5,25 +5,27 @@
 # below each fixture, per the syntax in the comments below
 #
 Math141: 
-    name: Math141
+    id: 1
+    name: Math142
     class_no: 141
-    section_no :02
+    section_no : 02
     institution: CalPoly
     department: Math
     date_start: 2012-01-04
     date_end: 2012-03-22
     teacher_id: 3
-    schedule: MTWR16001800
+    #schedule: MTWR16001800
 # column: value
 #
 CSC101: 
+    id: 2
     name: CSC101
     class_no: 101
-    section_no :02
+    section_no : 02
     institution: CalPoly
     department: CSC
     date_start: 2012-01-04
     date_end: 2012-03-22
     teacher_id: 1
-    schedule: MWF08001000
+    #schedule: MWF08001000
 #  column: value

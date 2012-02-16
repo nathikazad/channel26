@@ -5,6 +5,7 @@
 # below each fixture, per the syntax in the comments below
 #
 Lupo:
+    id: 1
     first_name: Chris
     last_name: Lupo
     location: Bld 14 Rm 228
@@ -16,6 +17,7 @@ Lupo:
 # column: value
 #
 Julie:
+    id: 2
     first_name: Julie
     last_name: Workman
     location: Bld 14 Rm 229
@@ -25,6 +27,7 @@ Julie:
     
 #  column: value
 Mike:
+    id: 3
     first_name: Mike
     last_name: Robertson
     location: Bld 38 Rm 229
