@@ -7,7 +7,7 @@
 MathClass1: 
     id: 1
     name: Class1
-    type: 0
+    atype: 0
     assigned_date:
     due_date: 2012-02-20
     content: Area under curve
@@ -18,7 +18,7 @@ MathClass1:
 MathClass2: 
     id: 2
     name: Class2
-    type: 0
+    atype: 0
     assigned_date:
     due_date: 2012-02-22
     content: Integration by parts
@@ -29,7 +29,7 @@ MathClass2:
 MathClass3: 
     id: 3
     name: Class1
-    type: 0
+    atype: 0
     assigned_date:
     due_date: 2012-02-24
     content: Random Integration 
@@ -40,7 +40,7 @@ MathClass3:
 MathClass4:
     id: 4 
     name: Class4
-    type: 0
+    atype: 0
     assigned_date:
     due_date: 2012-02-27
     content: Barack's integration of Michelle
@@ -51,7 +51,7 @@ MathClass4:
 MathClass5: 
     id: 5
     name: Class5
-    type: 0
+    atype: 0
     assigned_date:
     due_date: 2012-02-29
     content: Integration under diffraction
@@ -62,7 +62,7 @@ MathClass5:
 MathClass6:
     id: 6 
     name: Class6
-    type: 0
+    atype: 0
     assigned_date:
     due_date: 2012-03-02
     content: Partial Integration
@@ -74,7 +74,7 @@ MathClass6:
 MathHW1: 
     id: 7
     name: HW1
-    type: 1
+    atype: 1
     assigned_date: 2012-02-10
     due_date: 2012-02-17
     content: "5.1 2,3,5,7,9"
@@ -85,7 +85,7 @@ MathHW1:
 MathHW2: 
     id: 8
     name: HW2
-    type: 1
+    atype: 1
     assigned_date: 2012-02-17
     due_date: 2012-02-24
     content: 5.2 1-10, 5.3 2,5,7
@@ -96,7 +96,7 @@ MathHW2:
 MathHW3: 
     id: 9
     name: HW3
-    type: 1
+    atype: 1
     assigned_date: 2012-02-24
     due_date: 2012-03-02
     content: 5.4 10-17
@@ -107,7 +107,7 @@ MathHW3:
 MathQuiz1: 
     id: 10
     name: Quiz1
-    type: 2
+    atype: 2
     assigned_date:
     due_date: 2012-02-24
     content: 5.1-5.2
@@ -118,7 +118,7 @@ MathQuiz1:
 MathQuiz2: 
     id: 11
     name: Quiz2
-    type: 2
+    atype: 2
     assigned_date:
     due_date: 2012-03-02
     content: 5.3
@@ -129,7 +129,7 @@ MathQuiz2:
 MathQuiz3: 
     id: 12
     name: Quiz3
-    type: 2
+    atype: 2
     assigned_date:
     due_date: 2012-03-09
     content: 5.4
@@ -140,14 +140,10 @@ MathQuiz3:
 MathMidterm1: 
     id: 13
     name: Midterm1
-    type: 3
+    atype: 3
     assigned_date:
     due_date: 2012-03-16
     content: 5.1-5.6 except 5.5
     p_o_a: 15
     out_of: 100
     classroom_id: 1
-
-
-
-

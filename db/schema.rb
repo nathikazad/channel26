@@ -10,11 +10,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120214101603) do
+ActiveRecord::Schema.define(:version => 20120216221714) do
 
   create_table "assignments", :force => true do |t|
     t.string   "name"
-    t.integer  "type"
+    t.integer  "atype"
     t.date     "assigned_date"
     t.date     "due_date"
     t.text     "content"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20120214101603) do
     t.date     "date_start"
     t.date     "date_end"
     t.integer  "teacher_id"
+    t.string   "schedule"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -49,15 +50,6 @@ ActiveRecord::Schema.define(:version => 20120214101603) do
     t.integer  "score"
     t.integer  "assignment_id"
     t.integer  "student_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "schedules", :force => true do |t|
-    t.string   "day"
-    t.time     "start"
-    t.time     "end"
-    t.integer  "classroom_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
