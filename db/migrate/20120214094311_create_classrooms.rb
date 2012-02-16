@@ -1,3 +1,4 @@
+#feeds,links,course material
 class CreateClassrooms < ActiveRecord::Migration
   def self.up
     create_table :classrooms do |t|
@@ -9,6 +10,7 @@ class CreateClassrooms < ActiveRecord::Migration
       t.date :date_start
       t.date :date_end
       t.integer :teacher_id
+      t.string :schedule
       t.timestamps
     end
   end

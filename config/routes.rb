@@ -1,4 +1,12 @@
 TestBaby::Application.routes.draw do
+  resources :classrooms
+  resources :students
+  resources :teachers
+  resources :assignments
+  resources :grades
+  
+  get "classrooms/show"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
