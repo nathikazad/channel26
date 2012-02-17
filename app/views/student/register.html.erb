@@ -1,2 +1,19 @@
-<h1>Student#register</h1>
-<p>Find me in app/views/student/register.html.erb</p>
+<h1>Register</h1>
+
+<% form_for :user do |f| %>
+  <p>
+	<%= f.label :username %>:
+	<%= f.text_field :username %>
+  </p>
+  <p>
+	<%= f.label :e_mail, "E-Mail" %>:
+	<%= f.text_field :e_mail %>
+  </p>
+  <p>
+	<%= f.label :password %>:
+	<%= f.password_field :password  %>
+  </p>
+  <p>
+	<%= f.submit "Register" %>
+  </p>
+<% end %>
