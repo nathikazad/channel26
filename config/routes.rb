@@ -1,4 +1,8 @@
 TestBaby::Application.routes.draw do
+  get "student/register"
+
+  get "student/login"
+
   get "twiliorespp/answerMachine"
 
   resources :classrooms
