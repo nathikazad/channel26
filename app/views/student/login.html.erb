@@ -1,2 +1,19 @@
-<h1>Student#login</h1>
-<p>Find me in app/views/student/login.html.erb</p>
+<h1>Login</h1>
+<!--<%= error_messages_for :user %>-->
+<% form_for :user do |f| %>
+  <p>
+    <%= f.label :user_name %>:
+    <%= f.text_field :user_name %>
+  </p>
+  <p>
+    <%= f.label :password %>:
+    <%= f.password_field :password  %>
+  </p>
+  <p>
+    <%= f.submit "Login" %>
+  </p>
+<% end %>
+
+<p>
+  Not a member? <%= link_to "Register now!", :action => "register" %>
+</p>
