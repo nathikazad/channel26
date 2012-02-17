@@ -1,4 +1,6 @@
 TestBaby::Application.routes.draw do
+  get "twiliorespp/answerMachine"
+
   resources :classrooms
   resources :students
   resources :assignments
@@ -7,6 +9,8 @@ TestBaby::Application.routes.draw do
   resources :grades
   
   get "classrooms/show"
+  #root :to => "classrooms#show"
+  match '/contact', :to => 'classrooms#show'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
