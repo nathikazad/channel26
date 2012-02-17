@@ -8,6 +8,8 @@ Nathik:
     id: 1
     first_name: Nathik
     last_name: Salam
+    username: nsalam
+    password: 1234
     major: Computer Engineering
     CellPhone: 5309170565
 
@@ -15,24 +17,32 @@ Arnesh:
     id: 2
     first_name: Arnesh
     last_name: Mudaliar
+    username: amudalia
+    password: 1234
     major: Computer Science
     CellPhone: 9255778896
 Max:
     id: 3
     first_name: Max
     last_name: Evans
+    username: mevans
+    password: 1234
     major: Computer Science
     CellPhone: 8053155821
 Brent:
     id: 4
     first_name: Brent
     last_name: Astrosky
+    username: bastrosky
+    password: 1234
     major: Industrial Management Engineer
     CellPhone: 2072396654
 Vince:
     id: 5
     first_name: Vinodh
     last_name: Narasimhan
+    username: vnarasim
+    password: 1234
     major: BioMedical Engineer
     CellPhone: 6618629397
 
