@@ -5,15 +5,14 @@ class StudentController < ApplicationController
 
   def login
     if request.post?
-      @user = Student.new(params[:user])
-      user = Student.find_by_username_and_password(@user.user_name, @user.password)
+      user = Student.find_by_username_and_password(params[:user][:username],params[:user][:password])
       if user
         session[:user_id] = user.id
         flash[:notice] = "User #{user.first_name} logged in"
-#        redirect_to :action => "index"
+        redirect_to :action => "register"
       else
         # Don't show the password in the view
-        @user.password = nil
+        params[:user][:password] = nil
         flash[:notice] = "Invalid email/password combination"
       end
     end

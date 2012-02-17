@@ -57,6 +57,9 @@ ActiveRecord::Schema.define(:version => 20120216221714) do
   create_table "students", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "username"
+    t.string   "password"
+    t.string   "email"
     t.string   "major"
     t.string   "CellPhone"
     t.datetime "created_at"
