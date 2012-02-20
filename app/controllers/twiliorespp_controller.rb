@@ -4,7 +4,7 @@ class TwilioresppController < ApplicationController
     number=params["From"]
     number_to_send_to = "5309170565"
     student=Student.find_by_CellPhone(number)
-    response = student.name
+    response = student.first_name
     twilio_sid = "ACfa79fe45769b4f4da3e379adbd6dae18"
     twilio_token = "6902d3f2f1648e586f8733dc849c1ef4"
     
