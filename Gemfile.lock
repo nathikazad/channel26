@@ -34,12 +34,16 @@ GEM
     erubis (2.6.6)
       abstract (>= 1.0.0)
     i18n (0.4.2)
+    json (1.6.5)
+    jwt (0.1.4)
+      json (>= 1.2.4)
     mail (2.2.19)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.17.2)
+    multi_json (1.0.4)
     polyglot (0.3.3)
     rack (1.2.5)
     rack-mount (0.6.14)
@@ -68,6 +72,10 @@ GEM
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
+    twilio-ruby (3.5.1)
+      builder (>= 2.1.2)
+      jwt (>= 0.1.2)
+      multi_json (>= 1.0.3)
     tzinfo (0.3.31)
 
 PLATFORMS
@@ -77,3 +85,4 @@ PLATFORMS
 DEPENDENCIES
   rails (= 3.0.1)
   sqlite3-ruby
+  twilio-ruby
