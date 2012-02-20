@@ -2,6 +2,9 @@ class StudentController < ApplicationController
   def register
     @title = "Register"
   end
+  def index
+    @student=Student.find(session[:user_id]);
+  end
 
   def login
     if request.post?
@@ -9,7 +12,7 @@ class StudentController < ApplicationController
       if user
         session[:user_id] = user.id
         flash[:notice] = "User #{user.first_name} logged in"
-        redirect_to :action => "register"
+        redirect_to :action => "index"
       else
         # Don't show the password in the view
         params[:user][:password] = nil

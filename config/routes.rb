@@ -1,7 +1,10 @@
 TestBaby::Application.routes.draw do
   get "student/register"
   get "student/login"
+  get "student/index"
   get "twiliorespp/answerMachine"
+  get "classrooms/show"
+  get 'twilio' => 'twiliorespp#answerMachine'
 
   resources :classrooms
   resources :students
@@ -10,7 +13,7 @@ TestBaby::Application.routes.draw do
   resources :classrooms_students
   resources :grades
   
-  get "classrooms/show"
+  
   #root :to => "classrooms#show"
   match '/contact', :to => 'classrooms#show'
   match 'student/login', :to => 'student#login'
