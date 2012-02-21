@@ -1,8 +1,7 @@
 class TwilioresppController < ApplicationController
   def answerMachine
     msg=params["Body"]
-    number="9255778896"           #params["From"]
-    #number_to_send_to = "5309170565"
+    number=params["From"]
     student=Student.find_by_CellPhone(number)
     response = "#{student.first_name} #{student.last_name}, you are a fag"
     twilio_sid = "ACfa79fe45769b4f4da3e379adbd6dae18"
@@ -21,7 +20,7 @@ class TwilioresppController < ApplicationController
     @twilio_client.account.sms.messages.create(
       :from => "4155992671",
       :to => number,
-      :body => number
+      :body => response
     ) 
     
   end
