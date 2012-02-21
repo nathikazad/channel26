@@ -2,6 +2,7 @@ class TwilioresppController < ApplicationController
   def answerMachine
     msg=params["Body"]
     number=params["From"]
+    number_to_send_to = "5309170565"
     student=Student.find_by_CellPhone(number)
     response = student.first_name
     twilio_sid = "ACfa79fe45769b4f4da3e379adbd6dae18"
@@ -19,7 +20,7 @@ class TwilioresppController < ApplicationController
     @twilio_client = Twilio::REST::Client.new twilio_sid, twilio_token
     @twilio_client.account.sms.messages.create(
       :from => "4155992671",
-      :to => number
+      :to => number_to_send_to,
       :body => response
     ) 
     
