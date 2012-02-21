@@ -1,7 +1,7 @@
 class TwilioresppController < ApplicationController
   def answerMachine
     msg=params["Body"]
-    number=params["From"]
+    number="9255778896"           #params["From"]
     #number_to_send_to = "5309170565"
     student=Student.find_by_CellPhone(number)
     response = "#{student.first_name} #{student.last_name}, you are a fag"
