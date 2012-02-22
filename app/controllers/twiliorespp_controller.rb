@@ -2,12 +2,11 @@ class TwilioresppController < ApplicationController
   def answerMachine
     @msg=params["Body"]
     number=params["From"]
-    respond_to do |format|
-      format.xml 
-    end
     
-    #student=Student.find_by_CellPhone(number)
-   
+    
+    
+    student=Student.find_by_CellPhone(number)
+    @resp="#{student.first_name} #{student.last_name}, you are a faggot"
     
     #authenticate
     
@@ -18,7 +17,9 @@ class TwilioresppController < ApplicationController
     #Find type & number
     
     
-    
+    respond_to do |format|
+      format.xml 
+    end
   end
 
 end
