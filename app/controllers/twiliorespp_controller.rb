@@ -20,9 +20,9 @@ class TwilioresppController < ApplicationController
     
     i = 0;
     while i < array.length  do
-      if(array[i].eql?("week") && array[i-1].eql?("this"))
+      if(similar(array[i],"week")>=75 && similar(array[i-1],"this")>=75)
         query["dur"]=(7-Date.today.cwday)
-      elsif(array[i].eql?("week") && array[i-1].eql?("next"))
+      elsif(similar(array[i],"week")>=75 && similar(array[i-1],"next")>=75)
         query["dur"]=7
         query["when"]=Date.today+(8-Date.today.cwday)
       end
@@ -37,35 +37,36 @@ class TwilioresppController < ApplicationController
   def find_classid(array, student)
     
   end
+  
   def find_when(array)
     i = 0;
     while i < array.length  do
-      if(array[i].eql?("today"))
+      if(similar(array[i],"today")>=75)
         return Date.today
       end
-      if(array[i].eql?("yesterday"))
-        return Date.yesterday
+      if(similar(array[i],"yesterday")>=75)
+        return Date.today-1
       end
-      if(array[i].eql?("dayaftertomorrow") || array[i].eql?("dayafter") || 
-        (array[i].eql?("day") && array[i+1].eql?("after") ))
+      if(similar(array[i],"dayaftertomorrow")>=75 || similar(array[i],"dayafter")>=75 || 
+        (similar(array[i],"day")>=75 && similar(array[i+1],"after")>=75 ))
         return Date.today.tomorrow.tomorrow
       end
-      if(array[i].eql?("tomorrow") || array[i].eql?("tom"))
+      if(similar(array[i],"tomorrow")>=75 || similar(array[i],"tom")>=75)
         return Date.today.tomorrow
       end
-      if(array[i].eql?("monday") || array[i].eql?("mon"))
+      if(similar(array[i],"monday")>=75 || similar(array[i],"mon")>=75)
         return day_date(1,array[i-1])
       end
-      if(array[i].eql?("tuesday") || array[i].eql?("tues"))
+      if(similar(array[i],"tuesday")>=75 || similar(array[i],"tues")>=75)
         return day_date(2,array[i-1])
       end
-      if(array[i].eql?("wednesday") || array[i].eql?("wed"))
+      if(similar(array[i],"wednesday")>=75 || similar(array[i],"wed")>=75)
         return day_date(3,array[i-1])
       end
-      if(array[i].eql?("thursday") || array[i].eql?("thurs"))
+      if(similar(array[i],"thursday")>=75 || similar(array[i],"thurs")>=75)
         return day_date(4,array[i-1])
       end
-      if(array[i].eql?("friday") || array[i].eql?("fri"))
+      if(similar(array[i],"friday")>=75 || similar(array[i],"fri")>=75)
         return day_date(5,array[i-1])
       end
       i+=1;
@@ -75,7 +76,7 @@ class TwilioresppController < ApplicationController
   
   def day_date(day,nextday)
     tod=Date.today.cwday
-    if(nextday=="next")
+    if(similar(nextday,"next")>=75)
       day=day+7
     end
     if((day-tod)>=0)
@@ -83,5 +84,10 @@ class TwilioresppController < ApplicationController
     else
       return Date.today+(day-tod+7)
     end
+  end
+  
+  
+  def similar(a,b)
+     100-(Levenshtein.distance(a,b)*100/((a.length+b.length)/2))
   end
 end
