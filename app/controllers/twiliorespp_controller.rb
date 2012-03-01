@@ -11,7 +11,7 @@ class TwilioresppController < ApplicationController
   def generate_response(msg,number)
     query= {"when" =>Date.today,"dur"  =>1,"atype" => nil}
     #authenticate
-    array=(msg.downcase.split /[ _,-.!?]|(\d+)/)
+    array=(msg.downcase.split /[ _,-.''!?]|(\d+)/)
     array.delete("")
     student=Student.find_by_CellPhone(number)
     if student.nil?

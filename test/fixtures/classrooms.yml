@@ -10,11 +10,11 @@ Math141:
     class_no: 141
     section_no : 02
     institution: CalPoly
-    department: Math
+    dept_id: 1
     date_start: 2012-01-04
     date_end: 2012-03-22
     teacher_id: 3
-    #schedule: MTWR16001800
+    schedule: MTWR16001800
 # column: value
 #
 CSC101: 
@@ -23,9 +23,9 @@ CSC101:
     class_no: 101
     section_no : 02
     institution: CalPoly
-    department: CSC
+    dept_id: 2
     date_start: 2012-01-04
     date_end: 2012-03-22
     teacher_id: 1
-    #schedule: MWF08001000
+    schedule: MWF08001000
 #  column: value
