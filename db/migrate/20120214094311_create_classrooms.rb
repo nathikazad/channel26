@@ -3,8 +3,8 @@ class CreateClassrooms < ActiveRecord::Migration
   def self.up
     create_table :classrooms do |t|
       t.string :name
-      t.integer :class_no
-      t.integer :section_no
+      t.string :class_no
+      t.string :section_no
       t.string :institution
       t.string :department
       t.date :date_start

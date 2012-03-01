@@ -11,7 +11,8 @@ class TwilioresppController < ApplicationController
   def generate_response(msg,number)
     query= {"when" =>Date.today,"dur"  =>1,"atype" => nil}
     #authenticate
-    array=msg.downcase.split
+    array=(msg.downcase.split /[ _,-.!?]|(\d+)/)
+    array.delete("")
     student=Student.find_by_CellPhone(number)
     if student.nil?
       return "Sorry, I can't find you"
@@ -20,9 +21,9 @@ class TwilioresppController < ApplicationController
     
     i = 0;
     while i < array.length  do
-      if(similar(array[i],"week")>=75 && similar(array[i-1],"this")>=75)
+      if((similar(array[i],"week")>=75 && similar(array[i-1],"this")>=75) || similar(array[i],"thisweek")>=75)
         query["dur"]=(7-Date.today.cwday)
-      elsif(similar(array[i],"week")>=75 && similar(array[i-1],"next")>=75)
+      elsif((similar(array[i],"week")>=75 && similar(array[i-1],"next")>=75) || similar(array[i],"nextweek")>=75)
         query["dur"]=7
         query["when"]=Date.today+(8-Date.today.cwday)
       end
@@ -30,12 +31,47 @@ class TwilioresppController < ApplicationController
     end
     #Find classname
     classids=find_classid(array,student)
+    assignments=find_assignments(classids,array,student)
     #Find type & number
-    return "#{query["when"]}  #{query["dur"]}"
+      #loop thru
+      #check the assignment name and similar names (compare only with the length of the assignment type)
+      #see if there is a number
+    return "#{query["when"]}  #{query["dur"]} #{classids}"
+  end
+  
+  def find_assignments(classids,array,student,)
+    i=0
+    ass=Array.new
+    assi=0
+    while i<classids.size
+      j=0;
+      while j<classids.size
+        
+        j=j+1;
+      end
+      i=i+1;
+    end
   end
   
   def find_classid(array, student)
-    
+    stuclasses=student.classrooms
+    classids=Array.new(stuclasses.length)
+    j=0;
+    while j < stuclasses.length  do
+      i = 0;
+      while i < array.length  do
+        if((similar(array[i],stuclasses[j].department.downcase)>75) && 
+          (is_not_a_number?(array[i+1]) || stuclasses[j].class_no==(array[i+1]) ))
+          classids[j]=stuclasses[j]
+        end
+        i=i+1
+      end
+      j=j+1
+    end
+    return classids.compact
+    #check with every single class's name and similar name
+    #store ids in array where match
+    #return array
   end
   
   def find_when(array)
@@ -89,5 +125,9 @@ class TwilioresppController < ApplicationController
   
   def similar(a,b)
      100-(Levenshtein.distance(a,b)*100/((a.length+b.length)/2))
+  end
+  
+  def is_not_a_number?(s)
+    s.to_s.match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? true : false 
   end
 end
