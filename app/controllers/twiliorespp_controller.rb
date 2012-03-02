@@ -56,22 +56,35 @@ class TwilioresppController < ApplicationController
   def find_classid(array, student)
     stuclasses=student.classrooms
     classids=Array.new(stuclasses.length)
-    j=0;
-    while j < stuclasses.length  do
-      i = 0;
-      while i < array.length  do
-        if((similar(array[i],stuclasses[j].department.downcase)>75) && 
-          (is_not_a_number?(array[i+1]) || stuclasses[j].class_no==(array[i+1]) ))
-          classids[j]=stuclasses[j]
+    i=0
+    while i < stuclasses.length  do
+      j = 0
+      sim=(stuclasses[i].dept.simwords | stuclasses[i].simwords | stuclasses[i].teacher.first_name | stuclasses[i].teacher.last_name)
+      sim[sim.size]=sim[sim.size-1]  #hack to search by teachers
+      sim[sim.size]=sim[sim.size-1]
+      sim[sim.size-2].word=stuclasses[i].teacher.first_name
+      sim[sim.size-2].size=1
+      sim[sim.size-1].word=stuclasses[i].teacher.last_name
+      sim[sim.size-1].size=1
+      while j < sim.length  do
+        k=0
+        while k < array.length  do
+            l=0
+            toggle=true
+            while l < sim[l].size  do
+              toggle=toggle && (similar(array[i+l],sim[l])>75)
+              l=l+1
+            end
+            if(toggle && (is_not_a_number?(array[i+1]) || stuclasses[j].class_no==(array[i+1]) ))
+              classids[i]=stuclasses[i]
+            end
+          k=k+1
         end
-        i=i+1
+        j=j+1
       end
-      j=j+1
+      i=i+1
     end
     return classids.compact
-    #check with every single class's name and similar name
-    #store ids in array where match
-    #return array
   end
   
   def find_when(array)
