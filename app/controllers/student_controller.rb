@@ -20,4 +20,8 @@ class StudentController < ApplicationController
       end
     end
   end
+
+  def logout
+    #destroy session variable here
+  end
 end
