@@ -1,4 +1,5 @@
 TestBaby::Application.routes.draw do
+  root :to => "student#index", :as => 'home'
   get "test/view1"
 
   get "student/register"
@@ -16,7 +17,7 @@ TestBaby::Application.routes.draw do
   resources :grades
   
   
-  #root :to => "classrooms#show"
+
   match '/contact', :to => 'classrooms#show'
   match 'student/login', :to => 'student#login'
   match 'student/logout', :to => 'student#logout'
