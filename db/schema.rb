@@ -54,6 +54,14 @@ ActiveRecord::Schema.define(:version => 20120216221714) do
     t.datetime "updated_at"
   end
 
+  create_table "simwords", :force => true do |t|
+    t.integer  "simlable_id"
+    t.string   "simlable_type"
+    t.string   "word"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+  
   create_table "students", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"

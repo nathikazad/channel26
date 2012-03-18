@@ -1,4 +1,5 @@
 class TwilioresppController < ApplicationController
+array=Array.new
   def answerMachine
     msg=params["Body"]
     number=params["From"]
@@ -12,7 +13,7 @@ class TwilioresppController < ApplicationController
     query= {"when" =>Date.today,"dur"  =>1,"atype" => nil}
     #authenticate
     array=(msg.downcase.split /[ _,-.''!?]|(\d+)/)
-    array.delete("")
+    #array=delete(array)
     student=Student.find_by_CellPhone(number)
     if student.nil?
       return "Sorry, I can't find you"
@@ -39,7 +40,7 @@ class TwilioresppController < ApplicationController
     return "#{query["when"]}  #{query["dur"]} #{classids}"
   end
   
-  def find_assignments(classids,array,student,)
+  def find_assignments(classids,array,student)
     i=0
     ass=Array.new
     assi=0
@@ -56,39 +57,41 @@ class TwilioresppController < ApplicationController
   def find_classid(array, student)
     stuclasses=student.classrooms
     classids=Array.new(stuclasses.length)
-    i=0
-    while i < stuclasses.length  do
-      j = 0
-      sim=(stuclasses[i].dept.simwords | stuclasses[i].simwords | stuclasses[i].teacher.first_name | stuclasses[i].teacher.last_name)
-      sim[sim.size]=sim[sim.size-1]  #hack to search by teachers
-      sim[sim.size]=sim[sim.size-1]
-      sim[sim.size-2].word=stuclasses[i].teacher.first_name
-      sim[sim.size-2].size=1
-      sim[sim.size-1].word=stuclasses[i].teacher.last_name
-      sim[sim.size-1].size=1
-      while j < sim.length  do
-        k=0
-        while k < array.length  do
-            l=0
-            toggle=true
-            while l < sim[l].size  do
-              toggle=toggle && (similar(array[i+l],sim[l])>75)
-              l=l+1
+    for i in 0..(array.size-1)  do
+      for j in 0..(stuclasses.size-1) do     
+        sim=(stuclasses[j].dept.simwords | stuclasses[j].simwords )
+        for k in sim do
+          words=k.word.split
+          if(words.size==1)
+            if(similar(k.word,array[i])>75 )
+              if(is_a_number?(array[i+1]) )
+                 if(stuclasses[j].class_no.eql?(array[i+1]) )
+                   classids[j]=stuclasses[j]
+                   array.delete_at(i+1)
+                   array.delete_at(i)
+                 end
+              else
+                classids[j]=stuclasses[j]
+                array.delete_at(i)
+              end
             end
-            if(toggle && (is_not_a_number?(array[i+1]) || stuclasses[j].class_no==(array[i+1]) ))
-              classids[i]=stuclasses[i]
-            end
-          k=k+1
+          else
+            o=0
+          end
         end
-        j=j+1
+        if(similar(array[i],stuclasses[j].teacher.first_name)>75||similar(array[i],stuclasses[j].teacher.last_name)>75||
+          similar(array[i],stuclasses[j].teacher.first_name.concat("s"))>75||similar(array[i],stuclasses[j].teacher.last_name.concat("s"))>75)
+          classids[j]=stuclasses[j]
+        end
+        #class_no
       end
-      i=i+1
     end
     return classids.compact
   end
-  
+
   def find_when(array)
     i = 0;
+    #####implement forloop with array for checking
     while i < array.length  do
       if(similar(array[i],"today")>=75)
         return Date.today
@@ -140,7 +143,18 @@ class TwilioresppController < ApplicationController
      100-(Levenshtein.distance(a,b)*100/((a.length+b.length)/2))
   end
   
-  def is_not_a_number?(s)
-    s.to_s.match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? true : false 
+  def is_a_number?(s)
+    s.to_s.match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? false : true 
+  end
+  
+  def delete(array)
+    useless=["is","are","","why","when","due","my","there","in"]
+    for i in 0..(array.size-1)
+      for j in useless
+        if(array[i].eql?(j))
+          array.delete_at(i)
+        end
+      end
+    end
   end
 end

@@ -1,5 +1,7 @@
 TestBaby::Application.routes.draw do
   root :to => "student#index", :as => 'home'
+  get "test/view1"
+
   get "student/register"
   get "student/login"
   get "student/index"
