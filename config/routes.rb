@@ -21,6 +21,7 @@ TestBaby::Application.routes.draw do
   match '/contact', :to => 'classrooms#show'
   match 'student/login', :to => 'student#login'
   match 'student/logout', :to => 'student#logout'
+  match 'student/index', :to => 'student#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

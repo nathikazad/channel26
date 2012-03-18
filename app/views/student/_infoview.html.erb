@@ -1,0 +1,14 @@
+<div>
+  <% @teacher = Teacher.find(channel.teacher_id) %>
+  <h2><%= channel.name %> <%= channel.class_no %></h2>
+  <p style="font-size:12px;">
+    Professor <%= @teacher.first_name %>
+    <br/>
+    <%= @teacher.department %>
+  </p>
+  <p style="font-size:12px;">
+    <%= channel.schedule %>
+    <br/>
+    <%= @teacher.location %>
+  </p>
+</div>

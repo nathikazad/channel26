@@ -3420,8 +3420,17 @@ a.thumbnail:hover {
 	overflow: auto;
 }
 .entry1 {
+	display: block;
+	width: 98%;
+	height:55px;
 	font-size: 10px;
+	padding:5px;
+	padding-bottom:-5px;
 	border-top:none;
+}
+.entry1:hover {
+	background-color: #F0F0F0;
+	cursor: pointer;
 }
 .drawline {
 	border-bottom: 1px solid gray;

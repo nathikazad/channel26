@@ -7,7 +7,7 @@
 <h1> Welcome <%= @student.first_name %> </h1>
 <div class="container-fluid">
   <div class = "row-fluid">
-    <!--Left side classees navpanel-->
+    <!--Left side classes navpanel-->
     <div class="span3">
       <div class="well sidebar-nav" style="height:550px;">
         <ul class="nav nav-list">
@@ -23,7 +23,7 @@
 	      <% else %>
 	      <li>
 	      <% end %>
-	        <a href="#class<%= c.id %>" data-toggle="tab"><%= c.name %> <%= c.class_no %></a>
+	        <a href="#class_<%= c.id %>" id="class<%= c.id %>" data-toggle="tab"><%= c.name %> <%= c.class_no %></a>
 	      </li>
 	    <% end %>
 	  <!--Clubs-->
@@ -40,45 +40,55 @@
       </div>
     </div>
 
+    <!--scripts to handle class changes-->
+    <script>
+      $(function() {
+	<% @channels.each do |c| %>
+	  $('#class<%= c.id %>').click(function(event){
+            $('#infobox').html("<%= escape_javascript(render(:partial => "infoview", :locals => {:channel => @channels[c.id-1]})) %>");
+          });
+	<% end %>
+	  $(".entry1").click(function(){
+	    window.location=$(this).find("a").attr("href");
+            return false;
+	  });
+      });
+    </script>
+
     <div class="span9">
     <div class="well2" style="height:550px;width:98%;margin-left:-20px;">
 
     <!--Main content-->
     <div class="span7">
       <!--info box-->
-      <div class="well3 tab-content">
-	<% first = 0 %>
-        <% @channels.each do |c| %>
-	  <% if first==0 %>
-	  <div id="class<%= c.id %>" class="tab-pane active">
-	  <% first = 1 %>
-	  <% else %>
-	  <div id="class<%= c.id %>" class="tab-pane">
-	  <% end %>
-	  <% @teacher =  Teacher.find(c.teacher_id) %>
-            <h2><%= c.name %> <%= c.class_no %></h2>
+      <div class="well3 tab-content" id="infobox">
+	  <!--default channel info-->
+          <div>
+	    <% @teacher =  Teacher.find(@channels[0].teacher_id) %>
+            <h2><%= @channels[0].name %> <%= @channels[0].class_no %></h2>
 	    <p style="font-size:12px;">
 	      Professor <%= @teacher.first_name %>
 	      <br/>
               <%= @teacher.department %>
 	    </p>
 	    <p style="font-size:12px;">
-	      <%= c.schedule %>
+	      <%= @channels[0].schedule %>
 	      <br/>
               <%= @teacher.location %>
 	    </p>
-	  </div>
-	<% end %>
+	</div>
       </div>
       <!--nutshell box-->
       <div class="well3">
         <h3> Nutshell</h3>
 	<div class="scrollArea">
-	  <p class="entry1">
+	  <div class="entry1">
 	    <h4>Today</h4>
 	    <p><span style="color:red;font-weight:bold;">In Class: </span><span>Rhetoric Speech</span></p>
-	    <p style="margin-top:-10px;"><span style="color:red;font-weight:bold;">HW 5: </span><span>Vocab due</span></p>
-	  </p>
+	    <p style="margin-top:-10px;"><span style="color:red;font-weight:bold;">HW 5: </span><span>Vocab due</span><span>
+	    <a href="blah" style="float:right">View Post</a>
+	    </span></p>
+	  </div>
 	  <p class="drawline"></p>
 	</div>
       </div>
