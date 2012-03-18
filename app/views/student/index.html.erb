@@ -15,12 +15,17 @@
 	  <li class="nav-header">
 	    <a href="#" style="color:gray;">All Classes</a>
 	  </li>
-	    <li class="active">
-	      <a href="#">Math 141</a>
-	    </li>
-	    <li>
-	      <a href="#">Engl 134</a>
-	    </li>
+	    <% first = 0 %>
+	    <% @channels.each do |c| %>
+	      <% if first==0 %>
+	      <li class="active">
+	      <% first = 1%>
+	      <% else %>
+	      <li>
+	      <% end %>
+	        <a href="#class<%= c.id %>" data-toggle="tab"><%= c.name %> <%= c.class_no %></a>
+	      </li>
+	    <% end %>
 	  <!--Clubs-->
 	  <li class="nav-header">
 	    <a href="#" style="color:gray;">Clubs</a>
@@ -41,18 +46,29 @@
     <!--Main content-->
     <div class="span7">
       <!--info box-->
-      <div class="well3">
-        <h2>Math 141</h2>
-	<p style="font-size:12px;">
-	  Professor Blah blah
-	  <br>
-	  College of Engineering
-	</p>
-	<p style="font-size:12px;">
-	  M T W TR F 1:00PM - 2:00PM
-	  <br>
-	  Room 212, Building 5
-	</p>
+      <div class="well3 tab-content">
+	<% first = 0 %>
+        <% @channels.each do |c| %>
+	  <% if first==0 %>
+	  <div id="class<%= c.id %>" class="tab-pane active">
+	  <% first = 1 %>
+	  <% else %>
+	  <div id="class<%= c.id %>" class="tab-pane">
+	  <% end %>
+	  <% @teacher =  Teacher.find(c.teacher_id) %>
+            <h2><%= c.name %> <%= c.class_no %></h2>
+	    <p style="font-size:12px;">
+	      Professor <%= @teacher.first_name %>
+	      <br/>
+              <%= @teacher.department %>
+	    </p>
+	    <p style="font-size:12px;">
+	      <%= c.schedule %>
+	      <br/>
+              <%= @teacher.location %>
+	    </p>
+	  </div>
+	<% end %>
       </div>
       <!--nutshell box-->
       <div class="well3">
