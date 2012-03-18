@@ -27,18 +27,24 @@
     <div class="navbar-inner">
       <div class="container-fluid">
         <!--Logo-->
-	<a class="brand" href="#">Channel26</a>
+	<%= link_to 'Channel26', student_index_path, :class =>"brand" %>
 	<!--Search Box-->
 	<form class="navbar-search pull-left" action="">
 	  <input type="text" class="search-query span6" placeholder="Search">
 	</form>
         <!--Logged in Box-->
 	<% if session[:user_id] %>
-	  <p class="navbar-text pull-right">Logged in as <a href="#">
-	    <%= Student.find(session[:user_id]).first_name %>
-	  </a></p>
+	  <ul class="nav nav-list pull-right">
+	  <li class="divider-vertical"> </li>
+	  <li> <%= link_to 'Logout', student_logout_path %> </li>
+	  </ul>
+	  <p class="navbar-text pull-right">Logged in as <a href="#"><%= Student.find(session[:user_id]).first_name %> <%= Student.find(session[:user_id]).last_name %></a></p>
         <% else %>
-	  <li><%= link_to 'Log In', student_login_path %></li>
+	  <ul class="nav nav-list pull-right">
+	    <li><%= link_to 'Log In', student_login_path %></li>
+            <li class="divider-vertical"></li>
+	    <li><%= link_to 'Register', student_register_path %></li>
+	  </ul>
 	<% end %>
       </div>
     </div>

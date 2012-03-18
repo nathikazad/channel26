@@ -1,3 +1,9 @@
+<% if !session[:user_id] %>
+  <p>Please login or register.
+  <%= link_to 'Login', student_login_path %>
+  </p>
+  <%= redirect_to :action => "login" %>
+<% else %>
 <h1> Welcome <%= @student.first_name %> </h1>
 <div class="container-fluid">
   <div class = "row-fluid">
@@ -113,3 +119,4 @@
     </div>
   </div>
 </div>
+<% end %>

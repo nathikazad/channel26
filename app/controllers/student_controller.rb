@@ -3,7 +3,12 @@ class StudentController < ApplicationController
     @title = "Register"
   end
   def index
-    @student=Student.find(session[:user_id]);
+    if !session[:user_id]
+      redirect_to :action => "login"
+    else
+      @student=Student.find(session[:user_id]);
+      @channels = @student.classrooms;
+    end
   end
 
   def login
@@ -23,5 +28,8 @@ class StudentController < ApplicationController
 
   def logout
     #destroy session variable here
+    session[:user_id] = nil
+    redirect_to student_login_url, :notice => 'logged out'
   end
+
 end
