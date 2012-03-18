@@ -1,14 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>TestBaby</title>
-  <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag :defaults %>
-  <%= csrf_meta_tag %>
+  <title>Channel26</title>
+  <%= stylesheet_link_tag "bootstrap-responsive",
+                          "bootstrap" %>
+  <%= javascript_include_tag "jquery-1.7",
+                             "jquery-1.7.min",
+                             "application", 
+                             "bootstrap",
+                             "bootstrap-alert",
+                             "bootstrap-button",
+                             "bootstrap-carousel",
+                             "bootstrap-collapse",
+                             "bootstrap-dropdown",
+                             "bootstrap-tooltip",
+                             "bootstrap-popover",
+                             "bootstrap-scrollspy",
+                             "bootstrap-tab",
+                             "bootstrap-modal",
+                             "bootstrap-typeahead" %>
 </head>
 <body>
+  
+  <!--Navbar-->
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <!--Logo-->
+	<%= link_to 'Channel26', student_index_path, :class =>"brand" %>
+	<!--Search Box-->
+	<form class="navbar-search pull-left" action="">
+	  <input type="text" class="search-query span6" placeholder="Search">
+	</form>
+        <!--Logged in Box-->
+	<% if session[:user_id] %>
+	  <ul class="nav nav-list pull-right">
+	  <li class="divider-vertical"> </li>
+	  <li> <%= link_to 'Logout', student_logout_path %> </li>
+	  </ul>
+	  <p class="navbar-text pull-right">Logged in as <a href="#"><%= Student.find(session[:user_id]).first_name %> <%= Student.find(session[:user_id]).last_name %></a></p>
+        <% else %>
+	  <ul class="nav nav-list pull-right">
+	    <li><%= link_to 'Log In', student_login_path %></li>
+            <li class="divider-vertical"></li>
+	    <li><%= link_to 'Register', student_register_path %></li>
+	  </ul>
+	<% end %>
+      </div>
+    </div>
+  </div>
 
-<%= yield %>
+  <!--Main Page-->
+  <div class="container-fluid">
+    <br/><br/><br/>
+    <div class="row-fluid">
+      <%= yield %>
+    </div>
+  </div>
+
+  <!--Horizontal Split-->
+  <hr/>
+
+  <!--Footer-->
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <footer>
+        &copy; 2012 Channel26 ALL RIGHTS RESERVED
+      </footer>
+    </div>
+  </div>
 
 </body>
 </html>

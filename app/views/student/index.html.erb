@@ -1,1 +1,122 @@
-<h1> Fucking <%= @student.first_name %> </h1>
+<% if !session[:user_id] %>
+  <p>Please login or register.
+  <%= link_to 'Login', student_login_path %>
+  </p>
+  <%= redirect_to :action => "login" %>
+<% else %>
+<h1> Welcome <%= @student.first_name %> </h1>
+<div class="container-fluid">
+  <div class = "row-fluid">
+    <!--Left side classees navpanel-->
+    <div class="span3">
+      <div class="well sidebar-nav" style="height:550px;">
+        <ul class="nav nav-list">
+	  <!--Classes-->
+	  <li class="nav-header">
+	    <a href="#" style="color:gray;">All Classes</a>
+	  </li>
+	    <li class="active">
+	      <a href="#">Math 141</a>
+	    </li>
+	    <li>
+	      <a href="#">Engl 134</a>
+	    </li>
+	  <!--Clubs-->
+	  <li class="nav-header">
+	    <a href="#" style="color:gray;">Clubs</a>
+	  </li>
+	    <li>
+	      <a href="#">IEEE</a>
+	    </li>
+	    <li>
+	      <a href="#">ISA</a>
+	    </li>
+	</ul>
+      </div>
+    </div>
+
+    <div class="span9">
+    <div class="well2" style="height:550px;width:98%;margin-left:-20px;">
+
+    <!--Main content-->
+    <div class="span7">
+      <!--info box-->
+      <div class="well3">
+        <h2>Math 141</h2>
+	<p style="font-size:12px;">
+	  Professor Blah blah
+	  <br>
+	  College of Engineering
+	</p>
+	<p style="font-size:12px;">
+	  M T W TR F 1:00PM - 2:00PM
+	  <br>
+	  Room 212, Building 5
+	</p>
+      </div>
+      <!--nutshell box-->
+      <div class="well3">
+        <h3> Nutshell</h3>
+	<div class="scrollArea">
+	  <p class="entry1">
+	    <h4>Today</h4>
+	    <p><span style="color:red;font-weight:bold;">In Class: </span><span>Rhetoric Speech</span></p>
+	    <p style="margin-top:-10px;"><span style="color:red;font-weight:bold;">HW 5: </span><span>Vocab due</span></p>
+	  </p>
+	  <p class="drawline"></p>
+	</div>
+      </div>
+    </div>
+
+    <!--Right side calendar etc content-->
+    <div class="span4">
+      <!--calendar box-->
+      <div class="well3">
+        <h2>Calendar</h2>
+	<br/><br/><br/><br/><br/>
+      </div>
+      <!--syllabus box-->
+      <div class="well3">
+        <div class="scrollArea_syll" style="overflow-x:hidden;">
+	  <ul class="nav nav-listnav nav-list">
+	    <li><a href="#">Syllabus</a></li>
+	    <li><a href="#">Course Schedule</a></li>
+	    <li><a href="#">Course Material</a></li>
+	  </ul>
+	</div>
+      </div>
+    </div>
+
+    <!--General | Updates | Questions-->
+    <div class="span11">
+      <div class="well4">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#updates" data-toggle="tab">Updates</a></li>
+	<li><a href="#general" data-toggle="tab">General</a></li>
+	<li><a href="#questions" data-toggle="tab">Questions</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="updates">
+	  <ul>
+	    <li>HW2 due date changed from the 23rd to the 25th.</li>
+	    <li>No class on tuesday the 23rd.</li>
+	  </ul>
+	</div>
+	<div class="tab-pane" id="general">
+	  General Stuff
+	</div>
+	<div class="tab-pane" id="questions">
+	  Questions
+	</div>
+      </div>
+      <script>
+        $(function(){ 
+		$('#general').tab('show')
+	})
+      </script>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
