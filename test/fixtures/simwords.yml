@@ -1,0 +1,72 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+Mathematics: 
+    id: 1
+    simlable_id: 1
+    simlable_type: Dept
+    word: mathematics
+#
+Calculus: 
+    id: 2
+    simlable_id: 1
+    simlable_type: Dept
+    word: calculus
+#
+Calc: 
+    id: 3
+    simlable_id: 1
+    simlable_type: Dept
+    word: calc
+#
+Computer_Science: 
+    id: 4
+    simlable_id: 2
+    simlable_type: Dept
+    word: computer science
+#
+Comp_Science: 
+    id: 5
+    simlable_id: 2
+    simlable_type: Dept
+    word: comp science
+#
+Computer_Sci: 
+    id: 6
+    simlable_id: 2
+    simlable_type: Dept
+    word: computer sci
+#
+Comp_Sci: 
+    id: 7
+    simlable_id: 2
+    simlable_type: Dept
+    word: comp sci
+#
+Programming: 
+    id: 8
+    simlable_id: 2
+    simlable_type: Dept
+    word: programming
+#
+C: 
+    id: 9
+    simlable_id: 2
+    simlable_type: Classroom
+    word: c
+#
+Math: 
+    id: 10
+    simlable_id: 1
+    simlable_type: Dept
+    word: math
+#
+CSC: 
+    id: 11
+    simlable_id: 2
+    simlable_type: Dept
+    word: csc
+#
