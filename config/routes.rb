@@ -1,4 +1,6 @@
 TestBaby::Application.routes.draw do
+  get "test/view1"
+
   get "student/register"
   get "student/login"
   get "student/index"

@@ -64,7 +64,6 @@ ActiveRecord::Schema.define(:version => 20120301073305) do
     t.integer  "simlable_id"
     t.string   "simlable_type"
     t.string   "word"
-    t.integer  "size"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
