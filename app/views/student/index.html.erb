@@ -67,7 +67,7 @@
 	    <% @teacher =  Teacher.find(@channels[0].teacher_id) %>
             <h2><%= @channels[0].name %> <%= @channels[0].class_no %></h2>
 	    <p style="font-size:12px;">
-	      Professor <%= @teacher.first_name %>
+	      Professor <%= @teacher.first_name %> <%= @teacher.last_name %>
 	      <br/>
               <%= @teacher.department %>
 	    </p>
@@ -98,8 +98,41 @@
     <div class="span4">
       <!--calendar box-->
       <div class="well3">
-        <h2>Calendar</h2>
-	<br/><br/><br/><br/><br/>
+	<% time = Time.new %>
+	<% start_date = Date.parse("#{time.year}-#{time.month}-01")-1 %>
+	<% num_days =  (Date.new(time.year,12,31).to_date<<(12-time.month)).day %>
+	<h3><%= time.strftime("%B")%> <%= time.strftime("%Y")%></h3>
+	<table class="table">
+          <thead>
+	    <tr>
+	      <th>Mo</th>
+	      <th>Tu</th>
+	      <th>We</th>
+	      <th>Th</th>
+	      <th>Fr</th>
+	      <th>Sa</th>
+	      <th>Su</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	        <tr>
+	    <% d = 1 %>
+	    <% for i in 0...35 %>
+	      <% if (i%7)==0 %>
+	        </tr><tr>
+	      <% end %>
+	      <% if i < start_date.wday %>
+	        <td></td>
+	      <% elsif d > num_days %>
+	        <td></td>
+              <% else %>
+	        <td><%= d %></td>
+		<% d+=1 %>
+	      <% end %>
+	    <% end %>  
+	    </tr>
+	  </tbody>
+	</table>
       </div>
       <!--syllabus box-->
       <div class="well3">
