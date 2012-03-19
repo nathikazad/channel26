@@ -4,7 +4,7 @@ class TestController < ApplicationController
     @array=("what hw due in computer sci").split /[ _,-.''!?]|(\d+)/
     garbage=delete_useless()
     @msg=find_classid(Student.find(1))
-    debugger
+    #debugger
   end
   
   def find_classid(student)

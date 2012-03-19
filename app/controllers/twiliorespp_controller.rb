@@ -1,5 +1,6 @@
 class TwilioresppController < ApplicationController
-array=Array.new
+@array=Array.new
+@i=0
   def answerMachine
     msg=params["Body"]
     number=params["From"]
@@ -12,35 +13,38 @@ array=Array.new
   def generate_response(msg,number)
     query= {"when" =>Date.today,"dur"  =>1,"atype" => nil}
     #authenticate
-    array=(msg.downcase.split /[ _,-.''!?]|(\d+)/)
-    #array=delete(array)
+    @array=(msg.downcase.split /[ _,-.''!?]|(\d+)/)
+    garbage=delete_useless()
     student=Student.find_by_CellPhone(number)
     if student.nil?
       return "Sorry, I can't find you"
     end
-    query["when"]=find_when(array)
     
-    i = 0;
-    while i < array.length  do
-      if((similar(array[i],"week")>=75 && similar(array[i-1],"this")>=75) || similar(array[i],"thisweek")>=75)
+    #find when
+    query["when"]=find_when()
+    
+    #for duration
+    for @i in 0..@array.length-1  do
+      if((similar(@array[@i],"week")>=75 && similar(@array[@i-1],"this")>=75) || similar(@array[@i],"thisweek")>=75)
         query["dur"]=(7-Date.today.cwday)
-      elsif((similar(array[i],"week")>=75 && similar(array[i-1],"next")>=75) || similar(array[i],"nextweek")>=75)
+      elsif((similar(@array[@i],"week")>=75 && similar(@array[@i-1],"next")>=75) || similar(@array[@i],"nextweek")>=75)
         query["dur"]=7
         query["when"]=Date.today+(8-Date.today.cwday)
       end
-      i+=1
     end
+    
     #Find classname
-    classids=find_classid(array,student)
-    assignments=find_assignments(classids,array,student)
+    classids=find_classid(student)
+    #assignments=find_assignments(classids,student)
     #Find type & number
       #loop thru
       #check the assignment name and similar names (compare only with the length of the assignment type)
       #see if there is a number
+      #take note of the next word
     return "#{query["when"]}  #{query["dur"]} #{classids}"
   end
   
-  def find_assignments(classids,array,student)
+  def find_assignments(classids,student)
     i=0
     ass=Array.new
     assi=0
@@ -54,107 +58,148 @@ array=Array.new
     end
   end
   
-  def find_classid(array, student)
+  def find_classid(student)
     stuclasses=student.classrooms
     classids=Array.new(stuclasses.length)
-    for i in 0..(array.size-1)  do
+    str=Array.new
+    #debugger
+    @i=0
+    while @i < @array.size  do
       for j in 0..(stuclasses.size-1) do     
         sim=(stuclasses[j].dept.simwords | stuclasses[j].simwords )
         for k in sim do
           words=k.word.split
-          if(words.size==1)
-            if(similar(k.word,array[i])>75 )
-              if(is_a_number?(array[i+1]) )
-                 if(stuclasses[j].class_no.eql?(array[i+1]) )
-                   classids[j]=stuclasses[j]
-                   array.delete_at(i+1)
-                   array.delete_at(i)
-                 end
-              else
+          str=str | words
+          if(check4sim(words))
+            if(is_a_number?(@array[@i+1]))
+              if(stuclasses[j].class_no.eql?(@array[@i+1]) )
+                @array.delete_at(@i+1)
                 classids[j]=stuclasses[j]
-                array.delete_at(i)
               end
+            else
+              classids[j]=stuclasses[j] 
             end
-          else
-            o=0
           end
         end
-        if(similar(array[i],stuclasses[j].teacher.first_name)>75||similar(array[i],stuclasses[j].teacher.last_name)>75||
-          similar(array[i],stuclasses[j].teacher.first_name.concat("s"))>75||similar(array[i],stuclasses[j].teacher.last_name.concat("s"))>75)
+        #make it specific for classrooms
+        if(similar(@array[@i],stuclasses[j].teacher.first_name)>75||similar(@array[@i],stuclasses[j].teacher.last_name)>75||
+          similar(@array[@i],("#{stuclasses[j].teacher.first_name}s"))>75||similar(@array[@i],"#{stuclasses[j].teacher.last_name}s")>75)
+          classids[j]=stuclasses[j]
+          @array.delete_at(@i)
+          @i=@i-1
+        end
+      end
+      @i=@i+1
+    end
+    for @i in 0..(@array.size-1)
+      for j in 0..(stuclasses.size-1) do
+        if(stuclasses[j].class_no.eql?(@array[@i]) )
+          @array.delete_at(@i)
+          @i=@i-1
           classids[j]=stuclasses[j]
         end
-        #class_no
       end
     end
+    
     return classids.compact
   end
+  
+  #limited by array2 max size = 2
+  def check4sim(array2)
+    str=""
+    check=true
+    for l in 0..(array2.size-1) do
+      check=check && (similar(array2[l],@array[@i+l])>75 )
+      str.concat("#{array2[l]}")
+    end
+    
+    if(check)
 
-  def find_when(array)
-    i = 0;
-    #####implement forloop with array for checking
-    while i < array.length  do
-      if(similar(array[i],"today")>=75)
+      for l in 0..(array2.size-1) do
+        @array.delete_at(@i)
+        @i=@i-1
+      end
+      return true
+    end
+    
+    #clump all the words together and check
+    if(similar(str,@array[@i])>75 )
+      @array.delete_at(@i)
+      @i=@i-1
+      return true
+    end
+    return false
+  end
+  
+  def find_when()
+    
+    for @i in 0..(@array.length-1)  do
+      if(similar(@array[@i],"today")>=75)
+        @array.delete_at(@i)
         return Date.today
       end
-      if(similar(array[i],"yesterday")>=75)
+      if(similar(@array[@i],"yesterday")>=75)
+        @array.delete_at(@i)
         return Date.today-1
       end
-      if(similar(array[i],"dayaftertomorrow")>=75 || similar(array[i],"dayafter")>=75 || 
-        (similar(array[i],"day")>=75 && similar(array[i+1],"after")>=75 ))
+      if(similar(@array[@i],"dayaftertomorrow")>=75 || similar(@array[@i],"dayafter")>=75 || 
+        (similar(@array[@i],"day")>=75 && similar(@array[@i+1],"after")>=75 ))
+        @array.delete_at(@i)
         return Date.today.tomorrow.tomorrow
       end
-      if(similar(array[i],"tomorrow")>=75 || similar(array[i],"tom")>=75)
+      if(similar(@array[@i],"tomorrow")>=75 || similar(@array[@i],"tom")>=75)
+        @array.delete_at(@i)
         return Date.today.tomorrow
       end
-      if(similar(array[i],"monday")>=75 || similar(array[i],"mon")>=75)
-        return day_date(1,array[i-1])
+      weekdays=[["monday","mon"],["tues","tuesday"],["wednesday","wed"],["thursday","thurs"],["friday","fri"]]
+      for j in 0..(weekdays.size-1) do
+        if(similar(@array[@i],weekdays[j][0])>=75 || similar(@array[@i],weekdays[j][1])>=75)
+          @array.delete_at(@i)
+          return day_date(j+1)
+        end
       end
-      if(similar(array[i],"tuesday")>=75 || similar(array[i],"tues")>=75)
-        return day_date(2,array[i-1])
-      end
-      if(similar(array[i],"wednesday")>=75 || similar(array[i],"wed")>=75)
-        return day_date(3,array[i-1])
-      end
-      if(similar(array[i],"thursday")>=75 || similar(array[i],"thurs")>=75)
-        return day_date(4,array[i-1])
-      end
-      if(similar(array[i],"friday")>=75 || similar(array[i],"fri")>=75)
-        return day_date(5,array[i-1])
-      end
-      i+=1;
     end
     return Date.today
   end
   
-  def day_date(day,nextday)
+  def day_date(day)
     tod=Date.today.cwday
+    nextday=@array[@i-1]
     if(similar(nextday,"next")>=75)
-      day=day+7
-    end
-    if((day-tod)>=0)
-      return Date.today+(day-tod)
+      @array.delete_at(@i-1)
+      return Date.today+(day+7)
     else
-      return Date.today+(day-tod+7)
+      return Date.today+(day)
     end
   end
   
-  
   def similar(a,b)
-     100-(Levenshtein.distance(a,b)*100/((a.length+b.length)/2))
+    if(a.nil? || b.nil?)
+      return 0
+    end
+    a=a.downcase
+    b=b.downcase
+    100-(Levenshtein.distance(a,b)*100/((a.length+b.length)/2))
   end
   
   def is_a_number?(s)
-    s.to_s.match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? false : true 
-  end
+     s.to_s.match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? false : true 
+   end
   
-  def delete(array)
-    useless=["is","are","","why","when","due","my","there","in"]
-    for i in 0..(array.size-1)
-      for j in useless
-        if(array[i].eql?(j))
-          array.delete_at(i)
-        end
-      end
-    end
-  end
+   def delete_useless()
+     garbage=Array.new
+     k=0
+     useless=["is","are","","why","when","due","my","there","in","what"]
+     for i in 0..(@array.size-1)
+       for j in useless
+         if(@array[i].eql?(j))
+           garbage[k]=j
+           k=k+1
+           @array.delete_at(i)
+           i=i-1
+         end
+       end
+     end
+     return garbage
+   end
 end

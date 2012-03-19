@@ -1,0 +1,40 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+ArneshCSC101:
+    channel_id: 2
+    channel_type: Classroom
+    student_id: 2
+# column: value
+ArneshMath141:
+    channel_id: 1
+    student_id: 2
+    channel_type: Classroom
+#
+NathikCSC101:
+    channel_id: 2
+    student_id: 1
+    channel_type: Classroom
+#
+MaxCSC101:
+    channel_id: 2
+    student_id: 3
+    channel_type: Classroom
+#
+NathikMath141:
+    channel_id: 1
+    student_id: 1
+    channel_type: Classroom
+#
+BrentMath141:
+    channel_id: 1
+    student_id: 4
+    channel_type: Classroom
+#
+VinceMath141:
+    channel_id: 1
+    student_id: 5
+    channel_type: Classroom
