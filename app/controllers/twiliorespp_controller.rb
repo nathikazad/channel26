@@ -59,32 +59,32 @@ class TwilioresppController < ApplicationController
   end
   
   def find_classid(student)
-    stuclasses=student.classrooms
-    classids=Array.new(stuclasses.length)
+    stuchannels=student.channels
+    classids=Array.new(stuchannels.length)
     str=Array.new
     #debugger
     @i=0
     while @i < @array.size  do
-      for j in 0..(stuclasses.size-1) do     
-        sim=(stuclasses[j].dept.simwords | stuclasses[j].simwords )
+      for j in 0..(stuchannels.size-1) do     
+        sim=(stuchannels[j].channelable.dept.simwords | stuchannels[j].simwords )
         for k in sim do
           words=k.word.split
           str=str | words
           if(check4sim(words))
-            if(is_a_number?(@array[@i+1]))
-              if(stuclasses[j].class_no.eql?(@array[@i+1]) )
+            if(stuchannels[j].channelable_type.eql?("Classroom") && is_a_number?(@array[@i+1]))
+              if(stuchannels[j].channelable.class_no.eql?(@array[@i+1]) )
                 @array.delete_at(@i+1)
-                classids[j]=stuclasses[j]
+                classids[j]=stuchannels[j]
               end
             else
-              classids[j]=stuclasses[j] 
+              classids[j]=stuchannels[j] 
             end
           end
         end
         #make it specific for classrooms
-        if(similar(@array[@i],stuclasses[j].teacher.first_name)>75||similar(@array[@i],stuclasses[j].teacher.last_name)>75||
-          similar(@array[@i],("#{stuclasses[j].teacher.first_name}s"))>75||similar(@array[@i],"#{stuclasses[j].teacher.last_name}s")>75)
-          classids[j]=stuclasses[j]
+        if(stuchannels[j].channelable_type.eql?("Classroom") && (similar(@array[@i],stuchannels[j].leader.first_name)>75||similar(@array[@i],stuchannels[j].leader.last_name)>75||
+          similar(@array[@i],("#{stuchannels[j].leader.first_name}s"))>75||similar(@array[@i],"#{stuchannels[j].leader.last_name}s")>75))
+          classids[j]=stuchannels[j]
           @array.delete_at(@i)
           @i=@i-1
         end
@@ -92,11 +92,11 @@ class TwilioresppController < ApplicationController
       @i=@i+1
     end
     for @i in 0..(@array.size-1)
-      for j in 0..(stuclasses.size-1) do
-        if(stuclasses[j].class_no.eql?(@array[@i]) )
+      for j in 0..(stuchannels.size-1) do
+        if(stuchannels[j].channelable.class_no.eql?(@array[@i]) )
           @array.delete_at(@i)
           @i=@i-1
-          classids[j]=stuclasses[j]
+          classids[j]=stuchannels[j]
         end
       end
     end
@@ -114,7 +114,6 @@ class TwilioresppController < ApplicationController
     end
     
     if(check)
-
       for l in 0..(array2.size-1) do
         @array.delete_at(@i)
         @i=@i-1
@@ -151,11 +150,11 @@ class TwilioresppController < ApplicationController
         @array.delete_at(@i)
         return Date.today.tomorrow
       end
-      weekdays=[["monday","mon"],["tues","tuesday"],["wednesday","wed"],["thursday","thurs"],["friday","fri"]]
+      weekdays=[["monday","mon"],["tues","tuesday"],["wednesday","wed"],["thursday","thurs"],["friday","fri"],["saturday","sat"],["sunday","sun"]]
       for j in 0..(weekdays.size-1) do
         if(similar(@array[@i],weekdays[j][0])>=75 || similar(@array[@i],weekdays[j][1])>=75)
           @array.delete_at(@i)
-          return day_date(j+1)
+          return day_date(j)
         end
       end
     end
@@ -174,7 +173,7 @@ class TwilioresppController < ApplicationController
   end
   
   def similar(a,b)
-    if(a.nil? || b.nil?)
+    if(a.nil? || b.nil? ||(a.length+b.length<2 ))
       return 0
     end
     a=a.downcase
@@ -189,7 +188,7 @@ class TwilioresppController < ApplicationController
    def delete_useless()
      garbage=Array.new
      k=0
-     useless=["is","are","","why","when","due","my","there","in","what"]
+     useless=["is","are","","why","when","due","my","there","in","on","what"]
      for i in 0..(@array.size-1)
        for j in useless
          if(@array[i].eql?(j))
