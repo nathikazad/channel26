@@ -2,7 +2,7 @@
   <% @teacher = Teacher.find(channel.teacher_id) %>
   <h2><%= channel.name %> <%= channel.class_no %></h2>
   <p style="font-size:12px;">
-    Professor <%= @teacher.first_name %>
+    Professor <%= @teacher.first_name %> <%= @teacher.last_name %>
     <br/>
     <%= @teacher.department %>
   </p>
