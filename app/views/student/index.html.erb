@@ -4,8 +4,8 @@
   </p>
   <%= redirect_to :action => "login" %>
 <% else %>
-<h1> Welcome <%= @student.first_name %> </h1>
-<div class="container-fluid">
+<div class="container-fluid" style="padding-left:5%;margin-left:auto;margin-right:auto;width:97%">
+<!--<h1> Welcome <%= @student.first_name %> </h1>-->
   <div class = "row-fluid">
     <!--Left side classes navpanel-->
     <div class="span3">
@@ -23,7 +23,7 @@
 	      <% else %>
 	      <li>
 	      <% end %>
-	        <a href="#class_<%= c.id %>" id="class<%= c.id %>" data-toggle="tab"><%= c.name %> <%= c.class_no %></a>
+	        <a href="#class_<%= c.id %>" id="class<%= c.id %>" data-toggle="tab"><%= c.channelable.dept.name %> <%= c.channelable.class_no %></a>
 	      </li>
 	    <% end %>
 	  <!--Clubs-->
@@ -55,24 +55,24 @@
       });
     </script>
 
-    <div class="span9">
+    <div class="span8">
     <div class="well2" style="height:550px;width:98%;margin-left:-20px;">
 
     <!--Main content-->
-    <div class="span7">
+    <div class="span7" style="margin-left:-5px;width:65%;">
       <!--info box-->
       <div class="well3 tab-content" id="infobox">
 	  <!--default channel info-->
           <div>
-	    <% @teacher =  Teacher.find(@channels[0].teacher_id) %>
-            <h2><%= @channels[0].name %> <%= @channels[0].class_no %></h2>
+	    <% @teacher =  @channels[0].leader %>
+            <h2><%= @channels[0].channelable.dept.name %> <%= @channels[0].channelable.class_no %></h2>
 	    <p style="font-size:12px;">
 	      Professor <%= @teacher.first_name %> <%= @teacher.last_name %>
 	      <br/>
               <%= @teacher.department %>
 	    </p>
 	    <p style="font-size:12px;">
-	      <%= @channels[0].schedule %>
+	      <%= @channels[0].channelable.schedule %>
 	      <br/>
               <%= @teacher.location %>
 	    </p>
@@ -101,32 +101,32 @@
 	<% time = Time.new %>
 	<% start_date = Date.parse("#{time.year}-#{time.month}-01")-1 %>
 	<% num_days =  (Date.new(time.year,12,31).to_date<<(12-time.month)).day %>
-	<h3><%= time.strftime("%B")%> <%= time.strftime("%Y")%></h3>
-	<table class="table">
+	<h4><center><%= time.strftime("%B")%> <%= time.strftime("%Y")%></center></h4>
+	<table class="table" style="font-size:10px;margin-bottom:-9px;">
           <thead>
-	    <tr>
-	      <th>Mo</th>
-	      <th>Tu</th>
-	      <th>We</th>
-	      <th>Th</th>
-	      <th>Fr</th>
-	      <th>Sa</th>
-	      <th>Su</th>
+	    <tr style="padding-bottom:0px;">
+	      <th style="padding-top:4px;padding-bottom:0px;">Mo</th>
+	      <th style="padding-top:4px;padding-bottom:0px;">Tu</th>
+	      <th style="padding-top:4px;padding-bottom:0px;">We</th>
+	      <th style="padding-top:4px;padding-bottom:0px;">Th</th>
+	      <th style="padding-top:4px;padding-bottom:0px;">Fr</th>
+	      <th style="padding-top:4px;padding-bottom:0px;">Sa</th>
+	      <th style="padding-top:4px;padding-bottom:0px;">Su</th>
 	    </tr>
 	  </thead>
 	  <tbody>
-	        <tr>
+	        <tr style="padding-top:0px;padding-bottom:0px;">
 	    <% d = 1 %>
 	    <% for i in 0...35 %>
 	      <% if (i%7)==0 %>
-	        </tr><tr>
+	        </tr><tr style="padding-top:0px;padding-bottom:0px;">
 	      <% end %>
 	      <% if i < start_date.wday %>
-	        <td></td>
+	        <td style="padding-top:0px;padding-bottom:0px;"></td>
 	      <% elsif d > num_days %>
-	        <td></td>
+	        <td style="padding:0px;"></td>
               <% else %>
-	        <td><%= d %></td>
+	        <td style="padding-top:0px;padding-bottom:0px;"><%= d %></td>
 		<% d+=1 %>
 	      <% end %>
 	    <% end %>  

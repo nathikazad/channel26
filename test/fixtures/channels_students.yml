@@ -4,14 +4,14 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-ArneshCSC101:
-    channel_id: 2
-    student_id: 2
-# column: value
 ArneshMath141:
     channel_id: 1
     student_id: 2
 #
+ArneshCSC101:
+    channel_id: 2
+    student_id: 2
+# column: value
 NathikCSC101:
     channel_id: 2
     student_id: 1

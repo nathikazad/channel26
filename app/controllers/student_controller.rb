@@ -7,7 +7,7 @@ class StudentController < ApplicationController
       redirect_to :action => "login"
     else
       @student=Student.find(session[:user_id]);
-      @channels = @student.classrooms;
+      @channels = @student.channels;
     end
   end
 
