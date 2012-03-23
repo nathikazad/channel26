@@ -9,6 +9,7 @@ class CreateClassrooms < ActiveRecord::Migration
       t.integer :dept_id
       t.date :date_start
       t.date :date_end
+      t.integer :assignment_size
       t.string :schedule
       t.timestamps
     end
