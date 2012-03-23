@@ -2,6 +2,7 @@ class CreateAssignments < ActiveRecord::Migration
   def self.up
     create_table :assignments do |t|
       t.string :name
+      t.integer :serial
       t.integer :atype
       # 0-class, 1-hw, 2-quiz, 3-mid term, 4-final
       t.date :assigned_date

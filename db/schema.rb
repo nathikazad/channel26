@@ -14,6 +14,7 @@ ActiveRecord::Schema.define(:version => 20120319082524) do
 
   create_table "assignments", :force => true do |t|
     t.string   "name"
+    t.integer  "serial"
     t.integer  "atype"
     t.date     "assigned_date"
     t.date     "due_date"
@@ -49,6 +50,7 @@ ActiveRecord::Schema.define(:version => 20120319082524) do
     t.integer  "dept_id"
     t.date     "date_start"
     t.date     "date_end"
+    t.integer  "assignment_size"
     t.string   "schedule"
     t.datetime "created_at"
     t.datetime "updated_at"

@@ -1,17 +1,18 @@
 class TwilioresppController < ApplicationController
 @array=Array.new
 @i=0
+@response=""
   def answerMachine
     msg=params["Body"]
     number=params["From"]
-    @resp=generate_response(msg,number)
+    generate_response(msg,number)
     respond_to do |format|
       format.xml 
     end
   end
   
   def generate_response(msg,number)
-    query= {"when" =>Date.today,"dur"  =>1,"atype" => nil}
+    
     #authenticate
     @array=(msg.downcase.split /[ _,-.''!?]|(\d+)/)
     garbage=delete_useless()
@@ -21,95 +22,134 @@ class TwilioresppController < ApplicationController
     end
     
     #find when
-    query["when"]=find_when()
+    start=find_when()
     
     #for duration
+    dur=1
     for @i in 0..@array.length-1  do
       if((similar(@array[@i],"week")>=75 && similar(@array[@i-1],"this")>=75) || similar(@array[@i],"thisweek")>=75)
-        query["dur"]=(7-Date.today.cwday)
+        dur=(7-Date.today.cwday)
       elsif((similar(@array[@i],"week")>=75 && similar(@array[@i-1],"next")>=75) || similar(@array[@i],"nextweek")>=75)
-        query["dur"]=7
-        query["when"]=Date.today+(8-Date.today.cwday)
+        dur=7
+        start=Date.today+(8-Date.today.cwday)
       end
     end
     
-    #Find classname
-    classids=find_classid(student)
-    #assignments=find_assignments(classids,student)
-    #Find type & number
-      #loop thru
-      #check the assignment name and similar names (compare only with the length of the assignment type)
-      #see if there is a number
-      #take note of the next word
-    return "#{query["when"]}  #{query["dur"]} #{classids}"
-  end
-  
-  def find_assignments(classids,student)
-    i=0
-    ass=Array.new
-    assi=0
-    while i<classids.size
-      j=0;
-      while j<classids.size
-        
-        j=j+1;
-      end
-      i=i+1;
+    #Find channels
+    if((channels=find_channels(student)).empty?)
+      channels=student.channels
     end
+    original=@array
+    for @i in 0..(@array.size-1) do
+      @array[@i]=@array[@i].singularize
+    end
+
+    #find channel related material
+    channelmaterial=find_stuff(channels,start,(start+dur))
+    @resp= "how <br/> now"#"#{channelmaterial[0]}"
   end
   
-  def find_classid(student)
-    stuchannels=student.channels
-    classids=Array.new(stuchannels.length)
-    str=Array.new
-    #debugger
+  def find_stuff(channels,start_date,end_date)
+    stuff=Array.new(2)
+    assignment_types=[["class","happened"],["hw","home work"],["quiz","test"],["mid term","test"],["final"]]
+    clubs=Array.new
+    classrooms=Array.new
     @i=0
     while @i < @array.size  do
-      for j in 0..(stuchannels.size-1) do     
-        sim=(stuchannels[j].channelable.dept.simwords | stuchannels[j].simwords )
-        for k in sim do
-          words=k.word.split
-          str=str | words
-          if(check4sim(words))
-            if(stuchannels[j].channelable_type.eql?("Classroom") && is_a_number?(@array[@i+1]))
-              if(stuchannels[j].channelable.class_no.eql?(@array[@i+1]) )
+      if(similar(@array[@i],"assignment")>75)
+        classrooms=queryThat(classrooms,channels,nil,nil,start_date,end_date)
+        @array.delete_at(@i)
+        @i=@i-1
+      else
+        for j in 0..4 do
+          for m in assignment_types[j] do
+            words=m.split
+            if(check4sim(words))
+              if(is_a_number?(@array[@i+1]))
+                classrooms=queryThat(classrooms,channels,j,@array[@i+1],start_date,end_date)
                 @array.delete_at(@i+1)
-                classids[j]=stuchannels[j]
+                @i=@i-1
+              else
+                classrooms=queryThat(classrooms,channels,j,nil,start_date,end_date)
               end
-            else
-              classids[j]=stuchannels[j] 
             end
           end
         end
-        #make it specific for classrooms
-        if(stuchannels[j].channelable_type.eql?("Classroom") && (similar(@array[@i],stuchannels[j].leader.first_name)>75||similar(@array[@i],stuchannels[j].leader.last_name)>75||
-          similar(@array[@i],("#{stuchannels[j].leader.first_name}s"))>75||similar(@array[@i],"#{stuchannels[j].leader.last_name}s")>75))
-          classids[j]=stuchannels[j]
-          @array.delete_at(@i)
-          @i=@i-1
+      end
+      @i=@i+1
+    end
+    stuff[0]=classrooms
+    stuff[1]=clubs
+    return stuff
+  end
+  
+  def queryThat(classrooms,channels,atype,serial,start_date,end_date)
+    for k in 0..(channels.size-1) do
+      if(channels[k].channelable_type.eql?("Classroom"))
+        if(!(serial.nil?))
+          classrooms=classrooms|channels[k].channelable.assignments.where(:atype => atype, :serial => serial)
+        elsif(!(atype.nil?))
+          classrooms=classrooms|channels[k].channelable.assignments.where(:atype => atype, :due_date => start_date..end_date)
+        else
+          classrooms=classrooms|channels[k].channelable.assignments.where(:due_date => start_date..end_date)
+        end
+      end
+    end
+    return classrooms
+  end
+  
+  def find_channels(student)
+    stuchannels=student.channels
+    channels=Array.new(stuchannels.length)
+    @i=0
+    while @i < @array.size  do
+      for j in 0..(stuchannels.size-1) do     
+        if(channels[j]!=nil)
+          sim=(stuchannels[j].channelable.dept.simwords | stuchannels[j].simwords )
+          for k in sim do
+            words=k.word.split
+            if(check4sim(words))
+              if(stuchannels[j].channelable_type.eql?("Classroom") && is_a_number?(@array[@i+1]))
+                if(stuchannels[j].channelable.class_no.eql?(@array[@i+1]) )
+                  @array.delete_at(@i+1)
+                  channels[j]=stuchannels[j]
+                end
+              else
+                channels[j]=stuchannels[j] 
+              end
+            end
+          end
+          #make it specific for classrooms
+          if(stuchannels[j].channelable_type.eql?("Classroom") && channels[j].nil? &&
+            (similar(@array[@i],stuchannels[j].leader.first_name)>75||similar(@array[@i],stuchannels[j].leader.last_name)>75||
+            similar(@array[@i],("#{stuchannels[j].leader.first_name}s"))>75||similar(@array[@i],"#{stuchannels[j].leader.last_name}s")>75))
+            channels[j]=stuchannels[j]
+            @array.delete_at(@i)
+            @i=@i-1
+          end
         end
       end
       @i=@i+1
     end
     for @i in 0..(@array.size-1)
       for j in 0..(stuchannels.size-1) do
-        if(stuchannels[j].channelable.class_no.eql?(@array[@i]) )
+        if(channels[j].nil? && stuchannels[j].channelable.class_no.eql?(@array[@i]) )
           @array.delete_at(@i)
           @i=@i-1
-          classids[j]=stuchannels[j]
+          channels[j]=stuchannels[j]
         end
       end
     end
     
-    return classids.compact
+    return channels.compact
   end
   
-  #limited by array2 max size = 2
-  def check4sim(array2)
+  def check4sim(array2) #singular for things like homeworks/quizzes and not singular for things like calculus
     str=""
     check=true
     for l in 0..(array2.size-1) do
-      check=check && (similar(array2[l],@array[@i+l])>75 )
+      word=@array[@i+l]
+      check=check && (similar(array2[l],word)>75 )
       str.concat("#{array2[l]}")
     end
     
@@ -122,7 +162,8 @@ class TwilioresppController < ApplicationController
     end
     
     #clump all the words together and check
-    if(similar(str,@array[@i])>75 )
+    word=@array[@i]
+    if(similar(str,word)>75 )
       @array.delete_at(@i)
       @i=@i-1
       return true
@@ -178,6 +219,7 @@ class TwilioresppController < ApplicationController
     end
     a=a.downcase
     b=b.downcase
+    #hack levenshtein to shorten runtime and make it scalable
     100-(Levenshtein.distance(a,b)*100/((a.length+b.length)/2))
   end
   
@@ -186,9 +228,10 @@ class TwilioresppController < ApplicationController
    end
   
    def delete_useless()
+     #leave nil gaps
      garbage=Array.new
      k=0
-     useless=["is","are","","why","when","due","my","there","in","on","what"]
+     useless=["is","are","","why","when","due","my","there","in","on","what","have","i","do","any"]
      for i in 0..(@array.size-1)
        for j in useless
          if(@array[i].eql?(j))
