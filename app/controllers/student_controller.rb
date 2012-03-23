@@ -7,8 +7,31 @@ class StudentController < ApplicationController
       redirect_to :action => "login"
     else
       @student=Student.find(session[:user_id]);
-      @channels = @student.classrooms;
+      @channels = @student.channels;
     end
+  end
+
+  def infobox
+    @student = Student.find(session[:user_id]);
+    @channel = @student.channels[Integer(params[:id])];
+    render(:partial => "infoview", :locals => {:channel => @channel});
+  end
+
+  def nutshell
+    @student = Student.find(session[:user_id]);
+    @channel = @student.channels[Integer(params[:id])];
+    render(:partial => "nutshellview", :locals => {:channel => @channel});
+  end
+
+  def assignment
+    @assign = Assignment.find(params[:id]);
+    render(:partial => "assignmentview", :locals => {:assign => @assign});
+  end
+
+  def calendar
+    @student = Student.find(session[:user_id]);
+    @channel = @student.channels[Integer(params[:id])];
+    render(:partial => "calendarview", :locals => {:channel => @channel});
   end
 
   def login
