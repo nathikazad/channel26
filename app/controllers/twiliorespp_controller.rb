@@ -1,7 +1,13 @@
 class TwilioresppController < ApplicationController
+# 
+# Description: We have one main method called generate response and two class variables @array and @i
+#              they are made class variables because @array holds the filtered message from the user, 
+#              and it is iterated many times through out the program to extract key information, so to
+#              make it easier while passing variables through multiple methods, they are made class variables.
+#
+# Written by Nathik Azad for Channel26
 @array=Array.new
 @i=0
-@response=""
   def answerMachine
     msg=params["Body"]
     number=params["From"]
@@ -46,7 +52,85 @@ class TwilioresppController < ApplicationController
 
     #find channel related material
     channelmaterial=find_stuff(channels,start,(start+dur))
-    @resp= "how <br/> now"#"#{channelmaterial[0]}"
+    
+    
+    #create readable response
+    @resp=create_response(channelmaterial)
+  end
+  
+  def find_when()   
+    for @i in 0..(@array.length-1)  do
+      if(similar(@array[@i],"today")>=75)
+        @array.delete_at(@i)
+        return Date.today
+      end
+      if(similar(@array[@i],"yesterday")>=75)
+        @array.delete_at(@i)
+        return Date.today-1
+      end
+      if(similar(@array[@i],"dayaftertomorrow")>=75 || similar(@array[@i],"dayafter")>=75 || 
+        (similar(@array[@i],"day")>=75 && similar(@array[@i+1],"after")>=75 ))
+        @array.delete_at(@i)
+        return Date.today.tomorrow.tomorrow
+      end
+      if(similar(@array[@i],"tomorrow")>=75 || similar(@array[@i],"tom")>=75)
+        @array.delete_at(@i)
+        return Date.today.tomorrow
+      end
+      weekdays=[["monday","mon"],["tues","tuesday"],["wednesday","wed"],["thursday","thurs"],["friday","fri"],["saturday","sat"],["sunday","sun"]]
+      for j in 0..(weekdays.size-1) do
+        if(similar(@array[@i],weekdays[j][0])>=75 || similar(@array[@i],weekdays[j][1])>=75)
+          @array.delete_at(@i)
+          return day_date(j)
+        end
+      end
+    end
+    return Date.today
+  end
+  
+  def find_channels(student)
+    stuchannels=student.channels
+    channels=Array.new(stuchannels.length)
+    @i=0
+    while @i < @array.size  do
+      for j in 0..(stuchannels.size-1) do     
+        if(channels[j]!=nil)
+          sim=(stuchannels[j].channelable.dept.simwords | stuchannels[j].simwords )
+          for k in sim do
+            words=k.word.split
+            if(check4sim(words))
+              if(stuchannels[j].channelable_type.eql?("Classroom") && is_a_number?(@array[@i+1]))
+                if(stuchannels[j].channelable.class_no.eql?(@array[@i+1]) )
+                  @array.delete_at(@i+1)
+                  channels[j]=stuchannels[j]
+                end
+              else
+                channels[j]=stuchannels[j] 
+              end
+            end
+          end
+          #by teacher's name
+          if(stuchannels[j].channelable_type.eql?("Classroom") && channels[j].nil? &&
+            (similar(@array[@i],stuchannels[j].leader.first_name)>75||similar(@array[@i],stuchannels[j].leader.last_name)>75||
+            similar(@array[@i],("#{stuchannels[j].leader.first_name}s"))>75||similar(@array[@i],"#{stuchannels[j].leader.last_name}s")>75))
+            channels[j]=stuchannels[j]
+            @array.delete_at(@i)
+            @i=@i-1
+          end
+        end
+      end
+      @i=@i+1
+    end
+    for @i in 0..(@array.size-1)
+      for j in 0..(stuchannels.size-1) do
+        if(channels[j].nil? && stuchannels[j].channelable.class_no.eql?(@array[@i]) )
+          @array.delete_at(@i)
+          @i=@i-1
+          channels[j]=stuchannels[j]
+        end
+      end
+    end
+    return channels.compact
   end
   
   def find_stuff(channels,start_date,end_date)
@@ -70,6 +154,9 @@ class TwilioresppController < ApplicationController
                 @array.delete_at(@i+1)
                 @i=@i-1
               else
+                if(@array[@i-1].eql?("next"))
+                  end_date=channels.channelable.date_end
+                end
                 classrooms=queryThat(classrooms,channels,j,nil,start_date,end_date)
               end
             end
@@ -98,53 +185,9 @@ class TwilioresppController < ApplicationController
     return classrooms
   end
   
-  def find_channels(student)
-    stuchannels=student.channels
-    channels=Array.new(stuchannels.length)
-    @i=0
-    while @i < @array.size  do
-      for j in 0..(stuchannels.size-1) do     
-        if(channels[j]!=nil)
-          sim=(stuchannels[j].channelable.dept.simwords | stuchannels[j].simwords )
-          for k in sim do
-            words=k.word.split
-            if(check4sim(words))
-              if(stuchannels[j].channelable_type.eql?("Classroom") && is_a_number?(@array[@i+1]))
-                if(stuchannels[j].channelable.class_no.eql?(@array[@i+1]) )
-                  @array.delete_at(@i+1)
-                  channels[j]=stuchannels[j]
-                end
-              else
-                channels[j]=stuchannels[j] 
-              end
-            end
-          end
-          #make it specific for classrooms
-          if(stuchannels[j].channelable_type.eql?("Classroom") && channels[j].nil? &&
-            (similar(@array[@i],stuchannels[j].leader.first_name)>75||similar(@array[@i],stuchannels[j].leader.last_name)>75||
-            similar(@array[@i],("#{stuchannels[j].leader.first_name}s"))>75||similar(@array[@i],"#{stuchannels[j].leader.last_name}s")>75))
-            channels[j]=stuchannels[j]
-            @array.delete_at(@i)
-            @i=@i-1
-          end
-        end
-      end
-      @i=@i+1
-    end
-    for @i in 0..(@array.size-1)
-      for j in 0..(stuchannels.size-1) do
-        if(channels[j].nil? && stuchannels[j].channelable.class_no.eql?(@array[@i]) )
-          @array.delete_at(@i)
-          @i=@i-1
-          channels[j]=stuchannels[j]
-        end
-      end
-    end
-    
-    return channels.compact
-  end
-  
-  def check4sim(array2) #singular for things like homeworks/quizzes and not singular for things like calculus
+#  helper methods
+
+  def check4sim(array2)
     str=""
     check=true
     for l in 0..(array2.size-1) do
@@ -169,37 +212,6 @@ class TwilioresppController < ApplicationController
       return true
     end
     return false
-  end
-  
-  def find_when()
-    
-    for @i in 0..(@array.length-1)  do
-      if(similar(@array[@i],"today")>=75)
-        @array.delete_at(@i)
-        return Date.today
-      end
-      if(similar(@array[@i],"yesterday")>=75)
-        @array.delete_at(@i)
-        return Date.today-1
-      end
-      if(similar(@array[@i],"dayaftertomorrow")>=75 || similar(@array[@i],"dayafter")>=75 || 
-        (similar(@array[@i],"day")>=75 && similar(@array[@i+1],"after")>=75 ))
-        @array.delete_at(@i)
-        return Date.today.tomorrow.tomorrow
-      end
-      if(similar(@array[@i],"tomorrow")>=75 || similar(@array[@i],"tom")>=75)
-        @array.delete_at(@i)
-        return Date.today.tomorrow
-      end
-      weekdays=[["monday","mon"],["tues","tuesday"],["wednesday","wed"],["thursday","thurs"],["friday","fri"],["saturday","sat"],["sunday","sun"]]
-      for j in 0..(weekdays.size-1) do
-        if(similar(@array[@i],weekdays[j][0])>=75 || similar(@array[@i],weekdays[j][1])>=75)
-          @array.delete_at(@i)
-          return day_date(j)
-        end
-      end
-    end
-    return Date.today
   end
   
   def day_date(day)
@@ -231,7 +243,7 @@ class TwilioresppController < ApplicationController
      #leave nil gaps
      garbage=Array.new
      k=0
-     useless=["is","are","","why","when","due","my","there","in","on","what","have","i","do","any"]
+     useless=["is","are","","when","due","my","there","in","on","what","have","i","do","any"]
      for i in 0..(@array.size-1)
        for j in useless
          if(@array[i].eql?(j))
