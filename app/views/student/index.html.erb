@@ -23,7 +23,7 @@
 	      <% else %>
 	      <li>
 	      <% end %>
-	        <a href="#class_<%= c.id %>" id="class<%= c.id %>" data-toggle="tab"><%= c.channelable.dept.name %> <%= c.channelable.class_no %></a>
+	        <a href="#class_<%= c.id %>" id="<%= c.id %>" class="mychannel" data-toggle="tab"><%= c.channelable.dept.name %> <%= c.channelable.class_no %></a>
 	      </li>
 	    <% end %>
 	  <!--Clubs-->
@@ -43,15 +43,23 @@
     <!--scripts to handle class changes-->
     <script>
       $(function() {
-	<% @channels.each do |c| %>
-	  $('#class<%= c.id %>').click(function(event){
-            $('#infobox').html("<%= escape_javascript(render(:partial => "infoview", :locals => {:channel => @channels[c.id-1]})) %>");
-          });
-	<% end %>
-	  $(".entry1").click(function(){
-	    window.location=$(this).find("a").attr("href");
-            return false;
-	  });
+	$(".mychannel").click(function(event){
+	    $('#infobox').html("<p>Loading...</p>");
+	    $('#nutshell').html("<p>Loading...</p>");
+	    $('#calendar').html("<p>Loading...</p>");
+            var infoload = $.ajax({ url: "/student/infobox?id="+(this.id-1), cache: true, success: function(html){
+		  $("#infobox").html(html);
+	      }					
+	    });
+            var nutload = $.ajax({ url: "/student/nutshell?id="+(this.id-1), cache: true, success: function(html){
+		  $("#nutshell").html(html);
+	      }					
+	    });
+            var caload = $.ajax({ url: "/student/calendar?id="+(this.id-1), cache: true, success: function(html){
+		  $("#calendar").html(html);
+	      }					
+	    });
+	});
       });
     </script>
 
@@ -62,34 +70,14 @@
     <div class="span7" style="margin-left:-5px;width:65%;">
       <!--info box-->
       <div class="well3 tab-content" id="infobox">
-	  <!--default channel info-->
-          <div>
-	    <% @teacher =  @channels[0].leader %>
-            <h2><%= @channels[0].channelable.dept.name %> <%= @channels[0].channelable.class_no %></h2>
-	    <p style="font-size:12px;">
-	      Professor <%= @teacher.first_name %> <%= @teacher.last_name %>
-	      <br/>
-              <%= @teacher.department %>
-	    </p>
-	    <p style="font-size:12px;">
-	      <%= @channels[0].channelable.schedule %>
-	      <br/>
-              <%= @teacher.location %>
-	    </p>
-	</div>
+          <%= render(:partial => "infoview", :locals => {:channel => @channels[0]}) %>
       </div>
       <!--nutshell box-->
       <div class="well3">
         <h3> Nutshell</h3>
-	<div class="scrollArea">
-	  <div class="entry1">
-	    <h4>Today</h4>
-	    <p><span style="color:red;font-weight:bold;">In Class: </span><span>Rhetoric Speech</span></p>
-	    <p style="margin-top:-10px;"><span style="color:red;font-weight:bold;">HW 5: </span><span>Vocab due</span><span>
-	    <a href="blah" style="float:right">View Post</a>
-	    </span></p>
-	  </div>
-	  <p class="drawline"></p>
+	<div class="scrollArea" id="nutshell">
+	  <!--default nutshell-->
+          <%= render(:partial => "nutshellview", :locals => {:channel => @channels[0]}) %>
 	</div>
       </div>
     </div>
@@ -98,41 +86,10 @@
     <div class="span4">
       <!--calendar box-->
       <div class="well3">
-	<% time = Time.new %>
-	<% start_date = Date.parse("#{time.year}-#{time.month}-01")-1 %>
-	<% num_days =  (Date.new(time.year,12,31).to_date<<(12-time.month)).day %>
-	<h4><center><%= time.strftime("%B")%> <%= time.strftime("%Y")%></center></h4>
-	<table class="table" style="font-size:10px;margin-bottom:-9px;">
-          <thead>
-	    <tr style="padding-bottom:0px;">
-	      <th style="padding-top:4px;padding-bottom:0px;">Mo</th>
-	      <th style="padding-top:4px;padding-bottom:0px;">Tu</th>
-	      <th style="padding-top:4px;padding-bottom:0px;">We</th>
-	      <th style="padding-top:4px;padding-bottom:0px;">Th</th>
-	      <th style="padding-top:4px;padding-bottom:0px;">Fr</th>
-	      <th style="padding-top:4px;padding-bottom:0px;">Sa</th>
-	      <th style="padding-top:4px;padding-bottom:0px;">Su</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	        <tr style="padding-top:0px;padding-bottom:0px;">
-	    <% d = 1 %>
-	    <% for i in 0...35 %>
-	      <% if (i%7)==0 %>
-	        </tr><tr style="padding-top:0px;padding-bottom:0px;">
-	      <% end %>
-	      <% if i < start_date.wday %>
-	        <td style="padding-top:0px;padding-bottom:0px;"></td>
-	      <% elsif d > num_days %>
-	        <td style="padding:0px;"></td>
-              <% else %>
-	        <td style="padding-top:0px;padding-bottom:0px;"><%= d %></td>
-		<% d+=1 %>
-	      <% end %>
-	    <% end %>  
-	    </tr>
-	  </tbody>
-	</table>
+        <div id="calendar">
+	  <!--default calendar-->
+          <%= render(:partial => "calendarview", :locals => {:channel => @channels[0]}) %>
+	</div>
       </div>
       <!--syllabus box-->
       <div class="well3">

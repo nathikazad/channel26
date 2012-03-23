@@ -11,6 +11,29 @@ class StudentController < ApplicationController
     end
   end
 
+  def infobox
+    @student = Student.find(session[:user_id]);
+    @channel = @student.channels[Integer(params[:id])];
+    render(:partial => "infoview", :locals => {:channel => @channel});
+  end
+
+  def nutshell
+    @student = Student.find(session[:user_id]);
+    @channel = @student.channels[Integer(params[:id])];
+    render(:partial => "nutshellview", :locals => {:channel => @channel});
+  end
+
+  def assignment
+    @assign = Assignment.find(params[:id]);
+    render(:partial => "assignmentview", :locals => {:assign => @assign});
+  end
+
+  def calendar
+    @student = Student.find(session[:user_id]);
+    @channel = @student.channels[Integer(params[:id])];
+    render(:partial => "calendarview", :locals => {:channel => @channel});
+  end
+
   def login
     if request.post?
       user = Student.find_by_username_and_password(params[:user][:username],params[:user][:password])
