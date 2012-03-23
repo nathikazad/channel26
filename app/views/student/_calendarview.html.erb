@@ -1,0 +1,59 @@
+<% 
+  @all_assignments = channel.channelable.assignments
+  time = Time.new 
+  start_date = Date.parse("#{time.year}-#{time.month}-01")-1
+  num_days =  (Date.new(time.year,12,31).to_date<<(12-time.month)).day
+%>
+<h4><center><%= time.strftime("%B")%> <%= time.strftime("%Y")%></center></h4>
+<table class="table" style="font-size:10px;margin-bottom:-9px;">
+  <thead>
+    <tr style="padding-bottom:0px;">
+      <th style="padding-top:4px;padding-bottom:0px;">Mo</th>
+      <th style="padding-top:4px;padding-bottom:0px;">Tu</th>
+      <th style="padding-top:4px;padding-bottom:0px;">We</th>
+      <th style="padding-top:4px;padding-bottom:0px;">Th</th>
+      <th style="padding-top:4px;padding-bottom:0px;">Fr</th>
+      <th style="padding-top:4px;padding-bottom:0px;">Sa</th>
+      <th style="padding-top:4px;padding-bottom:0px;">Su</th>
+    </tr>
+  </thead>
+  <tbody>
+	<tr style="padding-top:0px;padding-bottom:0px;">
+    <% 
+      d = 1  
+      for i in 0...35
+        if d<=num_days
+          date = Date.parse("#{time.year}-#{time.month}-#{d}")
+          @assignments = @all_assignments.find(:all, :conditions => {:due_date => date})
+	  day_content = ""
+	end
+        if (i%7)==0 
+    %>
+	</tr><tr style="padding-top:0px;padding-bottom:0px;">
+      <% end %>
+      <% if i < start_date.wday %>
+	<td style="padding-top:0px;padding-bottom:0px;"></td>
+      <% elsif d > num_days %>
+	<td style="padding:0px;"></td>
+      <% else %>
+        <% for a in @assignments
+	    day_content += "<p>#{a.name}: #{a.content}</p>"
+	  end
+	  if @assignments.size > 0
+	%>
+	<td style="padding-top:0px;padding-bottom:0px;"><a href="#<%= date %>" rel="tooltip" title="Due on: <%= date %>" data-content="<%= day_content %>"><%= d %></a></td>
+	<% else %>
+	<td style="padding-top:0px;padding-bottom:0px;"><%= d %></td>
+	<% end %>
+	<% d+=1 %>
+      <% end %>
+    <% end %>  
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  $(function() {
+    $("a[rel=tooltip]").popover({placement: 'bottom'});
+  });
+</script>
