@@ -1,0 +1,36 @@
+<% 
+  @all_assignments = channel.channelable.assignments
+  time = Time.new
+  for d in 0..6
+      date = Date.parse("#{time.year}-#{time.month}-#{time.day+d}")
+%>
+    <div class="entry1">
+      <h4><%= date %></h4>
+      <p style="margin-left:5px;">
+    <%
+      @assignments = @all_assignments.find(:all, :conditions => {:due_date => date});
+        for a in @assignments
+    %>
+          <a href="#assign_<%= a.id %>" class="assignments" id="<%= a.id %>" rel="popover" title="<%= a.name %>" data-content="<%= a.content %>"><%= a.name %></a><br>
+        <% end %>
+      </p>
+    </div>
+    <p class="drawline"></p> 
+  <% end %>
+
+<div class="modal" id="showAssign" style="display:none;">
+  <p>modal stuff</p>
+</div>
+
+<script>
+  $(function() {
+    $("a[rel=popover]").popover();
+    $(".assignments").click(function(event){
+      $.ajax({ url: "/student/assignment?id="+(this.id), cache: true, success: function(html){
+          $("#showAssign").html(html)
+	}
+      });
+      $("#showAssign").modal('show');
+    });
+  });
+</script>
