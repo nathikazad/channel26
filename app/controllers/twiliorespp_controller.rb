@@ -141,7 +141,7 @@ class TwilioresppController < ApplicationController
     @i=0
     while @i < @array.size  do
       if(similar(@array[@i],"assignment")>75)
-        classrooms=queryThat(classrooms,channels,nil,nil,start_date,end_date)
+        classrooms=classrooms|queryThat(classrooms,channels,nil,nil,start_date,end_date).find(:all, :conditions => ["atype != ?", 0])
         @array.delete_at(@i)
         @i=@i-1
       else
@@ -150,14 +150,14 @@ class TwilioresppController < ApplicationController
             words=m.split
             if(check4sim(words))
               if(is_a_number?(@array[@i+1]))
-                classrooms=queryThat(classrooms,channels,j,@array[@i+1],start_date,end_date)
+                classrooms=classrooms|queryThat(channels,j,@array[@i+1],start_date,end_date)
                 @array.delete_at(@i+1)
                 @i=@i-1
               else
                 if(@array[@i-1].eql?("next"))
                   end_date=channels.channelable.date_end
                 end
-                classrooms=queryThat(classrooms,channels,j,nil,start_date,end_date)
+                classrooms=classrooms|queryThat(classrooms,channels,j,nil,start_date,end_date)
               end
             end
           end
@@ -170,7 +170,8 @@ class TwilioresppController < ApplicationController
     return stuff
   end
   
-  def queryThat(classrooms,channels,atype,serial,start_date,end_date)
+  def queryThat(channels,atype,serial,start_date,end_date)
+    classrooms=Array.new
     for k in 0..(channels.size-1) do
       if(channels[k].channelable_type.eql?("Classroom"))
         if(!(serial.nil?))

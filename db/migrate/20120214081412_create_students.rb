@@ -8,6 +8,7 @@ class CreateStudents < ActiveRecord::Migration
       t.string :email
       t.string :major
       t.string :CellPhone 
+      t.text   :leftoverSMS
       t.timestamps
     end
   end
