@@ -22,3 +22,21 @@ Math141QuestionsFeed:
     feedable_type: Channel
     ftype: Questions
 #
+Math141HW1Feed: 
+    id: 7
+    feedable_id: 1
+    feedable_type: Assignment
+    ftype: General
+#
+Math141HW2Feed: 
+    id: 8
+    feedable_id: 1
+    feedable_type: Assignment
+    ftype: General
+#
+Math141HW3Feed: 
+    id: 9
+    feedable_id: 1
+    feedable_type: Assignment
+    ftype: General
+#
