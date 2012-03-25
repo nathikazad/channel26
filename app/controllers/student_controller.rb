@@ -77,6 +77,7 @@ class StudentController < ApplicationController
   def search
     #ur gonna get the query from params[:query] do ur stuff in here
     @msg=generate_response(params[:query])
+    render(:partial => "searchview", :locals => {:assignments => @msg});
   end
   
   @array=Array.new
