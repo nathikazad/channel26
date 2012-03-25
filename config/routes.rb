@@ -20,7 +20,7 @@ TestBaby::Application.routes.draw do
   resources :classrooms_students
   resources :grades
   
-  
+  root :to => "student#index"
 
   match '/contact', :to => 'classrooms#show'
   match 'student/login', :to => 'student#login'

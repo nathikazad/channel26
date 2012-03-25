@@ -105,7 +105,7 @@ class TwilioresppController < ApplicationController
         currdate=channelmaterial[0][i].due_date
       end
       resp.concat("#{i+1}. #{atypes[channelmaterial[0][i].atype]} #{channelmaterial[0][i].serial} in #{channelmaterial[0][i].classroom.channel.name}\n ")
-      resp.concat("#{channelmaterial[0][i].content} \n ")
+      resp.concat("On #{channelmaterial[0][i].content} \n ")
     end
     return resp
   end
@@ -192,7 +192,7 @@ class TwilioresppController < ApplicationController
   def find_stuff(channels,start_date,end_date)
     stuff=Array.new(2)
     #test gets deleted
-    assignment_types=[["class","happened"],["hw","home work"],["quiz","test"],["mid term","test"],["final"]]
+    assignment_types=[["class","happened"],["hw","home work"],["quiz"],["mid term"],["final"]]
     clubs=Array.new
     classrooms=Array.new
     @i=0
@@ -215,6 +215,19 @@ class TwilioresppController < ApplicationController
             end
           end
         end
+      end
+      if(similar(@array[@i],"test")>75)
+        classrooms=classrooms | queryThat(channels,2,nil,start_date,end_date,3)
+        classrooms=classrooms | queryThat(channels,3,nil,start_date,end_date,3)
+        classrooms=classrooms | queryThat(channels,4,nil,start_date,end_date,3)
+        @array.delete_at(@i)
+        @i=@i-1
+      end
+      if(similar(@array[@i],"exam")>75)
+        classrooms=classrooms | queryThat(channels,3,nil,start_date,end_date,3)
+        classrooms=classrooms | queryThat(channels,4,nil,start_date,end_date,3)
+        @array.delete_at(@i)
+        @i=@i-1
       end
       @i=@i+1
     end
