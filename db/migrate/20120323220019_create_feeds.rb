@@ -4,6 +4,8 @@ class CreateFeeds < ActiveRecord::Migration
       t.string :ftype
       t.integer :feedable_id
       t.string :feedable_type
+      t.integer :poster_id
+      t.string :poster_type
       t.timestamps
     end
   end
