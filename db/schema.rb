@@ -44,14 +44,22 @@ ActiveRecord::Schema.define(:version => 20120323220124) do
   end
 
   create_table "classrooms", :force => true do |t|
+    t.string   "name"
     t.string   "class_no"
     t.string   "section_no"
     t.string   "institution"
     t.integer  "dept_id"
     t.date     "date_start"
     t.date     "date_end"
-    t.integer  "assignment_size"
+    t.integer  "teacher_id"
     t.string   "schedule"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "classrooms_students", :id => false, :force => true do |t|
+    t.integer  "classroom_id"
+    t.integer  "student_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -66,6 +74,8 @@ ActiveRecord::Schema.define(:version => 20120323220124) do
     t.string   "ftype"
     t.integer  "feedable_id"
     t.string   "feedable_type"
+    t.integer  "poster_id"
+    t.string   "poster_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -80,9 +90,12 @@ ActiveRecord::Schema.define(:version => 20120323220124) do
 
   create_table "posts", :force => true do |t|
     t.text     "content"
+    t.string   "title"
     t.integer  "postable_id"
     t.string   "postable_type"
     t.integer  "score"
+    t.integer  "poster_id"
+    t.string   "poster_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

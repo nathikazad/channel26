@@ -9,6 +9,9 @@ TestBaby::Application.routes.draw do
   get "student/nutshell"
   get "student/assignment"
   get "student/calendar"
+  get "student/tabber"
+  get "student/postview"
+  get "student/upvote"
   get "twiliorespp/answerMachine"
   get "classrooms/show"
   get 'twilio' => 'twiliorespp#answerMachine'
@@ -30,6 +33,9 @@ TestBaby::Application.routes.draw do
   match 'student/nutshell', :to => 'student#nutshell'
   match 'student/assignment', :to => 'student#assignment'
   match 'student/calendar', :to => 'student#calendar'
+  match 'student/tabber', :to => 'student#tabber'
+  match 'student/postview', :to => 'student#postview'
+  match 'student/upvoteview', :to => 'student#upvote'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

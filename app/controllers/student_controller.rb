@@ -2,6 +2,7 @@ class StudentController < ApplicationController
   def register
     @title = "Register"
   end
+
   def index
     if !session[:user_id]
       redirect_to :action => "login"
@@ -9,6 +10,10 @@ class StudentController < ApplicationController
       @student=Student.find(session[:user_id]);
       @channels = @student.channels;
     end
+  end
+
+  def search
+   #ur gonna get the query from params[:query] do ur stuff in here
   end
 
   def infobox
@@ -28,10 +33,28 @@ class StudentController < ApplicationController
     render(:partial => "assignmentview", :locals => {:assign => @assign});
   end
 
+  def postview
+    @post = Post.find(params[:id]);
+    render(:partial => "postview", :locals => {:post => @post});
+  end
+
+  def upvote
+    @post = Post.find(params[:id]);
+    @post.score += 1
+    @post.save!
+    render(:partial => "upvoteview", :locals => {:post => @post});
+  end
+
   def calendar
     @student = Student.find(session[:user_id]);
     @channel = @student.channels[Integer(params[:id])];
     render(:partial => "calendarview", :locals => {:channel => @channel});
+  end
+
+  def tabber
+    @student = Student.find(session[:user_id]);
+    @channel = @student.channels[Integer(params[:id])];
+    render(:partial => "tabview", :locals => {:channel => @channel});
   end
 
   def login

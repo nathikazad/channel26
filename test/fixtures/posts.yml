@@ -6,15 +6,17 @@
 #
 Post1: 
     id: 1
+    title: Post1
     postable_id: 1
     postable_type: Feed
-    content: Post1
+    content: Content of the 1st post
     score: 0
 #
 Comment1forPost1: 
     id: 2
+    title: Comment
     postable_id: 1
     postable_type: Post
-    content: Comment
+    content: Comment content
     score: 0
 #
