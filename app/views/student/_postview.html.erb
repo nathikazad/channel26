@@ -1,0 +1,32 @@
+<div class="modal-header">
+  <a class="close" data-dismiss="modal">x</a>
+  <h3>Posted at <%=post.created_at%></h3>
+</div>
+<div class="modal-body">
+  <div style="float:left;width:58%;">
+    <p class="comment" id="<%=post.id%>"><a href="#"><i class="icon-arrow-up"></i> Relevant</a></p><%= post.content %>
+  </div>
+  <div style="float:right;width:40%;max-height:400px;overflow-y: scroll">
+    <h4 style="padding-bottom:4px;">Comments:</h4>
+    <% for i in post.posts %>
+        <blockquote style="margin-bottom:5px">
+	  <%= i.content %><div class="comment" id="<%=i.id%>"><a href="#"><i class="icon-arrow-up"></i> Relevant</a></div>
+	</blockquote>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  $(function(){
+    $(".comment").click(function(event){
+      $(this).fadeOut("slow",complete);
+      $.ajax({ url: "/student/upvote?id="+(this.id), cache: true, success: function(html){
+        }					
+      });
+      function complete() {
+          $(this).html("Thanks for upvoting!");
+          $(this).fadeIn("slow");
+      }
+    });
+  });
+</script>

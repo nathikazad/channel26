@@ -1,0 +1,52 @@
+<div class="tab-content">
+<% @feeds = channel.feeds %>
+<div class="tab-pane active" id="updates">
+  <ul>
+    <% if @feeds.size > 0 %>
+      <% for p in @feeds[0].posts %>
+	  <li><a href="#post_<%=p.id%>" id="<%=p.id%>"><span><%= p.content %></span><span style="float:right"><%= p.posts.count %> comment(s)</span></a></li>
+      <% end %>
+    <% else %>
+      <p>No updates</p>
+    <% end %>
+  </ul>
+</div>
+<div class="tab-pane" id="general">
+  <ul>
+    <% if @feeds.size > 0 %>
+      <% for p in @feeds[1].posts %>
+	  <li><a href="#post_<%=p.id%>" id="<%=p.id%>"><span><%= p.content %></span><span style="float:right"><%= p.posts.count %> comment(s)</span></a></li>
+      <% end %>
+    <% else %>
+      <p>No general posts</p>
+    <% end %>
+  </ul>
+</div>
+<div class="tab-pane" id="questions">
+  <ul>
+    <% if @feeds.size > 0 %>
+      <% for p in @feeds[2].posts %>
+	  <li><a href="#post_<%=p.id%>" id="<%=p.id%>"><span><%= p.content %></span><span style="float:right"><%= p.posts.count %> comment(s)</span></a></li>
+      <% end %>
+    <% else  %>
+      <p>No questions</p>
+    <% end %>
+  </ul>
+</div>
+</div>
+
+<div class="modal" id="showPost" style="display:none;">
+  <p>modal stuff</p>
+</div>
+
+<script>
+  $(function() {
+    $(".tabby").click(function(event){
+      $.ajax({ url: "/student/postview?id="+(this.id), cache: true, success: function(html){
+          $("#showPost").html(html)
+	}
+      });
+      $("#showPost").modal('show');
+    });
+  });
+</script>
