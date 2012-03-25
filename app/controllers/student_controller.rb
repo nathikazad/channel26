@@ -2,6 +2,7 @@ class StudentController < ApplicationController
   def register
     @title = "Register"
   end
+
   def index
     if !session[:user_id]
       redirect_to :action => "login"
@@ -9,6 +10,10 @@ class StudentController < ApplicationController
       @student=Student.find(session[:user_id]);
       @channels = @student.channels;
     end
+  end
+
+  def search
+   #ur gonna get the query from params[:query] do ur stuff in here
   end
 
   def infobox

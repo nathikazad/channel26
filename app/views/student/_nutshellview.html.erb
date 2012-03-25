@@ -5,7 +5,13 @@
       date = Date.parse("#{time.year}-#{time.month}-#{time.day+d}")
 %>
     <div class="entry1">
-      <h4><%= date %></h4>
+      <% if d==0 %>
+      <h4><%= date.strftime("Today %m/%d/%y") %></h4>
+      <% elsif d==1 %>
+      <h4><%= date.strftime("Tomorrow %m/%d/%y") %></h4>
+      <% else %>
+      <h4><%= date.strftime("%A %m/%d/%y") %></h4>
+      <% end %>
       <p style="margin-left:5px;">
     <%
       @assignments = @all_assignments.find(:all, :conditions => {:due_date => date});

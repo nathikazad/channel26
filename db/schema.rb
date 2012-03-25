@@ -14,6 +14,7 @@ ActiveRecord::Schema.define(:version => 20120323220124) do
 
   create_table "assignments", :force => true do |t|
     t.string   "name"
+    t.integer  "serial"
     t.integer  "atype"
     t.date     "assigned_date"
     t.date     "due_date"
@@ -73,6 +74,8 @@ ActiveRecord::Schema.define(:version => 20120323220124) do
     t.string   "ftype"
     t.integer  "feedable_id"
     t.string   "feedable_type"
+    t.integer  "poster_id"
+    t.string   "poster_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -87,9 +90,12 @@ ActiveRecord::Schema.define(:version => 20120323220124) do
 
   create_table "posts", :force => true do |t|
     t.text     "content"
+    t.string   "title"
     t.integer  "postable_id"
     t.string   "postable_type"
     t.integer  "score"
+    t.integer  "poster_id"
+    t.string   "poster_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
