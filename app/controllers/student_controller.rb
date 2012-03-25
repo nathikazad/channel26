@@ -235,6 +235,9 @@ class StudentController < ApplicationController
               if(@array[@i].eql?("next"))
                 end_date=end_date+30
                 limit=1
+              elsif(@array[@i].eql?("all"))
+                end_date=end_date+30
+                limit=20
               end
               classrooms=classrooms | queryThat(channels,j,nil,start_date,end_date,limit)
             end
