@@ -38,6 +38,7 @@ TestBaby::Application.routes.draw do
   match 'student/tabber', :to => 'student#tabber'
   match 'student/postview', :to => 'student#postview'
   match 'student/upvoteview', :to => 'student#upvote'
+  match 'student/search', :to => 'student#search'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

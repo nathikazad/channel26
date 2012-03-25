@@ -75,9 +75,10 @@ class StudentController < ApplicationController
   end
   
   def search
-   #ur gonna get the query from params[:query] do ur stuff in here
-   redirect_to :controller => 'twiliorespp', :action => 'query' 
-   @msg= params[:assignmentids]
+    #ur gonna get the query from params[:query] do ur stuff in here
+    redirect_to :controller => 'twiliorespp', :action => 'query' 
+    @msg = params[:assignmentids]
+    render(:partial => "searchview", :locals => {:assignments => @msg});
   end
 
 end

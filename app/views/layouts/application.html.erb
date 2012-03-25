@@ -21,7 +21,19 @@
                              "bootstrap-typeahead" %>
 </head>
 <body>
-  
+  <script>
+    $(function() {
+      $("#search").keyup(function(event){
+        if(event.keyCode == 13){
+	  $.ajax({ url: "/student/search?query="+escape($(this).val()), cache: true, success: function(html){
+              $("#resultsList").html("<li>Blah</li>");
+	      $("#resultsBox").show();
+	    }
+	  });
+        }
+      });
+    });
+  </script>
   <!--Navbar-->
   <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
@@ -30,7 +42,11 @@
 	<%= link_to 'Channel26', student_index_path, :class =>"brand" %>
 	<!--Search Box-->
 	<form class="navbar-search pull-left" action="">
-	  <input type="text" class="search-query span6" placeholder="Search">
+	  <input type="text" class="search-query span6" id="search" placeholder="Search" onblur="$('#resultsBox').hide();">
+	  <div id="resultsBox" class="dropdown-menu" style="display:none;">
+	    <ul id="resultsList">
+	    </ul>
+	  </div>
 	</form>
         <!--Logged in Box-->
 	<% if session[:user_id] %>
