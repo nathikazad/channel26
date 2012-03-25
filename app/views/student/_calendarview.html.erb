@@ -37,7 +37,17 @@
 	<td style="padding:0px;"></td>
       <% else %>
         <% for a in @assignments
-	    day_content += "<p>#{a.name}: #{a.content}</p>"
+             name = a.name
+             if a.atype==0 
+               name = "Class#{a.serial}"
+             elsif a.atype==1
+               name = "HW#{a.serial}"
+             elsif a.atype==2
+               name = "Quiz#{a.serial}"
+             elsif a.atype==3
+               name = "Midterm#{a.serial}"
+             end
+	    day_content += "<p>#{name}: #{a.content}</p>"
 	  end
 	  if @assignments.size > 0
 	%>

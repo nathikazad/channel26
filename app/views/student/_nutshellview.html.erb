@@ -17,7 +17,19 @@
       @assignments = @all_assignments.find(:all, :conditions => {:due_date => date});
         for a in @assignments
     %>
-          <a href="#assign_<%= a.id %>" class="assignments" id="<%= a.id %>" rel="popover" title="<%= a.name %>" data-content="<%= a.content %>"><%= a.name %></a><br>
+    <% 
+       name = a.name
+       if a.atype==0 
+         name = "Class#{a.serial}"
+       elsif a.atype==1
+         name = "HW#{a.serial}"
+       elsif a.atype==2
+         name = "Quiz#{a.serial}"
+       elsif a.atype==3
+         name = "Midterm#{a.serial}"
+       end
+    %>
+          <a href="#assign_<%= a.id %>" class="assignments" id="<%= a.id %>" rel="popover" title="<%= name %>" data-content="<%= a.content %>"><%= name %></a><br>
         <% end %>
       </p>
     </div>
