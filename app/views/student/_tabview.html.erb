@@ -1,0 +1,52 @@
+<div class="tab-content">
+<% @feeds = channel.feeds %>
+<div class="tab-pane active" id="updates">
+  <table class="table table-striped">
+    <% if @feeds.size > 0 %>
+      <% for p in @feeds[0].posts %>
+	  <tr><td><a href="#post_<%=p.id%>" id="<%=p.id%>" class="tabby"><span><%= p.title %></span><span style="float:right"><%= p.posts.count %> comment(s)</span></a></tr></td>
+      <% end %>
+    <% else %>
+      <p>No updates</p>
+    <% end %>
+  </table>
+</div>
+<div class="tab-pane" id="general">
+  <table class="table table-striped">
+    <% if @feeds.size > 0 %>
+      <% for p in @feeds[1].posts %>
+	  <tr><td><a href="#post_<%=p.id%>" id="<%=p.id%>" class="tabby"><span><%= p.title %></span><span style="float:right"><%= p.posts.count %> comment(s)</span></a></td></tr>
+      <% end %>
+    <% else %>
+      <p>No general posts</p>
+    <% end %>
+  </table>
+</div>
+<div class="tab-pane" id="questions">
+  <table class="table table-striped">
+    <% if @feeds.size > 0 %>
+      <% for p in @feeds[2].posts %>
+	  <tr><td><a href="#post_<%=p.id%>" id="<%=p.id%>" class="tabby"><span><%= p.title %></span><span style="float:right"><%= p.posts.count %> comment(s)</span></a></td></tr>
+      <% end %>
+    <% else  %>
+      <p>No questions</p>
+    <% end %>
+  </table>
+</div>
+</div>
+
+<div class="modal" id="showPost" style="display:none;width:750px;">
+  <p>modal stuff</p>
+</div>
+
+<script>
+  $(function() {
+    $(".tabby").click(function(event){
+      $.ajax({ url: "/student/postview?id="+(this.id), cache: true, success: function(html){
+          $("#showPost").html(html)
+	}
+      });
+      $("#showPost").modal('show');
+    });
+  });
+</script>
