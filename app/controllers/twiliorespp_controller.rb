@@ -13,7 +13,7 @@ class TwilioresppController < ApplicationController
     msg=params["Body"]
     number=params["From"]
     if(msg.split.size>1)
-      @resp=generate_response(msg,number)
+      @resp=generate_response(msg,number,true)
     else
       @rep=retrieve(msg)
     end
@@ -22,7 +22,11 @@ class TwilioresppController < ApplicationController
     end
   end
   
-  def generate_response(msg,number)
+  def query
+    params[:assignmentids]=generate_response(params[:query],Student.find(session[:user_id]).CellPhone,false)
+  end
+  
+  def generate_response(msg,number,sms)
     
     #authenticate
     @array=(msg.downcase.split /[ _,-.''!?]|(\d+)/)
@@ -75,10 +79,14 @@ class TwilioresppController < ApplicationController
     channelmaterial=find_stuff(channels,start,(start+dur))
     
     #create readable response
-    if(channelmaterial[0].size>0)
-      return create_response(channelmaterial,garbage[0],student)
+    if(sms)
+      if(channelmaterial[0].size>0)
+        return create_response(channelmaterial,garbage[0],student)
+      else
+        return "You dont have anything due till #{(start+dur)}"
+      end
     else
-      return "You dont have anything due till #{(start+dur)}"
+      return channelmaterial[0]
     end
   end
   

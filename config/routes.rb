@@ -12,7 +12,9 @@ TestBaby::Application.routes.draw do
   get "student/tabber"
   get "student/postview"
   get "student/upvote"
+  get "student/search"
   get "twiliorespp/answerMachine"
+  get "twiliorespp/query"
   get "classrooms/show"
   get 'twilio' => 'twiliorespp#answerMachine'
 

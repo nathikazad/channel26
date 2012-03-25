@@ -13,7 +13,7 @@ ArneshCSC101:
     student_id: 2
 # column: value
 NathikCSC101:
-    channel_id: 2
+    channel_id: 1
     student_id: 1
 #
 MaxCSC101:
@@ -21,7 +21,7 @@ MaxCSC101:
     student_id: 3
 #
 NathikMath141:
-    channel_id: 1
+    channel_id: 2
     student_id: 1
 #
 BrentMath141:

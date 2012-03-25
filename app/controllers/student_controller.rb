@@ -12,10 +12,6 @@ class StudentController < ApplicationController
     end
   end
 
-  def search
-   #ur gonna get the query from params[:query] do ur stuff in here
-  end
-
   def infobox
     @student = Student.find(session[:user_id]);
     @channel = @student.channels[Integer(params[:id])];
@@ -76,6 +72,12 @@ class StudentController < ApplicationController
     #destroy session variable here
     session[:user_id] = nil
     redirect_to student_login_url, :notice => 'logged out'
+  end
+  
+  def search
+   #ur gonna get the query from params[:query] do ur stuff in here
+   redirect_to :controller => 'twiliorespp', :action => 'query' 
+   @msg= params[:assignmentids]
   end
 
 end
