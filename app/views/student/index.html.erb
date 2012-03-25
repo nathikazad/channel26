@@ -44,19 +44,32 @@
     <script>
       $(function() {
 	$(".mychannel").click(function(event){
-	    $('#infobox').html("<p>Loading...</p>");
-	    $('#nutshell').html("<p>Loading...</p>");
-	    $('#calendar').html("<p>Loading...</p>");
-            var infoload = $.ajax({ url: "/student/infobox?id="+(this.id-1), cache: true, success: function(html){
+	    $('#infobox').html("<div>Loading...</div><br/><br/><br/><br/><br/><br/>");
+	    $('#nutshell').html("<p>Loading...</p><br/><br/><br/>");
+	    $('#calendar').html("<div>Loading...</div><br/><br/><br/><br/><br/><br/>");
+	    $('#tabstuff').html("<p>Loading...</p><br/><br/>");
+            $.ajax({ url: "/student/infobox?id="+(this.id-1), cache: true, success: function(html){
+		  $("#infobox").hide();
 		  $("#infobox").html(html);
+		  $("#infobox").fadeIn("slow");
 	      }					
 	    });
-            var nutload = $.ajax({ url: "/student/nutshell?id="+(this.id-1), cache: true, success: function(html){
+            $.ajax({ url: "/student/nutshell?id="+(this.id-1), cache: true, success: function(html){
+		  $("#nutshell").hide();
 		  $("#nutshell").html(html);
+		  $("#nutshell").fadeIn("slow");
 	      }					
 	    });
-            var caload = $.ajax({ url: "/student/calendar?id="+(this.id-1), cache: true, success: function(html){
+            $.ajax({ url: "/student/calendar?id="+(this.id-1), cache: true, success: function(html){
+		  $("#calendar").hide();
 		  $("#calendar").html(html);
+		  $("#calendar").fadeIn("slow");
+	      }					
+	    });
+            $.ajax({ url: "/student/tabber?id="+(this.id-1), cache: true, success: function(html){
+		  $("#tabstuff").hide();
+		  $("#tabstuff").html(html);
+		  $("#tabstuff").fadeIn("slow");
 	      }					
 	    });
 	});
@@ -112,20 +125,10 @@
 	<li><a href="#questions" data-toggle="tab">Questions</a></li>
       </ul>
 
-      <div class="tab-content">
-        <div class="tab-pane active" id="updates">
-	  <ul>
-	    <li>HW2 due date changed from the 23rd to the 25th.</li>
-	    <li>No class on tuesday the 23rd.</li>
-	  </ul>
-	</div>
-	<div class="tab-pane" id="general">
-	  General Stuff
-	</div>
-	<div class="tab-pane" id="questions">
-	  Questions
-	</div>
+      <div id="tabstuff">
+          <%= render(:partial => "tabview", :locals => {:channel => @channels[0]}) %>
       </div>
+
       <script>
         $(function(){ 
 		$('#general').tab('show')

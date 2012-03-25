@@ -28,10 +28,28 @@ class StudentController < ApplicationController
     render(:partial => "assignmentview", :locals => {:assign => @assign});
   end
 
+  def postview
+    @post = Post.find(params[:id]);
+    render(:partial => "postview", :locals => {:post => @post});
+  end
+
+  def upvote
+    @post = Post.find(params[:id]);
+    @post.score += 1
+    @post.save!
+    render(:partial => "upvoteview", :locals => {:post => @post});
+  end
+
   def calendar
     @student = Student.find(session[:user_id]);
     @channel = @student.channels[Integer(params[:id])];
     render(:partial => "calendarview", :locals => {:channel => @channel});
+  end
+
+  def tabber
+    @student = Student.find(session[:user_id]);
+    @channel = @student.channels[Integer(params[:id])];
+    render(:partial => "tabview", :locals => {:channel => @channel});
   end
 
   def login
