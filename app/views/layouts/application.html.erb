@@ -26,7 +26,7 @@
       $("#search").keyup(function(event){
         if(event.keyCode == 13){
 	  $.ajax({ url: "/student/search?query="+escape($(this).val()), cache: true, success: function(html){
-              $("#resultsList").html(html);
+	      $("#resultsList").html(html);
 	      $("#resultsBox").show();
 	    }
 	  });
@@ -34,6 +34,7 @@
       });
     });
   </script>
+
   <!--Navbar-->
   <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
@@ -42,12 +43,29 @@
 	<%= link_to 'Channel26', student_index_path, :class =>"brand" %>
 	<!--Search Box-->
 	<form class="navbar-search pull-left" action="">
-	  <input type="text" class="search-query span6" id="search" placeholder="Search" onblur="$('#resultsBox').hide();">
-	  <div id="resultsBox" class="dropdown-menu" style="display:none;">
+	  <input type="text" class="search-query span6" id="search" placeholder="Search" onblur="stopDisplay();">
+	  <div id="resultsBox" class="dropdown-menu span10" style="display:none;">
 	    <ul id="resultsList">
 	    </ul>
 	  </div>
 	</form>
+<script>
+  function displayAssign(assign)
+  {
+        $.ajax({ url: "/student/assignment?id="+(assign.id), cache: true, success: function(html){
+            $("#showResult").html(html);
+	  }
+        });
+        $("#showResult").modal('show');
+  }
+  function stopDisplay()
+  {
+    setTimeout("$('#resultsBox').hide();",200);
+  }
+</script>
+  <div class="modal" id="showResult" style="display:none;z-index:9999">
+    <p>Loading...</p>
+  </div>
         <!--Logged in Box-->
 	<% if session[:user_id] %>
 	  <ul class="nav nav-list pull-right">

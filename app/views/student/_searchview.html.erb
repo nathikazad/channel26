@@ -1,5 +1,26 @@
+<style>
+  .results {
+    color:black;
+    margin-left:-25px;
+    padding-left:-25px;
+  }
+  .results:hover { 
+    color:white;
+    text-decoration:none;
+    background-color:#0088cc;
+  }
+  .subject {
+    color:#C8C8C8 ;
+  }
+  .dates {
+    color:black;
+    float:right;
+  }
+</style>
+<% noresult = 1 %>
 <% for a in assignments[0] %>
     <% 
+       noresult = 0;
        name = a.name
        if a.atype==0 
          name = "Class#{a.serial}"
@@ -11,5 +32,9 @@
          name = "Midterm#{a.serial}"
        end
     %>
-    <li><%= name %></li>
+    <a href="#assign_<%=a.id%>" id="<%=a.id%>" onclick="displayAssign(this);" class="results"><%= name %><span class="subject"> in <%= a.classroom.channel.name %></span><span class="dates">Due <%= a.due_date.strftime("%A %m/%d/%y") %></span></a>
+<% end %>
+
+<% if noresult==1 %>
+  <p>No results</p>
 <% end %>
