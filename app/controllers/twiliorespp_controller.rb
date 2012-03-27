@@ -47,22 +47,15 @@ class TwilioresppController < ApplicationController
       dur=1
     end
     for @i in 0..@array.length-1  do
-      if((similar(@array[@i],"week")>=75 && similar(@array[@i-1],"this")>=75)) 
+      if(check4sim(["this","week"])) 
         dur=(7-Date.today.cwday)
-        @array.delete_at(@i)
-        @array.delete_at(@i-1)
-      elsif(similar(@array[@i],"thisweek")>=75)
-        dur=(7-Date.today.cwday)
-        @array.delete_at(@i)
-      elsif((similar(@array[@i],"week")>=75 && similar(@array[@i-1],"next")>=75))
+        if(dur<=2)
+          dur=7
+          start=Date.today+(8-Date.today.cwday)
+        end
+      elsif(check4sim(["next","week"]))
         dur=7
         start=Date.today+(8-Date.today.cwday) 
-        @array.delete_at(@i)
-        @array.delete_at(@i-1)
-      elsif(similar(@array[@i],"nextweek")>=75)
-        dur=7
-        start=Date.today+(8-Date.today.cwday)
-        @array.delete_at(@i)
       end
     end
     #Find channels
@@ -134,7 +127,7 @@ class TwilioresppController < ApplicationController
         @array.delete_at(@i)
         return Date.today.tomorrow.tomorrow
       end
-      if(similar(@array[@i],"tomorrow")>=75 || similar(@array[@i],"tom")>=75)
+      if(similar(@array[@i],"tomorrow")>=75 || similar(@array[@i],"tom" || similar(@array[@i],"tmrw")>=75)
         @array.delete_at(@i)
         return Date.today.tomorrow
       end
@@ -197,7 +190,7 @@ class TwilioresppController < ApplicationController
   def find_stuff(channels,start_date,end_date)
     stuff=Array.new(2)
     #test gets deleted
-    assignment_types=[["class","happened"],["hw","home work"],["quiz"],["mid term"],["final"]]
+    assignment_types=[["class","happened","happening"],["hw","home work"],["quiz"],["mid term"],["final"]]
     clubs=Array.new
     classrooms=Array.new
     @i=0
