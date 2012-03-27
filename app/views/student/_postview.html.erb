@@ -1,16 +1,19 @@
 <div class="modal-header">
   <a class="close" data-dismiss="modal">x</a>
-  <h3>Posted at <%=post.created_at%></h3>
+  <h3><%= post.title %> <%=post.created_at%></h3>
 </div>
 <div class="modal-body">
   <div style="float:left;width:58%;">
-    <p class="comment" id="<%=post.id%>"><a href="#"><i class="icon-arrow-up"></i> Relevant</a></p><%= post.content %>
+    <h4><%=post.title%></h4>
+    <p><%= post.content %></p>
+    <p>Posted by: <%= post.poster_id %> at <%=post.created_at.strftime("%m/%d/%y")%>
+    <span class="comment" id="<%=post.id%>"><a href="#"><i class="icon-arrow-up"></i>Relevant</a></span></p>
   </div>
   <div style="float:right;width:40%;max-height:400px;overflow-y: scroll">
     <h4 style="padding-bottom:4px;">Comments:</h4>
     <% for i in post.posts %>
         <blockquote style="margin-bottom:5px">
-	  <%= i.content %><div class="comment" id="<%=i.id%>"><a href="#"><i class="icon-arrow-up"></i> Relevant</a></div>
+	  <%= i.content %><div class="comment" id="<%=i.id%>"><a href="#"><i class="icon-arrow-up"></i>Relevant</a></div>
 	</blockquote>
     <% end %>
   </div>

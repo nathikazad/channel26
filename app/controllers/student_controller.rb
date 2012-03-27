@@ -1,3 +1,5 @@
+require 'uri'
+
 class StudentController < ApplicationController
   def register
     @title = "Register"
@@ -76,8 +78,9 @@ class StudentController < ApplicationController
   
   def search
     #ur gonna get the query from params[:query] do ur stuff in here
-    @msg=generate_response(params[:query])
-    render(:partial => "searchview", :locals => {:assignments => @msg});
+    @query = params[:query]
+    @msg=generate_response(@query)
+    render(:partial => "searchview", :locals => {:assignments => @msg, :query => @query});
   end
   
   @array=Array.new
