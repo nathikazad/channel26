@@ -2,7 +2,7 @@
   <%= redirect_to :controller => "student", :action => "login" %>
 <% else %>
 <div class="container-fluid" style="padding-left:5%;margin-left:auto;margin-right:auto;width:97%">
-<!--<h1> Welcome <%= @teacher.first_name %> </h1>-->
+<h1> Welcome <%= @teacher.first_name %></h1>
   <div class = "row-fluid">
     <!--Left side classes navpanel-->
     <div class="span3">
@@ -20,7 +20,7 @@
 	      <% else %>
 	      <li>
 	      <% end %>
-	        <a href="#class_<%= c.id %>" id="<%= c.id %>" class="mychannel" data-toggle="tab"><%= c.channelable.dept.name %> <%= c.channelable.class_no %></a>
+	        <a href="#class_<%= c.id %>" id="<%= c.id %>" class="mychannel" style="float:left;width:100%;" data-toggle="tab"><%= c.channelable.dept.name %> <%= c.channelable.class_no %></a><span style="float:left;margin-left:-32px;"><a href="#edit" id="<%=c.id%>"class="editAssign" rel="popper" title="Edit Assignments"><i class="icon-edit icon-white" style="margin-top:4px;"></i></a><a href="#settings" id="<%=c.id%>"class="editAssign" rel="popper" title="Class Settings"><i class="icon-cog icon-white" style="margin-top:4px;"></i></a></span>
 	      </li>
 	    <% end %>
 	  <!--Clubs-->
@@ -39,8 +39,41 @@
 
     <!--scripts to handle class changes-->
     <script>
+      var hovering = false;
       $(function() {
+        $(".editAssign").hide();
+        $("a[rel=popper]").tooltip({placement:"left"});
+	$(".mychannel").hover(
+	    function() {
+	      $(".editAssign").show();
+	    }
+	    ,
+	    function(){
+	      var isHovered = $('.editAssign').is(":hover");
+	      if(isHovered)
+	      {
+	        $(".editAssign").hide();
+	      }
+	    }
+        );
+	$(".editAssign").hover(
+	    function() {
+	    }
+	    ,
+	    function() {
+	    }
+        );
+        $(".editAssign").click(function(event){
+            $.ajax({ url: "/teacher/editassignment?id="+(this.id), cache: true, success: function(html){
+		  $("#mainHTML").hide();
+		  $("#replaceHTML").html(html);
+		  $("#replaceHTML").fadeIn("slow");
+	      }					
+	    });
+	});
 	$(".mychannel").click(function(event){
+            $("#replaceHTML").hide();
+	    $("#mainHTML").fadeIn("slow");
 	    $('#infobox').html("<div>Loading...</div><br/><br/><br/><br/><br/><br/>");
 	    $('#nutshell').html("<p>Loading...</p><br/><br/><br/>");
 	    $('#calendar').html("<div>Loading...</div><br/><br/><br/><br/><br/><br/>");
@@ -77,6 +110,10 @@
     <div class="well2" style="height:550px;width:98%;margin-left:-20px;">
 
     <!--Main content-->
+    <div class="span7" id="replaceHTML" style="margin-left:-5px;width:65%;display:none">
+      <p>other div</p>
+    </div>
+    <div id="mainHTML">
     <div class="span7" style="margin-left:-5px;width:65%;">
       <!--info box-->
       <div class="well3 tab-content" id="infobox">
@@ -133,6 +170,7 @@
       </script>
       </div>
     </div>
+  </div>
   </div>
 </div>
 <% end %>

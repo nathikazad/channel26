@@ -49,4 +49,10 @@ class TeacherController < ApplicationController
     render(:partial => "tabview", :locals => {:channel => @channel});
   end
 
+  def editassignment
+    @teacher = Teacher.find(session[:user_id]);
+    @channel = @teacher.channels[Integer(params[:id])];
+    render(:partial => "editassignment", :locals => {:channel => @channel});
+  end
+
 end

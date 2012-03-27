@@ -1,7 +1,7 @@
 <% 
   @all_assignments = channel.channelable.assignments
   time = Time.new
-  for d in 0..5
+  for d in 0..4
       date = Date.parse("#{time.year}-#{time.month}-#{time.day+d}")
 %>
     <div class="entry1">
