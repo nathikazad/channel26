@@ -8,7 +8,6 @@ class CreateTeachers < ActiveRecord::Migration
       t.string :location
       t.string :department
       t.string :number
-      t.string :office_hours
       t.timestamps
     end
   end

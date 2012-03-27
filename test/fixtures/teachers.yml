@@ -11,7 +11,6 @@ Lupo:
     location: Bld 14 Rm 228
     department: Comp Sci
     number: 8057869123
-    office_hours: M12001300.W12001300.F13001400
     username: clupo
     password: 1234
 
@@ -25,7 +24,6 @@ Julie:
     location: Bld 14 Rm 229
     department: Comp Sci
     number: 8057869122
-    office_hours: M15001600.W13001400
     username: jworkman
     password: 1234
     
@@ -37,6 +35,5 @@ Mike:
     location: Bld 38 Rm 229
     department: Math
     number: 8057869342
-    office_hours: M15001600.W13001400
     username: mrobertson
     password: 1234

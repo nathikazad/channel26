@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120323220124) do
+ActiveRecord::Schema.define(:version => 20120327051048) do
 
   create_table "assignments", :force => true do |t|
     t.string   "name"
@@ -121,7 +121,21 @@ ActiveRecord::Schema.define(:version => 20120323220124) do
     t.string   "location"
     t.string   "department"
     t.string   "number"
-    t.string   "office_hours"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "timeperiods", :force => true do |t|
+    t.string   "day"
+    t.date     "date"
+    t.integer  "start_hour"
+    t.integer  "start_min"
+    t.integer  "start_mer"
+    t.integer  "end_hour"
+    t.integer  "end_min"
+    t.integer  "end_mer"
+    t.integer  "periodable_id"
+    t.string   "periodable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

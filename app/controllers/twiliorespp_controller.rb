@@ -22,12 +22,7 @@ class TwilioresppController < ApplicationController
     end
   end
   
-  def query
-    params[:assignmentids]=generate_response(params[:query],Student.find(session[:user_id]).CellPhone,false)
-  end
-  
   def generate_response(msg,number)
-    
     #authenticate
     @array=(msg.downcase.split /[ _,-.''!?]|(\d+)/)
     garbage=delete_useless()
@@ -46,7 +41,8 @@ class TwilioresppController < ApplicationController
     else
       dur=1
     end
-    for @i in 0..@array.length-1  do
+    @i=0
+    while @i < @array.length  do
       if(check4sim(["this","week"])) 
         dur=(7-Date.today.cwday)
         if(dur<=2)
@@ -57,6 +53,7 @@ class TwilioresppController < ApplicationController
         dur=7
         start=Date.today+(8-Date.today.cwday) 
       end
+      @i=@i+1
     end
     #Find channels
     if((channels=find_channels(student)).empty?)
@@ -112,7 +109,7 @@ class TwilioresppController < ApplicationController
     
   end
   
-  def find_when()   
+  def find_when   
     for @i in 0..(@array.length-1)  do
       if(similar(@array[@i],"today")>=75)
         @array.delete_at(@i)
@@ -127,7 +124,7 @@ class TwilioresppController < ApplicationController
         @array.delete_at(@i)
         return Date.today.tomorrow.tomorrow
       end
-      if(similar(@array[@i],"tomorrow")>=75 || similar(@array[@i],"tom" || similar(@array[@i],"tmrw")>=75)
+      if(similar(@array[@i],"tomorrow")>=75 || similar(@array[@i],"tom")>=75 || similar(@array[@i],"tmrw")>=75)
         @array.delete_at(@i)
         return Date.today.tomorrow
       end
@@ -135,7 +132,7 @@ class TwilioresppController < ApplicationController
       for j in 0..(weekdays.size-1) do
         if(similar(@array[@i],weekdays[j][0])>=75 || similar(@array[@i],weekdays[j][1])>=75)
           @array.delete_at(@i)
-          return day_date(j)
+          return day_date(j+1)
         end
       end
     end
@@ -190,12 +187,12 @@ class TwilioresppController < ApplicationController
   def find_stuff(channels,start_date,end_date)
     stuff=Array.new(2)
     #test gets deleted
-    assignment_types=[["class","happened","happening"],["hw","home work"],["quiz"],["mid term"],["final"]]
+    assignment_types=[["class","happened","happening"],["hw","home work"],["quiz"],["mid term"],["final"],["assignment"]] #assignment always at the end after the atypes
     clubs=Array.new
     classrooms=Array.new
     @i=0
     while @i < @array.size  do
-      for j in 0..4 do
+      for j in 0..5 do
         for m in assignment_types[j] do
           words=m.split
           if(check4sim(words))
@@ -212,7 +209,11 @@ class TwilioresppController < ApplicationController
                 end_date=end_date+30
                 limit=20
               end
-              classrooms=classrooms | queryThat(channels,j,nil,start_date,end_date,limit)
+              if(j==assignment_types.size-1)
+                classrooms=classrooms|queryThat(channels,nil,nil,start_date,end_date,limit)
+              else
+                classrooms=classrooms | queryThat(channels,j,nil,start_date,end_date,limit)
+              end
             end
           end
         end
@@ -233,7 +234,7 @@ class TwilioresppController < ApplicationController
       @i=@i+1
     end
     for @i in 0..(@array.size-1)
-      if(similar(@array[@i],"assignment")>75 || similar(@array[@i],"anything")>75 || (classrooms.size==0 && similar(@array[@i],"due")>75 ) )
+      if(similar(@array[@i],"anything")>75 || (classrooms.size==0 && similar(@array[@i],"due")>75 ) )
         classrooms=classrooms|queryThat(channels,nil,nil,start_date,end_date,3)
         @array.delete_at(@i)
         @i=@i-1
@@ -245,6 +246,7 @@ class TwilioresppController < ApplicationController
   end
   
   def queryThat(channels,atype,serial,start_date,end_date,limit)
+    end_date=end_date-1
     classrooms=Array.new
     for k in 0..(channels.size-1) do
       if(channels[k].channelable_type.eql?("Classroom"))
@@ -274,8 +276,8 @@ class TwilioresppController < ApplicationController
     if(check)
       for l in 0..(array2.size-1) do
         @array.delete_at(@i)
-        @i=@i-1
       end
+      @i=@i-1
       return true
     end
     
@@ -294,9 +296,9 @@ class TwilioresppController < ApplicationController
     nextday=@array[@i-1]
     if(similar(nextday,"next")>=75)
       @array.delete_at(@i-1)
-      return Date.today+(day+7)
+      return Date.today+(day-tod+7)
     else
-      return Date.today+(day)
+      return Date.today+(day-tod)
     end
   end
   

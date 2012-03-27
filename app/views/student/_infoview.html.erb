@@ -7,6 +7,14 @@
     <%= @teacher.department %>
   </p>
   <p style="font-size:12px;">
+	<% periods=channel.channelable.timeperiods %>
+	<% ampm=["am","pm"] %>
+	<% for p in 0..(periods.size-1) do %>
+	<% if(p!=0)%>
+	<%= ", "%>
+	<% end %>
+	<%= "#{periods[p].day} #{periods[p].start_hour}:#{ sprintf('%02d',periods[p].start_min)} #{ampm[periods[p].start_mer]} - #{periods[p].end_hour}:#{sprintf('%02d',periods[p].end_min)} #{ampm[periods[p].end_mer]}"%>
+	<% end %>
     <%= channel.channelable.schedule %>
     <br/>
     <%= @teacher.location %>

@@ -3,4 +3,5 @@ class Classroom < ActiveRecord::Base
   attr_accessible :name
   belongs_to :dept
   has_many :assignments, :dependent => :destroy
+  has_many :timeperiods, :as => :periodable, :dependent => :destroy
 end
