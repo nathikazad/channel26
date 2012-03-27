@@ -1,41 +1,41 @@
 <div class="tab-content">
 <% @feeds = channel.feeds %>
 <div class="tab-pane active" id="updates">
-  <ul>
+  <table class="table table-striped">
     <% if @feeds.size > 0 %>
       <% for p in @feeds[0].posts %>
-	  <li><a href="#post_<%=p.id%>" id="<%=p.id%>"><span><%= p.content %></span><span style="float:right"><%= p.posts.count %> comment(s)</span></a></li>
+	  <tr><td><a href="#post_<%=p.id%>" id="<%=p.id%>" class="tabby"><span><%= p.title %></span><span style="float:right"><%= p.posts.count %> comment(s)</span></a></tr></td>
       <% end %>
     <% else %>
       <p>No updates</p>
     <% end %>
-  </ul>
+  </table>
 </div>
 <div class="tab-pane" id="general">
-  <ul>
+  <table class="table table-striped">
     <% if @feeds.size > 0 %>
       <% for p in @feeds[1].posts %>
-	  <li><a href="#post_<%=p.id%>" id="<%=p.id%>"><span><%= p.content %></span><span style="float:right"><%= p.posts.count %> comment(s)</span></a></li>
+	  <tr><td><a href="#post_<%=p.id%>" id="<%=p.id%>" class="tabby"><span><%= p.title %></span><span style="float:right"><%= p.posts.count %> comment(s)</span></a></td></tr>
       <% end %>
     <% else %>
       <p>No general posts</p>
     <% end %>
-  </ul>
+  </table>
 </div>
 <div class="tab-pane" id="questions">
-  <ul>
+  <table class="table table-striped">
     <% if @feeds.size > 0 %>
       <% for p in @feeds[2].posts %>
-	  <li><a href="#post_<%=p.id%>" id="<%=p.id%>"><span><%= p.content %></span><span style="float:right"><%= p.posts.count %> comment(s)</span></a></li>
+	  <tr><td><a href="#post_<%=p.id%>" id="<%=p.id%>" class="tabby"><span><%= p.title %></span><span style="float:right"><%= p.posts.count %> comment(s)</span></a></td></tr>
       <% end %>
     <% else  %>
       <p>No questions</p>
     <% end %>
-  </ul>
+  </table>
 </div>
 </div>
 
-<div class="modal" id="showPost" style="display:none;">
+<div class="modal" id="showPost" style="display:none;width:750px;">
   <p>modal stuff</p>
 </div>
 

@@ -60,12 +60,20 @@ class StudentController < ApplicationController
       user = Student.find_by_username_and_password(params[:user][:username],params[:user][:password])
       if user
         session[:user_id] = user.id
+	session[:user_type] = "student"
         flash[:notice] = "User #{user.first_name} logged in"
         redirect_to :action => "index"
       else
-        # Don't show the password in the view
-        params[:user][:password] = nil
-        flash[:notice] = "Invalid email/password combination"
+	user = Teacher.find_by_username_and_password(params[:user][:username],params[:user][:password])
+	if user
+	  session[:user_id] = user.id
+	  session[:user_type] = "teacher"
+	  redirect_to :controller => "teacher", :action => "index"
+	else
+          # Don't show the password in the view
+          params[:user][:password] = nil
+          flash[:notice] = "Invalid email/password combination"
+	end
       end
     end
   end
@@ -73,6 +81,7 @@ class StudentController < ApplicationController
   def logout
     #destroy session variable here
     session[:user_id] = nil
+    session[:user_type] = nil
     redirect_to student_login_url, :notice => 'logged out'
   end
   

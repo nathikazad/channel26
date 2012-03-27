@@ -1,0 +1,21 @@
+<div class="modal-header">
+  <a class="close" data-dismiss="modal">x</a>
+    <% 
+       name = assign.name
+       if assign.atype==0 
+         name = "Class#{assign.serial}"
+       elsif assign.atype==1
+         name = "HW#{assign.serial}"
+       elsif assign.atype==2
+         name = "Quiz#{assign.serial}"
+       elsif assign.atype==3
+         name = "Midterm#{assign.serial}"
+       end
+    %>
+  <h3><%= name %></h3>
+</div>
+<div class="modal-body">
+  <p><span style="float:left">Assigned: <%= assign.assigned_date %></span><span style="float:right;">Due: <%= assign.due_date %></span></p>
+  <br>
+  <div><%= assign.content %></div>
+</div>

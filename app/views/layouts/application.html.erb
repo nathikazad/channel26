@@ -40,7 +40,11 @@
     <div class="navbar-inner">
       <div class="container-fluid">
         <!--Logo-->
-	<%= link_to 'Channel26', student_index_path, :class =>"brand" %>
+	<% if(session[:user_type]).eql?("teacher") %>
+	  <%= link_to 'Channel26', teacher_index_path, :class =>"brand" %>
+	<% else %>
+	  <%= link_to 'Channel26', student_index_path, :class =>"brand" %>
+	<% end %>
 	<!--Search Box-->
 	<form class="navbar-search pull-left" action="">
 	  <input type="text" class="search-query span6" id="search" placeholder="Search" onblur="stopDisplay();">
@@ -72,7 +76,13 @@
 	  <li class="divider-vertical"> </li>
 	  <li> <%= link_to 'Logout', student_logout_path %> </li>
 	  </ul>
-	  <p class="navbar-text pull-right">Logged in as <a href="#"><%= Student.find(session[:user_id]).first_name %> <%= Student.find(session[:user_id]).last_name %></a></p>
+	  <p class="navbar-text pull-right">Logged in as <a href="#">
+	  <% if session[:user_type].eql?("teacher")%>
+	    <%= Teacher.find(session[:user_id]).first_name %> <%= Teacher.find(session[:user_id]).last_name %>
+	  <% else %>
+	    <%= Student.find(session[:user_id]).first_name %> <%= Student.find(session[:user_id]).last_name %>
+	  <% end %>
+	  </a></p>
         <% else %>
 	  <ul class="nav nav-list pull-right">
 	    <li><%= link_to 'Log In', student_login_path %></li>
