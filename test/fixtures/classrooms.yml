@@ -12,7 +12,6 @@ Math141:
     dept_id: 1
     date_start: 2012-01-04
     date_end: 2012-03-22
-    schedule: MTWR16001800
 # column: value
 #
 CSC101: 
@@ -23,5 +22,4 @@ CSC101:
     dept_id: 2
     date_start: 2012-01-04
     date_end: 2012-03-22
-    schedule: MWF08001000
 #  column: value

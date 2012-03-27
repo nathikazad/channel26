@@ -1,0 +1,97 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+Lupoofficehour1: 
+    id: 1
+    day: MWF
+    date: nil
+    start_hour: 12
+    start_min: 0
+    start_mer: 1
+    end_hour: 1
+    end_min: 0
+    end_mer:  1
+    periodable_id: 1
+    periodable_type: Teacher
+#
+Julieofficehour1: 
+    id: 2
+    day: M
+    date: nil
+    start_hour: 3
+    start_min: 0
+    start_mer: 1
+    end_hour: 4
+    end_min: 0
+    end_mer:  1
+    periodable_id: 2
+    periodable_type: Teacher
+#
+Julieofficehour2: 
+    id: 3
+    day: W
+    date: nil
+    start_hour: 1
+    start_min: 0
+    start_mer: 1
+    end_hour: 2
+    end_min: 0
+    end_mer:  1
+    periodable_id: 2
+    periodable_type: Teacher
+#
+Mikeofficehour1: 
+    id: 4
+    day: M
+    date: nil
+    start_hour: 3
+    start_min: 0
+    start_mer: 1
+    end_hour: 4
+    end_min: 0
+    end_mer:  1
+    periodable_id: 3
+    periodable_type: Teacher
+#
+Mikeofficehour2: 
+    id: 5
+    day: W
+    date: nil
+    start_hour: 1
+    start_min: 0
+    start_mer: 1
+    end_hour: 2
+    end_min: 0
+    end_mer:  1
+    periodable_id: 3
+    periodable_type: Teacher
+#
+Math141: 
+    id: 6
+    day: MTWR
+    date: nil
+    start_hour: 4
+    start_min: 0
+    start_mer: 1
+    end_hour: 6
+    end_min: 0
+    end_mer:  1
+    periodable_id: 1
+    periodable_type: Classroom
+#
+CSC101: 
+    id: 7
+    day: MWF
+    date: nil
+    start_hour: 8
+    start_min: 0
+    start_mer: 0
+    end_hour: 10
+    end_min: 0
+    end_mer:  0
+    periodable_id: 2
+    periodable_type: Classroom
+#
