@@ -1,2 +1,138 @@
-<h1>Teacher#index</h1>
-<p>Find me in app/views/teacher/index.html.erb</p>
+<% if !session[:user_id] %>
+  <%= redirect_to :controller => "student", :action => "login" %>
+<% else %>
+<div class="container-fluid" style="padding-left:5%;margin-left:auto;margin-right:auto;width:97%">
+<!--<h1> Welcome <%= @teacher.first_name %> </h1>-->
+  <div class = "row-fluid">
+    <!--Left side classes navpanel-->
+    <div class="span3">
+      <div class="well sidebar-nav" style="height:550px;">
+        <ul class="nav nav-list">
+	  <!--Classes-->
+	  <li class="nav-header">
+	    <a href="#" style="color:gray;">All Classes</a>
+	  </li>
+	    <% first = 0 %>
+	    <% @channels.each do |c| %>
+	      <% if first==0 %>
+	      <li class="active">
+	      <% first = 1%>
+	      <% else %>
+	      <li>
+	      <% end %>
+	        <a href="#class_<%= c.id %>" id="<%= c.id %>" class="mychannel" data-toggle="tab"><%= c.channelable.dept.name %> <%= c.channelable.class_no %></a>
+	      </li>
+	    <% end %>
+	  <!--Clubs-->
+	  <li class="nav-header">
+	    <a href="#" style="color:gray;">Clubs</a>
+	  </li>
+	    <li>
+	      <a href="#">IEEE</a>
+	    </li>
+	    <li>
+	      <a href="#">ISA</a>
+	    </li>
+	</ul>
+      </div>
+    </div>
+
+    <!--scripts to handle class changes-->
+    <script>
+      $(function() {
+	$(".mychannel").click(function(event){
+	    $('#infobox').html("<div>Loading...</div><br/><br/><br/><br/><br/><br/>");
+	    $('#nutshell').html("<p>Loading...</p><br/><br/><br/>");
+	    $('#calendar').html("<div>Loading...</div><br/><br/><br/><br/><br/><br/>");
+	    $('#tabstuff').html("<p>Loading...</p><br/><br/>");
+            $.ajax({ url: "/student/infobox?id="+(this.id-1), cache: true, success: function(html){
+		  $("#infobox").hide();
+		  $("#infobox").html(html);
+		  $("#infobox").fadeIn("slow");
+	      }					
+	    });
+            $.ajax({ url: "/student/nutshell?id="+(this.id-1), cache: true, success: function(html){
+		  $("#nutshell").hide();
+		  $("#nutshell").html(html);
+		  $("#nutshell").fadeIn("slow");
+	      }					
+	    });
+            $.ajax({ url: "/student/calendar?id="+(this.id-1), cache: true, success: function(html){
+		  $("#calendar").hide();
+		  $("#calendar").html(html);
+		  $("#calendar").fadeIn("slow");
+	      }					
+	    });
+            $.ajax({ url: "/student/tabber?id="+(this.id-1), cache: true, success: function(html){
+		  $("#tabstuff").hide();
+		  $("#tabstuff").html(html);
+		  $("#tabstuff").fadeIn("slow");
+	      }					
+	    });
+	});
+      });
+    </script>
+
+    <div class="span8">
+    <div class="well2" style="height:550px;width:98%;margin-left:-20px;">
+
+    <!--Main content-->
+    <div class="span7" style="margin-left:-5px;width:65%;">
+      <!--info box-->
+      <div class="well3 tab-content" id="infobox">
+          <%= render(:partial => "infoview", :locals => {:channel => @channels[0]}) %>
+      </div>
+      <!--nutshell box-->
+      <div class="well3">
+        <h3> Nutshell</h3>
+	<div class="scrollArea" id="nutshell">
+	  <!--default nutshell-->
+          <%= render(:partial => "nutshellview", :locals => {:channel => @channels[0]}) %>
+	</div>
+      </div>
+    </div>
+
+    <!--Right side calendar etc content-->
+    <div class="span4">
+      <!--calendar box-->
+      <div class="well3">
+        <div id="calendar">
+	  <!--default calendar-->
+          <%= render(:partial => "calendarview", :locals => {:channel => @channels[0]}) %>
+	</div>
+      </div>
+      <!--syllabus box-->
+      <div class="well3">
+        <div class="scrollArea_syll" style="overflow-x:hidden;">
+	  <ul class="nav nav-listnav nav-list">
+	    <li><a href="#">Syllabus</a></li>
+	    <li><a href="#">Course Schedule</a></li>
+	    <li><a href="#">Course Material</a></li>
+	  </ul>
+	</div>
+      </div>
+    </div>
+
+    <!--General | Updates | Questions-->
+    <div class="span11">
+      <div class="well4">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#updates" data-toggle="tab">Updates</a></li>
+	<li><a href="#general" data-toggle="tab">General</a></li>
+	<li><a href="#questions" data-toggle="tab">Questions</a></li>
+      </ul>
+
+      <div id="tabstuff">
+          <%= render(:partial => "tabview", :locals => {:channel => @channels[0]}) %>
+      </div>
+
+      <script>
+        $(function(){ 
+		$('#general').tab('show')
+	})
+      </script>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
