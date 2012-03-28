@@ -50,9 +50,8 @@ class TeacherController < ApplicationController
   end
 
   def editassignment
-    @teacher = Teacher.find(session[:user_id]);
-    @channel = @teacher.channels[Integer(params[:id])];
-    render(:partial => "editassignment", :locals => {:channel => @channel});
+    @assignments = Classroom.find(Integer(params[:id])).assignments;
+    render(:partial => "editassignment", :locals => {:assignments => @assignments});
   end
 
 end

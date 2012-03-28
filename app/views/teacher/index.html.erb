@@ -20,7 +20,7 @@
 	      <% else %>
 	      <li>
 	      <% end %>
-	        <a href="#class_<%= c.id %>" id="<%= c.id %>" class="mychannel" style="float:left;width:100%;" data-toggle="tab"><%= c.channelable.dept.name %> <%= c.channelable.class_no %></a><span style="float:left;margin-left:-32px;"><a href="#edit" id="<%=c.id%>"class="editAssign" rel="popper" title="Edit Assignments"><i class="icon-edit icon-white" style="margin-top:4px;"></i></a><a href="#settings" id="<%=c.id%>"class="editAssign" rel="popper" title="Class Settings"><i class="icon-cog icon-white" style="margin-top:4px;"></i></a></span>
+	        <a href="#class_<%= c.id %>" id="<%= c.id %>" class="mychannel" style="float:left;width:100%;" data-toggle="tab"><%= c.channelable.dept.name %> <%= c.channelable.class_no %></a><span style="float:left;margin-left:-32px;"><a href="#edit" id="<%=c.id%>"class="editAssign" rel="popper" title="Edit Assignments"><i class="icon-edit icon-white" style="margin-top:4px;padding:0px"></i></a><a href="#settings" id="<%=c.id%>"class="editAssign" rel="popper" title="Class Settings"><i class="icon-cog icon-white" style="margin-top:4px;"></i></a></span>
 	      </li>
 	    <% end %>
 	  <!--Clubs-->
@@ -37,74 +37,6 @@
       </div>
     </div>
 
-    <!--scripts to handle class changes-->
-    <script>
-      var hovering = false;
-      $(function() {
-        $(".editAssign").hide();
-        $("a[rel=popper]").tooltip({placement:"left"});
-	$(".mychannel").hover(
-	    function() {
-	      $(".editAssign").show();
-	    }
-	    ,
-	    function(){
-	      var isHovered = $('.editAssign').is(":hover");
-	      if(isHovered)
-	      {
-	        $(".editAssign").hide();
-	      }
-	    }
-        );
-	$(".editAssign").hover(
-	    function() {
-	    }
-	    ,
-	    function() {
-	    }
-        );
-        $(".editAssign").click(function(event){
-            $.ajax({ url: "/teacher/editassignment?id="+(this.id), cache: true, success: function(html){
-		  $("#mainHTML").hide();
-		  $("#replaceHTML").html(html);
-		  $("#replaceHTML").fadeIn("slow");
-	      }					
-	    });
-	});
-	$(".mychannel").click(function(event){
-            $("#replaceHTML").hide();
-	    $("#mainHTML").fadeIn("slow");
-	    $('#infobox').html("<div>Loading...</div><br/><br/><br/><br/><br/><br/>");
-	    $('#nutshell').html("<p>Loading...</p><br/><br/><br/>");
-	    $('#calendar').html("<div>Loading...</div><br/><br/><br/><br/><br/><br/>");
-	    $('#tabstuff').html("<p>Loading...</p><br/><br/>");
-            $.ajax({ url: "/student/infobox?id="+(this.id-1), cache: true, success: function(html){
-		  $("#infobox").hide();
-		  $("#infobox").html(html);
-		  $("#infobox").fadeIn("slow");
-	      }					
-	    });
-            $.ajax({ url: "/student/nutshell?id="+(this.id-1), cache: true, success: function(html){
-		  $("#nutshell").hide();
-		  $("#nutshell").html(html);
-		  $("#nutshell").fadeIn("slow");
-	      }					
-	    });
-            $.ajax({ url: "/student/calendar?id="+(this.id-1), cache: true, success: function(html){
-		  $("#calendar").hide();
-		  $("#calendar").html(html);
-		  $("#calendar").fadeIn("slow");
-	      }					
-	    });
-            $.ajax({ url: "/student/tabber?id="+(this.id-1), cache: true, success: function(html){
-		  $("#tabstuff").hide();
-		  $("#tabstuff").html(html);
-		  $("#tabstuff").fadeIn("slow");
-	      }					
-	    });
-	});
-      });
-    </script>
 
     <div class="span8">
     <div class="well2" style="height:550px;width:98%;margin-left:-20px;">
@@ -174,3 +106,84 @@
   </div>
 </div>
 <% end %>
+    <!--scripts to handle class changes-->
+    <script>
+      //check if # already set
+      var hash = window.location.href.slice(window.location.href.indexOf('#') + 1);
+      var edit = hash.localeCompare("edit");
+      if(edit==0)
+      {
+            $.ajax({ url: "/teacher/editassignment?id="+("0"), cache: true, success: function(html){
+		  $("#mainHTML").hide();
+		  $("#replaceHTML").html(html);
+		  $("#replaceHTML").fadeIn("slow");
+	      }					
+	    });
+      }
+      
+      var hovering = false;
+      $(function() {
+        $(".editAssign").hide();
+        $("a[rel=popper]").tooltip({placement:"top"});
+	$(".mychannel").hover(
+	    function() {
+	      $(".editAssign").show();
+	    }
+	    ,
+	    function(){
+	      var isHovered = $('.editAssign').is(":hover");
+	      if(isHovered)
+	      {
+	        $(".editAssign").hide();
+	      }
+	    }
+        );
+	$(".editAssign").hover(
+	    function() {
+	    }
+	    ,
+	    function() {
+	    }
+        );
+        $(".editAssign").click(function(event){
+            $.ajax({ url: "/teacher/editassignment?id="+(this.id), cache: true, success: function(html){
+		  $("#mainHTML").hide();
+		  $("#replaceHTML").html(html);
+		  $("#replaceHTML").fadeIn("slow");
+	      }					
+	    });
+	});
+	$(".mychannel").click(function(event){
+            $("#replaceHTML").hide();
+	    $("#mainHTML").fadeIn("slow");
+	    $('#infobox').html("<div>Loading...</div><br/><br/><br/><br/><br/><br/>");
+	    $('#nutshell').html("<p>Loading...</p><br/><br/><br/>");
+	    $('#calendar').html("<div>Loading...</div><br/><br/><br/><br/><br/><br/>");
+	    $('#tabstuff').html("<p>Loading...</p><br/><br/>");
+            $.ajax({ url: "/student/infobox?id="+(this.id-1), cache: true, success: function(html){
+		  $("#infobox").hide();
+		  $("#infobox").html(html);
+		  $("#infobox").fadeIn("slow");
+	      }					
+	    });
+            $.ajax({ url: "/student/nutshell?id="+(this.id-1), cache: true, success: function(html){
+		  $("#nutshell").hide();
+		  $("#nutshell").html(html);
+		  $("#nutshell").fadeIn("slow");
+	      }					
+	    });
+            $.ajax({ url: "/student/calendar?id="+(this.id-1), cache: true, success: function(html){
+		  $("#calendar").hide();
+		  $("#calendar").html(html);
+		  $("#calendar").fadeIn("slow");
+	      }					
+	    });
+            $.ajax({ url: "/student/tabber?id="+(this.id-1), cache: true, success: function(html){
+		  $("#tabstuff").hide();
+		  $("#tabstuff").html(html);
+		  $("#tabstuff").fadeIn("slow");
+	      }					
+	    });
+	});
+      });
+    </script>

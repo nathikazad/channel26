@@ -1,7 +1,7 @@
 <% 
   @all_assignments = channel.channelable.assignments.sort! {|a,b| a.due_date <=> b.due_date}
   prevdate=Date.new(2012)%>
-  <p style="margin-left:5px;">
+  <p id="starter" style="margin-left:5px;">
   <% for a in @all_assignments
 	date = a.due_date
 %>
@@ -19,7 +19,7 @@
       <% end %>
 	  
  	  <% end %>
-   <p style="margin-left:5px; margin-bottom:0px; padding-bottom:0px">
+   <p id="date_<%=a.due_date%>" style="margin-left:5px; margin-bottom:0px; padding-bottom:0px">
     
     <% 
        name = a.name
@@ -37,6 +37,7 @@
       
     
     </p>
+    <p id="endpiece"></p>
   <% prevdate=date 
 	end %>
 
@@ -45,6 +46,11 @@
 </div>
 
 <script>
+  function scrollMe(){
+    var newpos = $("#endpiece").position().top - $("#date_<%=Date.today+1%>").position().top + 115;
+    $('#nutshell').animate({scrollTop: newpos},'slow');
+  }
+  scrollMe();
   $(function() {
     $("a[rel=popover]").popover();
     $(".assignments").click(function(event){
