@@ -1,40 +1,45 @@
 <% 
-  @all_assignments = channel.channelable.assignments
-  time = Time.new
-  for d in 0..4
-      date = Date.parse("#{time.year}-#{time.month}-#{time.day+d}")
+  @all_assignments = channel.channelable.assignments.sort! {|a,b| a.due_date <=> b.due_date}
+  prevdate=Date.new(2012)%>
+  <p style="margin-left:5px;">
+  <% for a in @all_assignments
+	date = a.due_date
 %>
-    <div class="entry1">
-      <% if d==0 %>
+    
+	<% if(date-prevdate!=0)%>
+	  <p class="drawline">
+	  </p> 
+	  </p>
+      <% if Integer(a.due_date-Date.today)==0 %>
       <h4><%= date.strftime("Today %m/%d/%y") %></h4>
-      <% elsif d==1 %>
+      <% elsif Integer(a.due_date-Date.today)==1 %>
       <h4><%= date.strftime("Tomorrow %m/%d/%y") %></h4>
       <% else %>
       <h4><%= date.strftime("%A %m/%d/%y") %></h4>
       <% end %>
-      <p style="margin-left:5px;">
-    <%
-      @assignments = @all_assignments.find(:all, :conditions => {:due_date => date});
-        for a in @assignments
-    %>
+	  
+ 	  <% end %>
+		
+   <p style="margin-left:5px; margin-bottom:0px; padding-bottom:0px">
+    
     <% 
        name = a.name
        if a.atype==0 
-         name = "Class#{a.serial}"
+         name = "Class #{a.serial}"
        elsif a.atype==1
-         name = "HW#{a.serial}"
+         name = "HW #{a.serial}"
        elsif a.atype==2
-         name = "Quiz#{a.serial}"
+         name = "Quiz #{a.serial}"
        elsif a.atype==3
-         name = "Midterm#{a.serial}"
+         name = "Midterm #{a.serial}"
        end
     %>
-          <a href="#assign_<%= a.id %>" class="assignments" id="<%= a.id %>" rel="popover" title="<%= name %>" data-content="<%= a.content %>"><%= name %></a><br>
-        <% end %>
-      </p>
-    </div>
-    <p class="drawline"></p> 
-  <% end %>
+         <span> <a href="#assign_<%= a.id %>" class="assignments" id="<%= a.id %>" ><%= name %></a></span><span> on <%= a.content %> </span>
+      
+    
+    </p>
+  <% prevdate=date 
+	end %>
 
 <div class="modal" id="showAssign" style="display:none;">
   <p>modal stuff</p>
