@@ -4,10 +4,10 @@
 </div>
 <div class="modal-body">
   <ul class="nav nav-tabs">
-    <li><a href="#syllabus" data-toggle="tab" class="active">Syllabus</a></li>
-    <li><a href="#schedules" data-toggle="tab">Course Schedule</a></li>
-    <li><a href="#course" data-toggle="tab">Course Material</a></li>
-    <li><a href="#students" data-toggle="tab">Student List</a></li>
+    <li class="<%if type==0%>active<%end%>"><a href="#syllabus" data-toggle="tab">Syllabus</a></li>
+    <li class="<%if type==1%>active<%end%>"><a href="#schedules" data-toggle="tab">Course Schedule</a></li>
+    <li class="<%if type==2%>active<%end%>"><a href="#course" data-toggle="tab">Course Material</a></li>
+    <li class="<%if type==3%>active<%end%>"><a href="#students" data-toggle="tab">Student List</a></li>
   </ul>
   <div class="tab-content">
     <div class="tab-pane <%if type==0 %>active<% end %>" id="syllabus">syllabus</div>
