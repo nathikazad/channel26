@@ -108,9 +108,10 @@
       <div class="well3">
         <div class="scrollArea_syll" style="overflow-x:hidden;">
 	  <ul class="nav nav-listnav nav-list">
-	    <li><a href="#">Syllabus</a></li>
-	    <li><a href="#">Course Schedule</a></li>
-	    <li><a href="#">Course Material</a></li>
+	    <li><a href="#syllabus" id="0" class="syll">Syllabus</a></li>
+	    <li><a href="#schedule" id="1" class="syll">Course Schedule</a></li>
+	    <li><a href="#course" id="2" class="syll">Course Material</a></li>
+	    <li><a href="#students" id="3" class="syll">Student List</a></li>
 	  </ul>
 	</div>
       </div>
@@ -138,4 +139,19 @@
     </div>
   </div>
 </div>
+        <div class="modal" id="showSyll" style="display:none;">
+           <p>loading...</p>
+        </div>
+	<script>
+          $(function() {
+            $(".syll").click(function(event){
+              $.ajax({ url: "/student/syllabus?type="+(this.id), cache: true, success: function(html){
+                  $("#showSyll").html(html)
+	        }
+              });
+              $("#showSyll").modal('show');
+            });
+          });
+	</script>
+      </div>
 <% end %>

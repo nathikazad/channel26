@@ -1,0 +1,35 @@
+<h3>Assignments</h3>
+<div class="well" style="background-color:white;width:155%;height:425px;overflow-y:scroll;padding:0px;margin-bottom:0px">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+	<th>Description</th>
+	<th>Assigned</th>
+	<th>Due</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for a in assignments %>
+    <% 
+       name = a.name
+       if a.atype==0 
+         name = "Class#{a.serial}"
+       elsif a.atype==1
+         name = "HW#{a.serial}"
+       elsif a.atype==2
+         name = "Quiz#{a.serial}"
+       elsif a.atype==3
+         name = "Midterm#{a.serial}"
+       end
+    %>
+      <tr>
+        <td><%=name%></td>
+	<td><%=a.content%></td>
+	<td><%=a.assigned_date%></td>
+	<td><%=a.due_date%></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

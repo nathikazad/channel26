@@ -91,6 +91,11 @@ class StudentController < ApplicationController
     @msg=generate_response(@query)
     render(:partial => "searchview", :locals => {:assignments => @msg, :query => @query});
   end
+
+  def syllabus
+    type = Integer(params[:type])
+    render(:partial => "syllabusview", :locals => {:type => type});
+  end
   
   @array=Array.new
   @i=0

@@ -42,15 +42,11 @@
 	end %>
 
 <div class="modal" id="showAssign" style="display:none;">
-  <p>modal stuff</p>
+  <p>Loading...</p>
 </div>
 
 <script>
-  function scrollMe(){
-    var newpos = $("#endpiece").position().top - $("#date_<%=Date.today+1%>").position().top + 115;
-    $('#nutshell').animate({scrollTop: newpos},'slow');
-  }
-  scrollMe();
+  //scrollMe();
   $(function() {
     $("a[rel=popover]").popover();
     $(".assignments").click(function(event){
@@ -61,4 +57,8 @@
       $("#showAssign").modal('show');
     });
   });
+  /*function scrollMe(){
+    var newpos = $("#endpiece").position().top - $("#date_<%=Date.today+1%>").position().top + 115;
+    $('#nutshell').animate({scrollTop: newpos},'slow');
+  }*/
 </script>

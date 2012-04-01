@@ -15,6 +15,7 @@ TestBaby::Application.routes.draw do
   get "student/postview"
   get "student/upvote"
   get "student/search"
+  get "student/syllabus"
   get "teacher/editassignment"
   get "twiliorespp/answerMachine"
   get "twiliorespp/query"

@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <a class="close" data-dismiss="modal">x</a>
+  <h3>Syllabus Info</h3>
+</div>
+<div class="modal-body">
+  <ul class="nav nav-tabs">
+    <li><a href="#syllabus" data-toggle="tab" class="active">Syllabus</a></li>
+    <li><a href="#schedules" data-toggle="tab">Course Schedule</a></li>
+    <li><a href="#course" data-toggle="tab">Course Material</a></li>
+    <li><a href="#students" data-toggle="tab">Student List</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane <%if type==0 %>active<% end %>" id="syllabus">syllabus</div>
+    <div class="tab-pane <%if type==1 %>active<% end %>" id="syllabus">sched</div>
+    <div class="tab-pane <%if type==2 %>active<% end %>" id="syllabus">course material</div>
+    <div class="tab-pane <%if type==3 %>active<% end %>" id="syllabus">student list</div>
+  </div>
+</div>

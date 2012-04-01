@@ -113,7 +113,7 @@
       var edit = hash.localeCompare("edit");
       if(edit==0)
       {
-            $.ajax({ url: "/teacher/editassignment?id="+("0"), cache: true, success: function(html){
+            $.ajax({ url: "/teacher/editassignment?id="+("1"), cache: true, success: function(html){
 		  $("#mainHTML").hide();
 		  $("#replaceHTML").html(html);
 		  $("#replaceHTML").fadeIn("slow");
