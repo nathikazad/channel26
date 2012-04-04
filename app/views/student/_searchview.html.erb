@@ -18,21 +18,24 @@
   }
 </style>
 <% noresult = 1 %>
-<% for a in assignments[0] %>
-    <% 
-       noresult = 0;
-       name = a.name
-       if a.atype==0 
-         name = "Class#{a.serial}"
-       elsif a.atype==1
-         name = "HW#{a.serial}"
-       elsif a.atype==2
-         name = "Quiz#{a.serial}"
-       elsif a.atype==3
-         name = "Midterm#{a.serial}"
+
+<% i=0 %>
+<% while i<assignments.size %>
+ 	<% 
+       noresult = 0
+       name = assignments[i].name
+       if assignments[i].atype==0 
+         name = "Class#{assignments[i].serial}"
+       elsif assignments[i].atype==1
+         name = "HW#{assignments[i].serial}"
+       elsif assignments[i].atype==2
+         name = "Quiz#{assignments[i].serial}"
+       elsif assignments[i].atype==3
+         name = "Midterm#{assignments[i].serial}"
        end
     %>
-    <a href="#assign_<%=a.id%>" id="<%=a.id%>" onclick="displayAssign(this);" class="results"><%= name %><span class="subject"> in <%= a.classroom.channel.name %></span><span class="dates">Due <%= a.due_date.strftime("%A %m/%d/%y") %></span></a>
+    <a href="#assign_<%=assignments[i].id%>" id="<%=assignments[i].id%>" onclick="displayAssign(this);" class="results"><%= name %><span class="subject"> in <%= assignments[i].classroom.channel.name %></span><span class="dates">Due <%= assignments[i].due_date.strftime("%A %m/%d/%y") %></span></a>
+	<% i=i+1 %>
 <% end %>
 
 <% if noresult==1 %>
