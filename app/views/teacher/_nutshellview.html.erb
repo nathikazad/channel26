@@ -1,0 +1,64 @@
+<% 
+  @all_assignments = channel.channelable.assignments.sort! {|a,b| a.due_date <=> b.due_date}
+  prevdate=Date.new(2012)%>
+  <p id="starter" style="margin-left:5px;">
+  <% for a in @all_assignments
+	date = a.due_date
+%>
+    
+	<% if(date-prevdate!=0)%>
+	  <p class="drawline">
+	  </p> 
+	  </p>
+      <% if Integer(a.due_date-Date.today)==0 %>
+      <h4><%= date.strftime("Today %m/%d/%y") %></h4>
+      <% elsif Integer(a.due_date-Date.today)==1 %>
+      <h4><%= date.strftime("Tomorrow %m/%d/%y") %></h4>
+      <% else %>
+      <h4><%= date.strftime("%A %m/%d/%y") %></h4>
+      <% end %>
+	  
+ 	  <% end %>
+   <p id="date_<%=a.due_date%>" style="margin-left:5px; margin-bottom:0px; padding-bottom:0px">
+    
+    <% 
+       name = a.name
+       if a.atype==0 
+         name = "Class#{a.serial}"
+       elsif a.atype==1
+         name = "HW#{a.serial}"
+       elsif a.atype==2
+         name = "Quiz#{a.serial}"
+       elsif a.atype==3
+         name = "Midterm#{a.serial}"
+       end
+    %>
+         <span> <a href="#assign_<%= a.id %>" class="assignments" id="<%= a.id %>" ><%= name %></a></span><span> on <%= a.content %> </span>
+      
+    
+    </p>
+    <p id="endpiece"></p>
+  <% prevdate=date 
+	end %>
+
+<div class="modal" id="showAssign" style="display:none;">
+  <p>Loading...</p>
+</div>
+
+<script>
+  //scrollMe();
+  $(function() {
+    $("a[rel=popover]").popover();
+    $(".assignments").click(function(event){
+      $.ajax({ url: "/student/assignment?id="+(this.id), cache: true, success: function(html){
+          $("#showAssign").html(html)
+	}
+      });
+      $("#showAssign").modal('show');
+    });
+  });
+  /*function scrollMe(){
+    var newpos = $("#endpiece").position().top - $("#date_<%=Date.today+1%>").position().top + 115;
+    $('#nutshell').animate({scrollTop: newpos},'slow');
+  }*/
+</script>
