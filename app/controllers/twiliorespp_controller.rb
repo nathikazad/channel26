@@ -26,7 +26,7 @@ class TwilioresppController < ApplicationController
     #authenticate
     @array=(msg.downcase.split /[ _,-.''!?]|(\d+)/)
     garbage=delete_useless()
-    student=Student.find_by_CellPhone(number)
+    student=Student.find(1)#_by_CellPhone(number)
     if student.nil?
       return "Sorry, I can't find you"
     end
