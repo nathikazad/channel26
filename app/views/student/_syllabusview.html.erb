@@ -11,8 +11,12 @@
   </ul>
   <div class="tab-content">
     <div class="tab-pane <%if type==0 %>active<% end %>" id="syllabus">syllabus</div>
-    <div class="tab-pane <%if type==1 %>active<% end %>" id="syllabus">sched</div>
-    <div class="tab-pane <%if type==2 %>active<% end %>" id="syllabus">course material</div>
-    <div class="tab-pane <%if type==3 %>active<% end %>" id="syllabus">student list</div>
+    <div class="tab-pane <%if type==1 %>active<% end %>" id="schedules">sched</div>
+    <div class="tab-pane <%if type==2 %>active<% end %>" id="course">course material</div>
+    <div class="tab-pane <%if type==3 %>active<% end %>" id="students">
+       <% for c in channel.students %>
+         <p><%=c.first_name%> <%=c.last_name%></p>
+       <% end%>
+    </div>
   </div>
 </div>

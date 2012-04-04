@@ -55,19 +55,46 @@ class StudentController < ApplicationController
     render(:partial => "tabview", :locals => {:channel => @channel});
   end
 
+  def newpost
+  end
+
+  def newcomment
+    parent_id = Integer(params[:pid])
+    text = params[:text]
+    
+    @post = Post.new
+    @post.content = text
+    @post.score = 0
+    @post.postable_id = parent_id
+    @post.postable_type = "Post"
+    @post.poster_id = session[:user_id]
+    @post.poster_type = session[:user_type]
+    @post.save!
+    render :inline => '<div class="alert alert-success">Thanks for commenting</div>'
+  end
+
+  def profile
+    if params[:type].eql?"Student"
+      @person = Student.find(Integer(params[:id]));
+    else
+      @person = Teacher.find(Integer(params[:id]));
+    end
+    render(:partial => "profileview", :locals => {:person => @person});
+  end
+
   def login
     if request.post?
       user = Student.find_by_username_and_password(params[:user][:username],params[:user][:password])
       if user
         session[:user_id] = user.id
-	session[:user_type] = "student"
+	session[:user_type] = "Student"
         flash[:notice] = "User #{user.first_name} logged in"
         redirect_to :action => "index"
       else
 	user = Teacher.find_by_username_and_password(params[:user][:username],params[:user][:password])
 	if user
 	  session[:user_id] = user.id
-	  session[:user_type] = "teacher"
+	  session[:user_type] = "Teacher"
 	  redirect_to :controller => "teacher", :action => "index"
 	else
           # Don't show the password in the view
@@ -93,8 +120,10 @@ class StudentController < ApplicationController
   end
 
   def syllabus
+    @student = Student.find(session[:user_id])
+    @channel = @student.channels[Integer(params[:id])]
     type = Integer(params[:type])
-    render(:partial => "syllabusview", :locals => {:type => type});
+    render(:partial => "syllabusview", :locals => {:type => type, :channel => @channel})
   end
   
   @array=Array.new

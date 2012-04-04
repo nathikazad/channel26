@@ -16,6 +16,8 @@ TestBaby::Application.routes.draw do
   get "student/upvote"
   get "student/search"
   get "student/syllabus"
+  get "student/profile"
+  get "student/newcomment"
   get "teacher/editassignment"
   get "twiliorespp/answerMachine"
   get "twiliorespp/query"
@@ -43,6 +45,7 @@ TestBaby::Application.routes.draw do
   match 'student/postview', :to => 'student#postview'
   match 'student/upvoteview', :to => 'student#upvote'
   match 'student/search', :to => 'student#search'
+  match 'student/newcomment', :to => 'student#newcomment'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
