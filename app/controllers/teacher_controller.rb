@@ -60,7 +60,7 @@ class TeacherController < ApplicationController
     app_secret = 'eb7lajdr7tua44l'
     session[:drop] = DropboxSession.new(app_key, app_secret)
     request_token=session[:drop].get_request_token
-    redirect_to session[:drop].get_authorize_url("http://localhost:4000/teacher/dropbox_redirect")
+    redirect_to session[:drop].get_authorize_url("http://falling-light-2723.heroku.com/teacher/dropbox_redirect")
   end
   
   def dropbox_redirect
