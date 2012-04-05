@@ -126,5 +126,16 @@ class StudentController < ApplicationController
     render(:partial => "syllabusview", :locals => {:type => type, :channel => @channel})
   end
   
-
+  def dropbox
+    @student = Student.find(session[:user_id])
+    @channel = Channel.find(1)#@student.channels[Integer(params[:id])]
+    @teacher = @channel.leader
+    access_type = :app_folder
+    boxval=Marshal.load(@teacher.dropbox)
+    client = DropboxClient.new(boxval, access_type)
+    file_metadata = client.metadata('/')
+    @msg= "#{client.metadata('/').inspect}"
+    out, metadata = client.get_file_and_metadata('/utt.txt')
+    open('utt.txt', 'w') {|f| f.puts out }
+  end
 end

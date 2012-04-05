@@ -121,7 +121,7 @@ ActiveRecord::Schema.define(:version => 20120327051048) do
     t.string   "location"
     t.string   "department"
     t.string   "number"
-    t.string   "office_hours"
+    t.text     "dropbox"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
