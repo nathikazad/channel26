@@ -131,7 +131,7 @@ class StudentController < ApplicationController
     @channel = Channel.find(1)#@student.channels[Integer(params[:id])]
     @teacher = @channel.leader
     access_type = :app_folder
-    boxval=Marshal.load(@teacher.dropbox)
+    boxval=DropboxSession.deserialize(@teacher.dropbox)
     client = DropboxClient.new(boxval, access_type)
     file_metadata = client.metadata('/')
     @msg= "#{client.metadata('/').inspect}"
