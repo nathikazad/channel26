@@ -2815,7 +2815,7 @@ button.btn.small, input[type="submit"].btn.small {
   top: 50%;
   left: 50%;
   z-index: 1050;
-  height: 250px;
+  height: 380px;
   max-height: 500px;
   overflow: auto;
   width: 560px;
