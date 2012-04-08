@@ -1,9 +1,8 @@
 class AssignmentsController < ApplicationController
   
   #return @assignments, like @assignment[0] has an array of assignments with atype = 0, sorted in order of serial
-  def view
-    @student    = Student.find(session[:user_id])
-    @classroom  = @student.classroom.find(params[:id])
+  def viewassignments
+    @classroom  = Classroom.find(Integer(params[:id]))
     @assignments= Array.new
     @assdata    = Array.new
     for i in 0..4 do
