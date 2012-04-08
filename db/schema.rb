@@ -10,7 +10,31 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120327051048) do
+ActiveRecord::Schema.define(:version => 20120407224238) do
+
+  create_table "assdatas", :force => true do |t|
+    t.integer  "atype"
+    t.integer  "total"
+    t.integer  "choose"
+    t.integer  "out_of"
+    t.integer  "p_of_a"
+    t.boolean  "submit_online"
+    t.integer  "classroom_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "assgns_datas", :force => true do |t|
+    t.integer  "atype"
+    t.integer  "total"
+    t.integer  "choose"
+    t.integer  "out_of"
+    t.integer  "p_of_a"
+    t.boolean  "submit_online"
+    t.integer  "classroom_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "assignments", :force => true do |t|
     t.string   "name"

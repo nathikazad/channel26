@@ -128,7 +128,7 @@ class StudentController < ApplicationController
   
   def dropbox
     @student = Student.find(session[:user_id])
-    @channel = Channel.find(1)#@student.channels[Integer(params[:id])]
+    @channel = @student.channels.find(params[:id])
     @teacher = @channel.leader
     access_type = :app_folder
     boxval=DropboxSession.deserialize(@teacher.dropbox)

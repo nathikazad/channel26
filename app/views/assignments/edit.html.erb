@@ -1,0 +1,17 @@
+<h1>Assignments#edit</h1>
+<p>Find me in app/views/assignments/edit.html.erb</p>
+<%= form_for(@assignment) do |f| %>
+<div class="field">
+<%= f.label :atype %><br />
+<%= f.text_field :atype %> </div>
+<div class="actions">
+<%= f.submit "Update" %> </div>
+<% end %>
+<%= form_for(@assignment) do |f| %>
+<div class="field">
+<%= f.label :due_date %><br /> 
+<%= f.text_field :due_date %>
+</div>
+<div class="actions">
+<%= f.submit "Update" %> </div>
+<% end %>

@@ -7,7 +7,6 @@
 Lupoofficehour1: 
     id: 1
     day: MWF
-    date: nil
     start_hour: 12
     start_min: 0
     start_mer: 1
@@ -20,7 +19,6 @@ Lupoofficehour1:
 Julieofficehour1: 
     id: 2
     day: M
-    date: nil
     start_hour: 3
     start_min: 0
     start_mer: 1
@@ -33,7 +31,6 @@ Julieofficehour1:
 Julieofficehour2: 
     id: 3
     day: W
-    date: nil
     start_hour: 1
     start_min: 0
     start_mer: 1
@@ -46,7 +43,6 @@ Julieofficehour2:
 Mikeofficehour1: 
     id: 4
     day: M
-    date: nil
     start_hour: 3
     start_min: 0
     start_mer: 1
@@ -59,7 +55,6 @@ Mikeofficehour1:
 Mikeofficehour2: 
     id: 5
     day: W
-    date: nil
     start_hour: 1
     start_min: 0
     start_mer: 1
@@ -72,7 +67,6 @@ Mikeofficehour2:
 Math141: 
     id: 6
     day: MTWR
-    date: nil
     start_hour: 4
     start_min: 0
     start_mer: 1
@@ -85,7 +79,6 @@ Math141:
 CSC101: 
     id: 7
     day: MWF
-    date: nil
     start_hour: 8
     start_min: 0
     start_mer: 0

@@ -46,7 +46,6 @@ class ApplicationController < ActionController::Base
     #find channel related material
     
     channelmaterial=find_stuff(channels,start,(start+dur))
-    #debugger
     #create readable response
 
     if(twilio)
