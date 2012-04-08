@@ -8,6 +8,7 @@ class CreateTeachers < ActiveRecord::Migration
       t.string :location
       t.string :department
       t.string :number
+      t.text   :dropbox
       t.timestamps
     end
   end

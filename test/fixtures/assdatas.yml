@@ -1,0 +1,46 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+CR1Classes: 
+    id              : 1
+    atype           : 0
+    total           : 6
+    drop            : 0
+    out_of          : 0
+    p_of_a          : 0
+    submit_online   : false
+    classroom_id    : 1
+#
+CR2HWs: 
+    id              : 2
+    atype           : 1
+    total           : 3
+    drop            : 0
+    out_of          : 10
+    p_of_a          : 15
+    submit_online   : false
+    classroom_id    : 1
+#
+CR2Quizzes: 
+    id              : 3
+    atype           : 2
+    total           : 3
+    drop            : 0
+    out_of          : 10
+    p_of_a          : 15
+    submit_online   : false
+    classroom_id    : 1
+#
+CR2MTs: 
+    id              : 4
+    atype           : 3
+    total           : 1
+    drop            : 0
+    out_of          : 100
+    p_of_a          : 40
+    submit_online   : false
+    classroom_id    : 1
+#
