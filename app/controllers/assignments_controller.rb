@@ -1,6 +1,5 @@
 class AssignmentsController < ApplicationController
   
-  #pass in the session[:user_id] and the index of the channel not the id
   #return @assignments, like @assignment[0] has an array of assignments with atype = 0, sorted in order of serial
   def view
     @student    = Student.find(session[:user_id])
@@ -12,6 +11,7 @@ class AssignmentsController < ApplicationController
       @assignments[i].insert(0,nil) #so the indexes will match the serial
       @assdata[i]=@classroom.assdatas.find_by_atype(0)
     end
+    render(:partial => "viewassignments", :locals => {:assignments => @assignments, :assdata => @assdata});
   end
   
   # set the params[:assignment], which is a hash array and assign attributes like this
