@@ -15,19 +15,7 @@ ActiveRecord::Schema.define(:version => 20120407224238) do
   create_table "assdatas", :force => true do |t|
     t.integer  "atype"
     t.integer  "total"
-    t.integer  "choose"
-    t.integer  "out_of"
-    t.integer  "p_of_a"
-    t.boolean  "submit_online"
-    t.integer  "classroom_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "assgns_datas", :force => true do |t|
-    t.integer  "atype"
-    t.integer  "total"
-    t.integer  "choose"
+    t.integer  "drop"
     t.integer  "out_of"
     t.integer  "p_of_a"
     t.boolean  "submit_online"
@@ -37,15 +25,21 @@ ActiveRecord::Schema.define(:version => 20120407224238) do
   end
 
   create_table "assignments", :force => true do |t|
-    t.string   "name"
     t.integer  "serial"
     t.integer  "atype"
-    t.date     "assigned_date"
-    t.date     "due_date"
+    t.datetime "assigned_date"
+    t.datetime "due_date"
+    t.string   "name"
     t.text     "content"
+    t.string   "links"
+    t.string   "soln_links"
+    t.datetime "soln_release"
     t.integer  "p_o_a"
     t.integer  "out_of"
     t.integer  "classroom_id"
+    t.boolean  "submit_online"
+    t.boolean  "other_assignment"
+    t.string   "other_assgn_name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -112,6 +106,7 @@ ActiveRecord::Schema.define(:version => 20120407224238) do
     t.integer  "score"
     t.integer  "poster_id"
     t.string   "poster_type"
+    t.datetime "posted_time"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
