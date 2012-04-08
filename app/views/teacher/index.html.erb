@@ -64,7 +64,7 @@
 	    }
         );
         $(".editAssign").click(function(event){
-            $.ajax({ url: "/assignments/view?id="+(this.id), cache: true, success: function(html){
+            $.ajax({ url: "/assignments/viewassignments?id="+(this.id), cache: true, success: function(html){
 		  $("#mainHTML").hide();
 		  $("#replaceHTML").html(html);
 		  $("#replaceHTML").fadeIn("slow");
@@ -181,7 +181,7 @@
       var edit = hash.localeCompare("edit");
       if(edit==0)
       {
-            $.ajax({ url: "/teacher/editassignment?id="+("1"), cache: true, success: function(html){
+            $.ajax({ url: "/assignments/viewassignments?id="+("1"), cache: true, success: function(html){
 		  $("#mainHTML").hide();
 		  $("#replaceHTML").html(html);
 		  $("#replaceHTML").fadeIn("slow");
