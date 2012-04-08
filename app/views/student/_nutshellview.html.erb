@@ -1,6 +1,6 @@
 <% 
   @all_assignments = channel.channelable.assignments.sort! {|a,b| a.due_date <=> b.due_date}
-  prevdate=Date.new(2012)%>
+  prevdate=Date.new(2000)%>
   <p id="starter" style="margin-left:5px;">
   <% for a in @all_assignments
 	date = a.due_date
