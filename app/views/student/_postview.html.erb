@@ -17,15 +17,8 @@
     <p><%= post.content %></p>
   </div>
   <div style="float:right;width:40%">
-    <div id="newcomment">
-      <%= form_tag( { :controller => "student", :action => "newcomment", :method => post }, { :remote => true } ) do %>
-	<%= text_area_tag(:text, "", :size => "24x2", :placeholder=>"new comment", :style=>"resize:none;") %>
-	<%= hidden_field_tag(:pid, post.id) %>
-	<%= submit_tag("Add Comment")%>
-      <% end %>
-    </div>
-  <div style="min-height:150px;max-height:400px;overflow-y: scroll">
     <h4 style="padding-bottom:4px;">Comments:</h4>
+  <div id="comments" style="min-height:150px;max-height:170px;overflow-y: scroll">
     <% for i in post.posts %>
       <%
         if(i.poster_type.eql?"Student")
@@ -35,11 +28,16 @@
         end
       %>
         <blockquote style="margin-bottom:5px;" id="<%=person.id%>" name="<%=i.poster_type%>">
-	  <p style="font-size:12px;"><%= i.content %></p>
+	  <p style="font-size:12px;" id="<%=person.id%>" name="<%=i.poster_type%>"><%= i.content %></p>
 	    <span class="hover"><%= person.first_name %> <%= person.last_name %></span><span> <%= i.created_at.strftime("%m/%d/%y")%></span><span class="comment" id="<%=i.id%>"><a href="#"><i class="icon-arrow-up"></i>Relevant</a></span>
 	</blockquote>
     <% end %>
   </div>
+    <div id="newcomment" style="margin-top:10px;">
+      <form id="commentform" action="" method="get">
+        <textarea cols="120" rows="2" name="content" id="contentbox" style="resize:none;"></textarea>
+	<input id="btnsubmit" class="btn btn-success" type="submit" name="btnsubmit" value="Add Comment"/>
+    </div>
   </div>
 </div>
 
@@ -65,6 +63,14 @@
           $(this).html("Thanks for upvoting!");
           $(this).fadeIn("slow");
       }
+    });
+    $("#commentform").submit(function() {
+        $.ajax({url: "/student/newcomment?pid="+("<%=post.id%>")+"&text="+($("#contentbox").val()), cache: true, success: function(html){
+	    $('#comments').append(html); 	
+	    $("#comments").animate({ scrollTop: 3600 }, "slow");
+          }
+	});
+	return false;
     });
   });
 </script>

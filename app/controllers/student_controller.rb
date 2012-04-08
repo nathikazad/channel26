@@ -70,7 +70,7 @@ class StudentController < ApplicationController
     @post.poster_id = session[:user_id]
     @post.poster_type = session[:user_type]
     @post.save!
-    render :inline => '<div class="alert alert-success">Thanks for commenting</div>'
+    render(:partial => "postedview", :locals => {:post => @post});
   end
 
   def profile
