@@ -68,7 +68,6 @@ class TeacherController < ApplicationController
     access_type = :app_folder
     @teacher = Teacher.find(session[:user_id]);
     @teacher.dropbox=Marshal.dump(session[:drop])
-    @teacher.dropbox=session[:drop].serialize
     @teacher.save
     session[:drop]=nil
   end

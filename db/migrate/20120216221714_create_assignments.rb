@@ -4,13 +4,13 @@ class CreateAssignments < ActiveRecord::Migration
       t.integer  :serial
       t.integer  :atype
       # 0-class, 1-hw, 2-quiz, 3-mid term, 4-final
-      t.datetime :assigned_date
-      t.datetime :due_date
+      t.date :assigned_date
+      t.date     :due_date
       t.string   :name
       t.text     :content
       t.string   :links
       t.string   :soln_links
-      t.datetime :soln_release
+      t.date     :soln_release
       t.integer  :p_o_a #percent of assignment
       t.integer  :out_of
       t.integer  :classroom_id

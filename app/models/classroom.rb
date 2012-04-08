@@ -4,5 +4,5 @@ class Classroom < ActiveRecord::Base
   belongs_to :dept
   has_many :assignments, :dependent => :destroy
   has_many :timeperiods, :as => :periodable, :dependent => :destroy
-  has_many :assdata, :dependent => :destroy
+  has_many :assdatas, :dependent => :destroy
 end

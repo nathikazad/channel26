@@ -5,8 +5,7 @@
   <% for a in @all_assignments
 	date = a.due_date
 %>
-    
-	<% if(date-prevdate!=0)%>
+	<% if(Integer(date-prevdate)!=0)%>
 	  <p class="drawline">
 	  </p> 
 	  </p>
