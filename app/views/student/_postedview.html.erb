@@ -1,0 +1,11 @@
+<%
+if(post.poster_type.eql?"Student")
+  person = Student.find(post.poster_id);
+else
+  person = Teacher.find(1);
+end
+%>
+<blockquote style="margin-bottom:5px;" id="justposted" name="<%=post.poster_type%>">
+  <p style="font-size:12px;"><%= post.content %></p>
+  <span class="hover" style="color:red"><b><%= person.first_name %> <%= person.last_name %></b></span><span> <%= post.created_at.strftime("%m/%d/%y")%></span>
+</blockquote>

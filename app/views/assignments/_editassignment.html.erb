@@ -1,0 +1,39 @@
+<%
+  title = assgn.name
+  if assgn.name.nil?
+    if assgn.atype==0
+      title = "Class #{assgn.serial}"
+    elsif atype==1
+      title = "HW #{assgn.serial}"
+    elsif atype==2
+      title = "Quiz #{assgn.serial}"
+    elsif atype==3
+      title = "Midterm #{assgn.serial}"
+    end
+  end
+%>
+<h3>Editing <%=title%></h3>
+    <div id="editpost" style="margin-top:10px;">
+      <form id="commentform" action="" method="get">
+        <label for="a_name">Name:</label>
+	<input id="a_name" name="a_name" type="text" value="<%=assgn.name%>"/>
+        <label for="a_start">Date Assigned:</label>
+	<input id="a_start" name="a_start" type="text" value="<%=assgn.assigned_date%>"/>
+        <label for="a_end">Date Due:</label>
+	<input id="a_end" name="a_end" type="text" value="<%=assgn.due_date%>"/>
+	<label for="a_content">Content:</label>
+        <textarea cols="350" rows="5" name="a_content" id="a_content" ><%=assgn.content%></textarea>
+	<br/>
+	<input id="btnsubmit" class="btn btn-success" type="submit" name="btnsubmit" value="Update Assignment"/>
+    </div>
+
+<script>
+    $("#editpost").submit(function() {
+        $.ajax({url: "/student/newcomment?pid="+("<%=post.id%>")+"&text="+($("#contentbox").val()), cache: true, success: function(html){
+	    $('#comments').append(html); 	
+	    $("#comments").animate({ scrollTop: 3600 }, "slow");
+          }
+	});
+	return false;
+    });
+</script>
