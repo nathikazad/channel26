@@ -6,7 +6,6 @@
 #
 MathClass1: 
     id: 1
-    name: nil
     serial: 1
     atype: 0
     assigned_date: 2012-03-20
@@ -18,7 +17,6 @@ MathClass1:
 #
 MathClass2: 
     id: 2
-    name: nil
     serial: 2
     atype: 0
     assigned_date: 2012-03-21
@@ -30,7 +28,6 @@ MathClass2:
 #
 MathClass3: 
     id: 3
-    name: nil
     serial: 3
     atype: 0
     assigned_date: 2012-03-22
@@ -42,7 +39,6 @@ MathClass3:
 #
 MathClass4:
     id: 4 
-    name: nil
     serial: 4
     atype: 0
     assigned_date: 2012-03-23
@@ -54,7 +50,6 @@ MathClass4:
 #
 MathClass5: 
     id: 5
-    name: nil
     serial: 5
     atype: 0
     assigned_date:
@@ -66,7 +61,6 @@ MathClass5:
 #
 MathClass6:
     id: 6 
-    name: nil
     serial: 6
     atype: 0
     assigned_date:
@@ -79,7 +73,6 @@ MathClass6:
 
 MathHW1: 
     id: 7
-    name: nil
     serial: 1
     atype: 1
     assigned_date: 2012-03-30
@@ -91,7 +84,6 @@ MathHW1:
 #
 MathHW2: 
     id: 8
-    name: nil
     serial: 2
     atype: 1
     assigned_date: 2012-04-06
@@ -103,7 +95,6 @@ MathHW2:
 #
 MathHW3: 
     id: 9
-    name: nil
     serial: 3
     atype: 1
     assigned_date: 2012-04-13
@@ -115,7 +106,6 @@ MathHW3:
 #Quiz
 MathQuiz1: 
     id: 10
-    name: nil
     serial: 1
     atype: 2
     assigned_date:
@@ -127,7 +117,6 @@ MathQuiz1:
 #
 MathQuiz2: 
     id: 11
-    name: nil
     serial: 2
     atype: 2
     assigned_date:
@@ -139,7 +128,6 @@ MathQuiz2:
 #
 MathQuiz3: 
     id: 12
-    name: nil
     serial: 3
     atype: 2
     assigned_date:
@@ -151,7 +139,6 @@ MathQuiz3:
 #
 MathMidterm1: 
     id: 13
-    name: nil
     serial: 1
     atype: 3
     assigned_date:
