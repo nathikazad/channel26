@@ -26,12 +26,14 @@
 	<br/>
 	<input id="btnsubmit" class="btn btn-success" type="submit" name="btnsubmit" value="Update Assignment"/>
     </div>
+<div id="success" style="display:none">
+  <p>Successfully Updated!</p>
+</div>
 
 <script>
     $("#editpost").submit(function() {
-        $.ajax({url: "/student/newcomment?pid="+("<%=post.id%>")+"&text="+($("#contentbox").val()), cache: true, success: function(html){
-	    $('#comments').append(html); 	
-	    $("#comments").animate({ scrollTop: 3600 }, "slow");
+        $.ajax({url: "/assignments/updateassignment?"+"assgnid=<%=assgn.id%>"+"&assignment[name]="+($("#a_name").val())+"&assignment[assigned_date]="+($("#a_start").val()), cache: true, success: function(html){
+	    $('#success').show(); 	
           }
 	});
 	return false;
