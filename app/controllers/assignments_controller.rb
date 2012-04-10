@@ -42,7 +42,7 @@ class AssignmentsController < ApplicationController
   #Call the update but make sure you set params[:assgnid], the id of the assignment to be chnaged,
   # and params[:assignment]. Lets say you change the due_date and content, first clear params[:assignment]
   # then set params[:assignment]["due_date"]=<new due_date> and set params[:assignment]["content"]=<the new content>
-  def update
+  def updateassignment
     @assignment=Assignment.find(params[:assgnid])
     @assignment.update_attributes(params[:assignment])
     serial,atype=[@assignment.serial,@assignment.atype]

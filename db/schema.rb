@@ -25,15 +25,21 @@ ActiveRecord::Schema.define(:version => 20120407224238) do
   end
 
   create_table "assignments", :force => true do |t|
-    t.string   "name"
     t.integer  "serial"
     t.integer  "atype"
     t.date     "assigned_date"
     t.date     "due_date"
+    t.string   "name"
     t.text     "content"
+    t.string   "links"
+    t.string   "soln_links"
+    t.date     "soln_release"
     t.integer  "p_o_a"
     t.integer  "out_of"
     t.integer  "classroom_id"
+    t.boolean  "submit_online"
+    t.boolean  "other_assignment"
+    t.string   "other_assgn_name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -100,6 +106,7 @@ ActiveRecord::Schema.define(:version => 20120407224238) do
     t.integer  "score"
     t.integer  "poster_id"
     t.string   "poster_type"
+    t.datetime "posted_time"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -133,7 +140,7 @@ ActiveRecord::Schema.define(:version => 20120407224238) do
     t.string   "location"
     t.string   "department"
     t.string   "number"
-    t.string   "office_hours"
+    t.text     "dropbox"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
