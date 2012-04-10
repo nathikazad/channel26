@@ -37,75 +37,6 @@
       </div>
     </div>
 
-    <!--scripts to handle class changes-->
-    <script>
-      var hovering = false;
-      $(function() {
-        $(".editAssign").hide();
-        $("a[rel=popper]").tooltip({placement:"top"});
-	$(".mychannel").hover(
-	    function() {
-	      $(".editAssign").show();
-	    }
-	    ,
-	    function(){
-	      var isHovered = $('.editAssign').is(":hover");
-	      if(isHovered)
-	      {
-	        $(".editAssign").hide();
-	      }
-	    }
-        );
-	$(".editAssign").hover(
-	    function() {
-	    }
-	    ,
-	    function() {
-	    }
-        );
-        $(".editAssign").click(function(event){
-            $.ajax({ url: "/assignments/viewassignments?id="+(this.id), cache: true, success: function(html){
-		  $("#mainHTML").hide();
-		  $("#replaceHTML").html(html);
-		  $("#replaceHTML").fadeIn("slow");
-	      }					
-	    });
-	});
-	$(".mychannel").click(function(event){
-            $("#replaceHTML").hide();
-	    $("#mainHTML").fadeIn("slow");
-	    $('#infobox').html("<div>Loading...</div><br/><br/><br/><br/><br/><br/>");
-	    $('#nutshell').html("<p>Loading...</p><br/><br/><br/>");
-	    $('#calendar').html("<div>Loading...</div><br/><br/><br/><br/><br/><br/>");
-	    $('#tabstuff').html("<p>Loading...</p><br/><br/>");
-            $.ajax({ url: "/student/infobox?id="+(this.id-1), cache: true, success: function(html){
-		  $("#infobox").hide();
-		  $("#infobox").html(html);
-		  $("#infobox").fadeIn("slow");
-	      }					
-	    });
-            $.ajax({ url: "/student/nutshell?id="+(this.id-1), cache: true, success: function(html){
-		  $("#nutshell").hide();
-		  $("#nutshell").html(html);
-		  $("#nutshell").fadeIn("slow");
-	      }					
-	    });
-            $.ajax({ url: "/student/calendar?id="+(this.id-1), cache: true, success: function(html){
-		  $("#calendar").hide();
-		  $("#calendar").html(html);
-		  $("#calendar").fadeIn("slow");
-	      }					
-	    });
-            $.ajax({ url: "/student/tabber?id="+(this.id-1), cache: true, success: function(html){
-		  $("#tabstuff").hide();
-		  $("#tabstuff").html(html);
-		  $("#tabstuff").fadeIn("slow");
-	      }					
-	    });
-	});
-      });
-    </script>
-
     <div class="span8">
     <div class="well2" style="height:550px;width:98%;margin-left:-20px;">
 
@@ -214,7 +145,7 @@
 	    }
         );
         $(".editAssign").click(function(event){
-            $.ajax({ url: "/teacher/editassignment?id="+(this.id), cache: true, success: function(html){
+            $.ajax({ url: "/assignments/viewassignments?id="+(this.id), cache: true, success: function(html){
 		  $("#mainHTML").hide();
 		  $("#replaceHTML").html(html);
 		  $("#replaceHTML").fadeIn("slow");
