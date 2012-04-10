@@ -1,6 +1,6 @@
 <div class="tab-content">
 <% @feeds = channel.feeds %>
-<div class="tab-pane active" id="updates">
+<div class="tab-pane active" id="general">
   <table class="table table-striped">
     <% if @feeds.size > 0 %>
       <% for p in @feeds[0].posts %>
@@ -11,7 +11,7 @@
     <% end %>
   </table>
 </div>
-<div class="tab-pane" id="general">
+<div class="tab-pane" id="updates">
   <table class="table table-striped">
     <% if @feeds.size > 0 %>
       <% for p in @feeds[1].posts %>

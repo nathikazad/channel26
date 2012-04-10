@@ -4,12 +4,12 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-Post1: 
+Post1ingeneral: 
     id: 1
     title: Post1
     postable_id: 1
     postable_type: Feed
-    content: Content of the 1st post
+    content: Due date for assignment
     score: 0
 #
 Comment1forPost1: 
@@ -17,6 +17,23 @@ Comment1forPost1:
     title: Comment
     postable_id: 1
     postable_type: Post
-    content: Comment content
     score: 0
 #
+Question1inMath: 
+    id: 3
+    title: Do you guys think this teacher is retarded?
+    postable_id: 3
+    postable_type: Feed
+    content: Comment content
+    Poster_type: Student
+    Poster_id: 1
+    score: 5
+#
+AnswertoQ1:
+    id: 4
+    content: No you are retarded
+    postable_id: 3
+    postable_type: Post
+    Poster_type: Student
+    Poster_id: 2
+    score: 5

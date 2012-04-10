@@ -2,9 +2,8 @@ TestBaby::Application.routes.draw do
   get "assignments/edit"
   get "assignments/update" 
   get "teacher/index"
-  root :to => "student#index", :as => 'home'
-  get "test/view1"
   get "student/register"
+  get "student/edit"
   get "student/login"
   get "student/index"
   get "student/infobox"

@@ -44,6 +44,7 @@ class AssignmentsController < ApplicationController
   # then set params[:assignment]["due_date"]=<new due_date> and set params[:assignment]["content"]=<the new content>
   def update
     @assignment=Assignment.find(params[:assgnid])
+    a=@assignments
     @assignment.update_attributes(params[:assignment])
     serial,atype=[@assignment.serial,@assignment.atype]
     while(@assignments[atype][serial+1].duedate < @assignments[atype][serial].duedate) do
