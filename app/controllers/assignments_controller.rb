@@ -12,7 +12,13 @@ class AssignmentsController < ApplicationController
     end
     render(:partial => "viewassignments", :locals => {:assignments => @assignments, :assdata => @assdata});
   end
-  
+ 
+  def editassignment
+    @assgn = Assignment.find(Integer(params[:id]))
+    #add security to make sure teacher is leader of this class/assignment 
+    render(:partial => "editassignment", :locals => {:assgn => @assgn});
+  end
+
   # set the params[:assignment], which is a hash array and assign attributes like this
   # params[:assignment]["atype"]=0,params[:assignment]["content"]="blah blah blah"
   # make sure you dont set the serial and id

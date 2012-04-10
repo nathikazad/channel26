@@ -23,6 +23,7 @@ TestBaby::Application.routes.draw do
   get "teacher/dropbox"
   get "teacher/dropbox_redirect"
   get "assignments/viewassignments"
+  get "assignments/editassignment"
   get "twiliorespp/answerMachine"
   get "twiliorespp/query"
   get "classrooms/show"
