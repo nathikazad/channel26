@@ -65,7 +65,6 @@ class TeacherController < ApplicationController
   
   def dropbox_redirect
     session[:drop].get_access_token
-    access_type = :app_folder
     @teacher = Teacher.find(session[:user_id]);
     @teacher.dropbox=Marshal.dump(session[:drop])
     @teacher.save

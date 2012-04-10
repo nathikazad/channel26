@@ -127,14 +127,14 @@ class StudentController < ApplicationController
   end
   
   def dropbox
-    @channel = Channel.find(1)#Integer(params[:id]))
-    @teacher = @channel.leader
-    access_type = :app_folder
-    boxval=DropboxSession.deserialize(@teacher.dropbox)
-    client = DropboxClient.new(boxval, access_type)
-    file_metadata = client.metadata('/')
-    @msg= client.delta
-    #out, metadata = client.get_file_and_metadata('/utt.txt')
-    #open('utt.txt', 'w') {|f| f.puts out }
+  @student = Student.find(session[:user_id])
+  @channel = Channel.find(1)#@student.channels[Integer(params[:id])]
+  @teacher = @channel.leader
+  access_type = :app_folder
+  boxval=Marshal.load(@teacher.dropbox)
+  client = DropboxClient.new(boxval, access_type)
+  file_metadata = client.metadata('/Math141')
+  
+  @msg= "#{file_metadata['contents']}"
   end
 end

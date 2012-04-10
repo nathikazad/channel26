@@ -1,5 +1,5 @@
 class Classroom < ActiveRecord::Base
-  has_one :channel, :as => :channelable 
+  has_one :channel, :as => :channelable, :dependent => :destroy 
   attr_accessible :name
   belongs_to :dept
   has_many :assignments, :dependent => :destroy

@@ -50,6 +50,16 @@ class AssignmentsController < ApplicationController
       @assignments[atype][serial]=temp
       @assignments[atype][serial].serial=serial
     end
+    while(@assignments[atype][serial-1].duedate > @assignments[atype][serial].duedate) do
+      #switch vals and increment serial
+      temp=@assignments[atype][serial]
+      @assignments[atype][serial]=@assignments[atype][serial-1]
+      @assignments[atype][serial].serial=serial
+      @assignments[atype][serial].save
+      serial=serial-1
+      @assignments[atype][serial]=temp
+      @assignments[atype][serial].serial=serial
+    end
     @assignments[atype][serial].save
   end
   

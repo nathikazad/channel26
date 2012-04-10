@@ -7,6 +7,7 @@ class TestController < ApplicationController
   
   def update
     stu=Student.find(1)
+    debugger
     stu.update_attributes(params[:user])
   end
 end
