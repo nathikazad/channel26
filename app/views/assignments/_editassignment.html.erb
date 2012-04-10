@@ -17,25 +17,15 @@
       <form id="commentform" action="" method="get">
         <label for="a_name">Name:</label>
 	<input id="a_name" name="a_name" type="text" value="<%=assgn.name%>"/>
-        <label for="a_start">Date Assigned:</label>
+	<label for="a_start">Date Assigned:</label>
 	<input id="a_start" name="a_start" type="text" value="<%=assgn.assigned_date%>"/>
         <label for="a_end">Date Due:</label>
 	<input id="a_end" name="a_end" type="text" value="<%=assgn.due_date%>"/>
 	<label for="a_content">Content:</label>
         <textarea cols="350" rows="5" name="a_content" id="a_content" ><%=assgn.content%></textarea>
-	<div id="fileshare" class="btn-group">
-	  <div class="dropdown">
-	  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-	      Action
-	      <span class="caret"></span>
-	  </a>
-          <ul class="dropdown-menu">
-	    <li>sfdsf</li>
-	    <li>dsfdsf</li>
-	  </ul>
-	  </div>
-	</div>
-	<br/>
+        <label for="a_file">Additional Files:</label>
+	<input id="a_file" name="a_file" type="text" data-provide="typeahead" placeholder="Add a file...">
+	<br/><br/>
 	<input id="btnsubmit" class="btn btn-success" type="submit" name="btnsubmit" value="Update Assignment"/>
     </div>
 <div id="success" style="display:none">
@@ -43,6 +33,15 @@
 </div>
 
 <script>
+    function getPaths()
+    {
+      var paths = ['random.txt', 'blah.txt', 'blue.txt', 'red.txt'];
+      return paths;
+    }
+
+    $('#a_file').typeahead({ 
+      source: getPaths() 
+    }) 
     $("#editpost").submit(function() {
         $.ajax({url: "/assignments/updateassignment?"+"assgnid=<%=assgn.id%>"+"&assignment[name]="+($("#a_name").val())+"&assignment[assigned_date]="+($("#a_start").val()), cache: true, success: function(html){
 	    $('#success').show(); 	

@@ -139,7 +139,8 @@ class StudentController < ApplicationController
   end
   
   def edit
-  @user = User.find(params[:id]) @title = "Edit user"
+    @user = User.find(params[:id]) 
+    @title = "Edit user"
   end
   
   def update
