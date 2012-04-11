@@ -1,4 +1,5 @@
 TestBaby::Application.routes.draw do 
+  get "assignments/drop_down"
   get "teacher/index"
   get "student/register"
   get "student/login"
