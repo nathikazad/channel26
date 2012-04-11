@@ -70,22 +70,4 @@ class TeacherController < ApplicationController
     @teacher.save
     session[:drop]=nil
   end
-  
-  # On the first call pass in class name as a params[path] for example Math141 (one of the teacher's classes)
-  # that'll return a list of all the paths in the folder at @list[index] and if it is a dir or not(boolean)
-  # at @is_dir[index].
-  # suppose a user clicks on a particular path and it is a folder then make params[path] equal to that path 
-  # and call drop_down again, else save that path to the links attribute of the particular assignment
-  def drop_down
-    access_type = :app_folder
-    boxval=Marshal.load(@teacher.dropbox)
-    client = DropboxClient.new(boxval, access_type)
-    file_metadata = client.metadata(params[path])
-    @list=Array.new
-    @is_dir=Array.new
-    for i in 0..(file_metadata["contents"].size-1) do
-      @list[i]=file_metadata["contents"]["path"]
-      @is_dir[i]=file_metadata["contents"]["is_dir"]
-    end
-  end
 end

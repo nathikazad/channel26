@@ -1,10 +1,6 @@
-TestBaby::Application.routes.draw do
-  get "assignments/edit"
-  get "assignments/update" 
+TestBaby::Application.routes.draw do 
   get "teacher/index"
   get "student/register"
-  get "assignment/update"
-  get "assignment/edit"
   get "student/login"
   get "student/index"
   get "student/infobox"

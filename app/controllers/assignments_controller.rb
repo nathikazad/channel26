@@ -89,12 +89,29 @@ class AssignmentsController < ApplicationController
     end
   end
   
-  def edit
-    @assignment=Assignment.find(1)
+  # On the first call pass in class name as a params[classid] for example Math141 (one of the teacher's classes)
+  # that'll return a list of all the paths in the folder at @list[index] and if it is a dir or not(boolean)
+  # at @is_dir[index].
+  # suppose a user clicks on a particular path and it is a folder then make params[path] equal to that path 
+  # and call drop_down again, else save that path to the links attribute of the particular assignment
+  def drop_down
+    classroom=Classroom.find(1)
+    teacher=classroom.channel.leader
+    access_type = :app_folder
+    boxval=Marshal.load(teacher.dropbox)
+    client = DropboxClient.new(boxval, access_type)
+    @list=Array.new
+    rip(client,"/#{classroom.dept.name}#{classroom.class_no}")
   end
   
-  def update
-  @user = Assignment.find(1)
-  Assignment.find(1).update_attribute(params[:user])   
+  def rip(client,path)
+    file_metadata = client.metadata(path)
+    for i in file_metadata["contents"] do
+      if(i["is_dir"]==true)
+        rip(client,i["path"])
+      else
+        @list.push(i["path"])
+      end
+    end
   end
 end
