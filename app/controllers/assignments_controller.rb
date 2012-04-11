@@ -21,8 +21,9 @@ class AssignmentsController < ApplicationController
     access_type = :app_folder
     boxval=Marshal.load(teacher.dropbox)
     client = DropboxClient.new(boxval, access_type)
-    @list=Array.new
-    rip(client,"/#{classroom.dept.name}#{classroom.class_no}")
+    @list=String.new
+    rip(client,"/#{classroom.dept.name}#{classroom.class_no}") 
+    @list.chop
     render(:partial => "editassignment", :locals => {:assgn => @assgn, :all_paths => @list});
   end
 
@@ -108,7 +109,7 @@ class AssignmentsController < ApplicationController
       if(i["is_dir"]==true)
         rip(client,i["path"])
       else
-        @list.push(i["path"])
+        @list.concat("#{i["path"]},")
       end
     end
   end
