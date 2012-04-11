@@ -95,7 +95,7 @@ class AssignmentsController < ApplicationController
   # suppose a user clicks on a particular path and it is a folder then make params[path] equal to that path 
   # and call drop_down again, else save that path to the links attribute of the particular assignment
   def drop_down
-    classroom=Classroom.find(params[path])
+    classroom=Classroom.find(params[classid])
     teacher=classroom.channel.leader
     access_type = :app_folder
     boxval=Marshal.load(teacher.dropbox)
