@@ -16,6 +16,13 @@ class AssignmentsController < ApplicationController
   def editassignment
     @assgn = Assignment.find(Integer(params[:id]))
     #add security to make sure teacher is leader of this class/assignment 
+    classroom=Classroom.find(params[:path])
+    teacher=classroom.channel.leader
+    access_type = :app_folder
+    boxval=Marshal.load(teacher.dropbox)
+    client = DropboxClient.new(boxval, access_type)
+    @list=Array.new
+    rip(client,"/#{classroom.dept.name}#{classroom.class_no}")
     render(:partial => "editassignment", :locals => {:assgn => @assgn});
   end
 
