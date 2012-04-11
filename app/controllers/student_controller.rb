@@ -137,4 +137,14 @@ class StudentController < ApplicationController
   
   @msg= "#{file_metadata['contents']}"
   end
+  
+  def edit
+    @user = User.find(params[:id]) 
+    @title = "Edit user"
+  end
+  
+  def update
+  @user = Student.find(params[:id])
+  @user.update_attributes(params[:user])      
+  end
 end

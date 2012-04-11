@@ -5,7 +5,7 @@
 }
 .slides_container div {
   width:770px;
-  height:425px;
+  height:500px;
   display:block;
 }
 .pagers {
@@ -29,6 +29,7 @@
     </thead>
     <tbody>
       <% for a in 1..assignments[0].size-1 %>
+        <% classname = assignments[0][a].classroom_id%>
       <tr>
         <% if assignments[0][a].name.eql?nil %>
 	  <% name = assignments[0][a].content %>
@@ -72,7 +73,7 @@
 </div>
 </div>
 
-  <div id="showpage" style="width:4000px;height:100%;float:left;position:relative">
+  <div id="showpage" style="width:4000px;height:550px;float:left;position:relative">
     <a href="#1" class="link">Go back</a>
     <div id="assgndata">
       <p>content</p>
@@ -95,7 +96,7 @@
 	  }
 	});
         $(".link").click(function(event){
-            $.ajax({ url: "/assignments/editassignment?id="+(this.id), cache: true, success: function(html){
+            $.ajax({ url: "/assignments/editassignment?id="+(this.id)+"&class="+("<%=classname%>"), cache: true, success: function(html){
 		  $("#assgndata").hide();
 		  $("#assgndata").html(html);
 		  $("#assgndata").fadeIn("slow");
