@@ -15,8 +15,8 @@ class AssignmentsController < ApplicationController
  
   def editassignment
     @assgn = Assignment.find(Integer(params[:id]))
-    #add security to make sure teacher is leader of this class/assignment
-    classroom=Classroom.find(params[classid])
+    #add security to make sure teacher is leader of this class/assignment 
+    classroom=Classroom.find(params[:classid])
     teacher=classroom.channel.leader
     access_type = :app_folder
     boxval=Marshal.load(teacher.dropbox)
@@ -24,7 +24,7 @@ class AssignmentsController < ApplicationController
     @list=String.new
     rip(client,"/#{classroom.dept.name}#{classroom.class_no}") 
     @list.chop
-    render(:partial => "editassignment", :locals => {:assgn => @assgn});
+    render(:partial => "editassignment", :locals => {:assgn => @assgn, :all_paths => @list});
   end
 
   # set the params[:assignment], which is a hash array and assign attributes like this

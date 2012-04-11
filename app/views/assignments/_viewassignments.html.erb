@@ -96,7 +96,7 @@
 	  }
 	});
         $(".link").click(function(event){
-            $.ajax({ url: "/assignments/editassignment?id="+(this.id)+"&class="+("<%=classname%>"), cache: true, success: function(html){
+            $.ajax({ url: "/assignments/editassignment?id="+(this.id)+"&classid="+("<%=classname%>"), cache: true, success: function(html){
 		  $("#assgndata").hide();
 		  $("#assgndata").html(html);
 		  $("#assgndata").fadeIn("slow");
