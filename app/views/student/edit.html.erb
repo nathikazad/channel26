@@ -1,15 +1,13 @@
-<h1>Edit user</h1>
-
-<%= form_for(@user) do |f| %>
-<%= render 'shared/error_messages', :object => f.object %> <div class="field">
-<%= f.label :first_name %><br />
-<%= f.text_field :first_name %> </div>
+<h1>ss</h1>
+<%= form_for(@assignment) do |f| %>
 <div class="field">
-<%= f.label :last_name %><br /> <%= f.text_field :last_name %>
+<%= f.label :atype %><br />
+<%= f.text_field :atype %> </div>
+<div class="field">
+<%= f.label :content %><br /> <%= f.text_field :content %>
 </div>
-<div class="field">
-<%= f.label :id %><br />
-<%= f.password_field :id %> </div>
 <div class="actions">
 <%= f.submit "Update" %> </div>
 <% end %>
+
+	

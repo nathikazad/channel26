@@ -88,4 +88,13 @@ class AssignmentsController < ApplicationController
       serial=serial+1
     end
   end
+  
+  def edit
+    @assignment=Assignment.find(1)
+  end
+  
+  def update
+  @user = Assignment.find(1)
+  Assignment.find(1).update_attribute(params[:user])   
+  end
 end
