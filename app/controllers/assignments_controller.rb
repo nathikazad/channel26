@@ -15,7 +15,14 @@ class AssignmentsController < ApplicationController
  
   def editassignment
     @assgn = Assignment.find(Integer(params[:id]))
-    #add security to make sure teacher is leader of this class/assignment 
+    #add security to make sure teacher is leader of this class/assignment
+    classroom=Classroom.find(params[classid])
+    teacher=classroom.channel.leader
+    access_type = :app_folder
+    boxval=Marshal.load(teacher.dropbox)
+    client = DropboxClient.new(boxval, access_type)
+    @list=Array.new
+    rip(client,"/#{classroom.dept.name}#{classroom.class_no}") 
     render(:partial => "editassignment", :locals => {:assgn => @assgn});
   end
 
@@ -94,15 +101,6 @@ class AssignmentsController < ApplicationController
   # at @is_dir[index].
   # suppose a user clicks on a particular path and it is a folder then make params[path] equal to that path 
   # and call drop_down again, else save that path to the links attribute of the particular assignment
-  def drop_down
-    classroom=Classroom.find(params[classid])
-    teacher=classroom.channel.leader
-    access_type = :app_folder
-    boxval=Marshal.load(teacher.dropbox)
-    client = DropboxClient.new(boxval, access_type)
-    @list=Array.new
-    rip(client,"/#{classroom.dept.name}#{classroom.class_no}")
-  end
   
   def rip(client,path)
     file_metadata = client.metadata(path)
