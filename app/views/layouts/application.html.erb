@@ -25,14 +25,18 @@
 </head>
 <body>
   <script>
-    $(function() {
-      $("#search").keyup(function(event){
-        if(event.keyCode == 13){
-	  $.ajax({ url: "/student/search?query="+escape($(this).val()), cache: true, success: function(html){
+    function askDuarte(query)
+    {
+	  $.ajax({ url: "/student/search?query="+escape(query), cache: true, success: function(html){
 	      $("#resultsList").html(html);
 	      $("#resultsBox").show();
 	    }
 	  });
+    }
+    $(function() {
+      $("#search").keyup(function(event){
+        if(event.keyCode == 13){
+	  event.preventDefault();
         }
       });
     });
@@ -50,7 +54,7 @@
 	<% end %>
 	<!--Search Box-->
 	<form class="navbar-search pull-left" action="">
-	  <input type="text" class="search-query span6" id="search" placeholder="Ask Duarte a question" onblur="stopDisplay();">
+	  <input type="text" class="search-query span6" id="search" placeholder="Ask Duarte a question" autocomplete="off" onkeyup="askDuarte(this.value);" onblur="stopDisplay();">
 	  <div id="resultsBox" class="dropdown-menu span10" style="display:none;">
 	    <ul id="resultsList">
 	    </ul>
