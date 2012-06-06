@@ -137,5 +137,5 @@ class StudentController < ApplicationController
   
   @msg= "#{file_metadata['contents']}"
   end
-  
+  s
 end

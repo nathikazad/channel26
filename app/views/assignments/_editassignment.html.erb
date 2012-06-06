@@ -35,7 +35,10 @@
 <script>
     function getPaths()
     {
-      var paths = [<% puts "#{all_paths}" %>];
+      var paths = [];
+      <% for a in all_paths %>
+        paths.push('<%="#{a}"%>');
+      <% end %>
       return paths;
     }
 
