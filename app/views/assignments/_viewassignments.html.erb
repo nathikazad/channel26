@@ -17,7 +17,7 @@
 <div id="boxcontainer" class="slides_container">
 <div id="mainpage">
 <div class="well" style="background-color:white;width:770px;height:425px;overflow-y:scroll;padding:0px;margin-bottom:0px">
-  <h2>Classes<h2/>
+  <h2>Sessions<h2/>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -30,7 +30,7 @@
     <tbody>
       <% for a in 1..assignments[0].size-1 %>
         <% classname = assignments[0][a].classroom_id%>
-      <tr>
+      <tr id="classr_<%=assignments[0][a].id%>">
         <% if assignments[0][a].name.eql?nil %>
 	  <% name = assignments[0][a].content %>
 	<% else %>
@@ -39,7 +39,7 @@
         <td><%=assignments[0][a].serial%></td>
 	<td><%=assignments[0][a].content%></td>
 	<td><%=assignments[0][a].due_date%></td>
-	<td><a href="#2" class="link" id="<%=assignments[0][a].id%>"rel="popper" title="View/Edit"><i class="icon-share-alt"></i></a><a href="#delete" id="<%=a%>"rel="popper" title="Delete"><i class="icon-remove"></i></a></td>
+	<td><a href="#2" class="link" id="<%=assignments[0][a].id%>"rel="popper" title="View/Edit"><i class="icon-share-alt"></i></a><a href="#delete" id="<%=a%>" class="delete" rel="popper" title="Delete"><i class="icon-remove"></i></a></td>
       </tr>
       <% end %>
     </tbody>
@@ -56,7 +56,7 @@
     </thead>
     <tbody>
       <% for a in 1..assignments[1].size-1 %>
-      <tr>
+      <tr id="hwr_<%=assignments[1][a].id%>">
         <% if assignments[1][a].name.eql?nil %>
 	  <% name = assignments[1][a].content %>
 	<% else %>
@@ -65,7 +65,7 @@
         <td><%=assignments[1][a].serial%></td>
 	<td><%=assignments[1][a].content%></td>
 	<td><%=assignments[1][a].due_date%></td>
-	<td><a href="#2" class="link" id="<%=assignments[1][a].id%>"rel="popper" title="View/Edit"><i class="icon-share-alt"></i></a><a href="#delete" id="<%=a%>"rel="popper" title="Delete"><i class="icon-remove"></i></a></td>
+	<td><a href="#2" class="link" id="<%=assignments[1][a].id%>"rel="popper" title="View/Edit"><i class="icon-share-alt"></i></a><a href="#delete" id="<%=a%>" class="delete2" rel="popper" title="Delete"><i class="icon-remove"></i></a></td>
       </tr>
       <% end %>
     </tbody>
@@ -96,10 +96,23 @@
 	  }
 	});
         $(".link").click(function(event){
+	    $("#assgndata").html("<b>Loading...</b>");
             $.ajax({ url: "/assignments/editassignment?id="+(this.id)+"&classid="+("<%=classname%>"), cache: true, success: function(html){
 		  $("#assgndata").hide();
 		  $("#assgndata").html(html);
 		  $("#assgndata").fadeIn("slow");
+	      }					
+	    });
+	});
+        $(".delete").click(function(event){
+	    $("#classr_"+this.id).fadeOut("slow");
+            $.ajax({ url: "/assignments/destroy?assignid="+(this.id), cache: true, success: function(html){
+	      }					
+	    });
+	});
+        $(".delete2").click(function(event){
+	    $("#hwr_"+this.id).fadeOut("slow");
+            $.ajax({ url: "/assignments/destroy?assignid="+(this.id), cache: true, success: function(html){
 	      }					
 	    });
 	});
