@@ -4,7 +4,7 @@ gem 'rails', '3.0.1'
 gem 'twilio-ruby'
 gem 'dropbox-sdk'
 gem 'levenshtein-ffi'
-#gem 'ruby-debug19'
+gem 'ruby-debug19'
 gem 'sqlite3-ruby', :require => 'sqlite3'
 
 # Bundle edge Rails instead:
