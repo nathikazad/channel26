@@ -3,7 +3,7 @@
   <h3>Create an Assignment</h3>
 </div>
 <div class="modal-body">
-  <%= form_for :assignment do |f| %>
+  <%= form_for :assignment, :url=>{:controller=>'assignments', :action=> 'create'}, :remote=>true do |f| %>
     <p>
       <%= f.label :name, "Name(optional):" %>
       <%= f.text_field :name %>
@@ -20,10 +20,10 @@
       <%=f.label :content, "Content:"%>
       <%= f.text_area :content, :size => "30x5"%>
     </p>
-</div>
-<div class="modal-footer">
     <p>
       <%= f.submit "Create Assignment", :class => "btn btn-success" %>
     </p>
   <% end %>
+</div>
+<div class="modal-footer">
 </div>
