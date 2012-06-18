@@ -1,10 +1,10 @@
 class AssignmentsController < ApplicationController
-  
   #return @assignments, like @assignment[0] has an array of assignments with atype = 0, sorted in order of serial
   def viewassignments
+  	@assignments= Array.new
+	@assdata    = Array.new
+	@list=Array.new
     @classroom  = Classroom.find(Integer(params[:id]))
-    @assignments= Array.new
-    @assdata    = Array.new
     for i in 0..4 do
       @assignments[i]=@classroom.assignments.where(:atype=>0).sort! {|a,b| a.serial <=> b.serial}
       @assignments[i].insert(0,nil) #so the indexes will match the serial
@@ -15,13 +15,18 @@ class AssignmentsController < ApplicationController
     access_type = :app_folder
     boxval=Marshal.load(teacher.dropbox)
     client = DropboxClient.new(boxval, access_type)
-    @list=Array.new
     rip(client,"/#{@classroom.dept.name}#{@classroom.class_no}")
+    #@classroom.assarray=Marshal.dump(@assignments)
+    @list=@list.map {|i|i }.join(",")
+    @classroom.list=@list
+    @classroom.save
     render(:partial => "viewassignments", :locals => {:assignments => @assignments, :assdata => @assdata});
   end
  
   def editassignment
+  	@classroom  = Classroom.find(Integer(params[:classid]))
     @assgn = Assignment.find(Integer(params[:id]))
+    @list=@classroom.list.split(',')
     render(:partial => "editassignment", :locals => {:assgn => @assgn, :all_paths => @list});
   end
 
@@ -90,17 +95,21 @@ class AssignmentsController < ApplicationController
   	debugger
     @assignment=Assignment.find(Integer(params[:assignid]))
     serial,atype=[@assignment.serial,@assignment.atype]
-    @assignment.destroy
     
-    assdata = @channel.assdata.find_by_atype(atype)
+    
+    assdata = @assignment.classroom.assdatas.find_by_atype(atype)
     assdata.total=assdata.total-1
     assdata.save
-    
-    @assignments[atype].delete_at(serial)
+    debugger
+    @assignments=@assignment.classroom.assignments.where(:atype=>atype)
+    #its not sorted by atype, check here for error
+    debugger
+    @assignments.delete_at(serial-1)
+    @assignment.destroy
     
     while(serial<=assdata.total) do
-      @assignments[atype][serial].serial=serial
-      @assignments[atype][serial].save
+      @assignments[serial-1].serial=serial
+      @assignments[serial-1].save
       serial=serial+1
     end
     render(:partial => "destroy");

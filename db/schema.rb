@@ -70,6 +70,8 @@ ActiveRecord::Schema.define(:version => 20120407224238) do
     t.date     "date_end"
     t.integer  "assignment_size"
     t.string   "schedule"
+    t.text     "list"
+    t.text     "assarray"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
