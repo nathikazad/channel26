@@ -72,7 +72,7 @@
   </table>
 </div>
   <br>
-  <a href="#" class="btn btn-success"><i class="icon-plus icon-white"></i> Add Assignment</a>
+  <a id="create" href="#create" class="btn btn-success"><i class="icon-plus icon-white"></i> Add Assignment</a>
 </div>
 
   <div id="showpage" style="width:4000px;height:550px;float:left;position:relative">
@@ -82,6 +82,10 @@
     </div>
   </div>
 </div>
+</div>
+
+<div class="modal" id="showAssign" style="display:none;">
+  <p>Loading...</p>
 </div>
 
 <script>
@@ -118,5 +122,12 @@
 	      }					
 	    });
 	});
+        $("#create").click(function(event){
+          $.ajax({ url: "/assignments/create", cache: true, success: function(html){
+              $("#showAssign").html(html)
+	    }
+          });
+          $("#showAssign").modal('show');
+        });
       });
 </script>
