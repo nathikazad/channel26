@@ -1,0 +1,29 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal">×</button>
+  <h3>Create an Assignment</h3>
+</div>
+<div class="modal-body">
+  <%= form_for :assignment do |f| %>
+    <p>
+      <%= f.label :name, "Name(optional):" %>
+      <%= f.text_field :name %>
+    </p>
+    <p>
+      <%=f.label :assigned_date, "Date Assigned:"%>
+      <%= f.text_field :assigned_date %>
+    </p>
+    <p>
+      <%=f.label :due_date, "Date Due:"%>
+      <%= f.text_field :due_date %>
+    </p>
+    <p>
+      <%=f.label :content, "Content:"%>
+      <%= f.text_area :content, :size => "30x5"%>
+    </p>
+</div>
+<div class="modal-footer">
+    <p>
+      <%= f.submit "Create Assignment", :class => "btn btn-success" %>
+    </p>
+  <% end %>
+</div>
