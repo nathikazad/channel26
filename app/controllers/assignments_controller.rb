@@ -6,7 +6,7 @@ class AssignmentsController < ApplicationController
 	@list=Array.new
     @classroom  = Classroom.find(Integer(params[:id]))
     for i in 0..4 do
-      @assignments[i]=@classroom.assignments.where(:atype=>0).sort! {|a,b| a.serial <=> b.serial}
+      @assignments[i]=@classroom.assignments.where(:atype=>i).sort! {|a,b| a.serial <=> b.serial}
       @assignments[i].insert(0,nil) #so the indexes will match the serial
       @assdata[i]=@classroom.assdatas.find_by_atype(0)
     end
@@ -20,6 +20,7 @@ class AssignmentsController < ApplicationController
     @list=@list.map {|i|i }.join(",")
     @classroom.list=@list
     @classroom.save
+    debugger
     render(:partial => "viewassignments", :locals => {:assignments => @assignments, :assdata => @assdata});
   end
  
@@ -94,7 +95,6 @@ class AssignmentsController < ApplicationController
   
   #make params[:assgnid] point to the id of the assignment to be deleted
   def destroy
-  	debugger
     @assignment=Assignment.find(Integer(params[:assignid]))
     serial,atype=[@assignment.serial,@assignment.atype]
     
@@ -102,10 +102,8 @@ class AssignmentsController < ApplicationController
     assdata = @assignment.classroom.assdatas.find_by_atype(atype)
     assdata.total=assdata.total-1
     assdata.save
-    debugger
     @assignments=@assignment.classroom.assignments.where(:atype=>atype)
     #its not sorted by atype, check here for error
-    debugger
     @assignments.delete_at(serial-1)
     @assignment.destroy
     
