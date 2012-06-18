@@ -11,6 +11,8 @@ class CreateClassrooms < ActiveRecord::Migration
       t.date :date_end
       t.integer :assignment_size
       t.string :schedule
+      t.text   :list
+      t.text   :assarray
       t.timestamps
     end
   end
