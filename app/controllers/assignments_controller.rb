@@ -44,6 +44,8 @@ class AssignmentsController < ApplicationController
 		  @assignments[@assignment.atype][i].serial=i
 		  @assignments[@assignment.atype][i].save
 		end
+	else
+    		render(:partial => "create");
 	end
   end
   
