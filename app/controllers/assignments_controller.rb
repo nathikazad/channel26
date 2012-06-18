@@ -10,19 +10,18 @@ class AssignmentsController < ApplicationController
       @assignments[i].insert(0,nil) #so the indexes will match the serial
       @assdata[i]=@classroom.assdatas.find_by_atype(0)
     end
+    #add security to make sure teacher is leader of this class/assignment 
+    teacher=@classroom.channel.leader
+    access_type = :app_folder
+    boxval=Marshal.load(teacher.dropbox)
+    client = DropboxClient.new(boxval, access_type)
+    @list=Array.new
+    rip(client,"/#{@classroom.dept.name}#{@classroom.class_no}")
     render(:partial => "viewassignments", :locals => {:assignments => @assignments, :assdata => @assdata});
   end
  
   def editassignment
     @assgn = Assignment.find(Integer(params[:id]))
-    #add security to make sure teacher is leader of this class/assignment 
-    classroom=Classroom.find(params[:classid])
-    teacher=classroom.channel.leader
-    access_type = :app_folder
-    boxval=Marshal.load(teacher.dropbox)
-    client = DropboxClient.new(boxval, access_type)
-    @list=Array.new
-    rip(client,"/#{classroom.dept.name}#{classroom.class_no}") 
     render(:partial => "editassignment", :locals => {:assgn => @assgn, :all_paths => @list});
   end
 
@@ -30,20 +29,22 @@ class AssignmentsController < ApplicationController
   # params[:assignment]["atype"]=0,params[:assignment]["content"]="blah blah blah"
   # make sure you dont set the serial and id
   def create
-    @assignment=Assignment.new(params[:assignment])
-    @assignments[@assignment.atype].push(@assignment)
-    @assignments[@assignment.atype].delete_at(0)
-    @assignments[@assignment.atype].sort! {|a,b| a.due_date <=> b.due_date}
-    @assignments[@assignment.atype].insert(0,nil)
-    
-    assdata = @channel.assdata.find_by_atype(atype)
-    assdata.total=assdata.total+1
-    assdata.save
-    
-    for i in 1..assdata.total do
-      @assignments[@assignment.atype][i].serial=i
-      @assignments[@assignment.atype][i].save
-    end
+  	if(request.post?)
+    	@assignment=Assignment.new(params[:assignment])
+    	@assignments[@assignment.atype].push(@assignment)
+		@assignments[@assignment.atype].delete_at(0)
+		@assignments[@assignment.atype].sort! {|a,b| a.due_date <=> b.due_date}
+		@assignments[@assignment.atype].insert(0,nil)
+		
+		assdata = @channel.assdata.find_by_atype(atype)
+		assdata.total=assdata.total+1
+		assdata.save
+		
+		for i in 1..assdata.total do
+		  @assignments[@assignment.atype][i].serial=i
+		  @assignments[@assignment.atype][i].save
+		end
+	end
   end
   
   #Call the update but make sure you set params[:assgnid], the id of the assignment to be chnaged,
@@ -52,7 +53,14 @@ class AssignmentsController < ApplicationController
   def updateassignment
     @assignment=Assignment.find(params[:assgnid])
     a=@assignments
-    @assignment.update_attributes(params[:assignment])
+    @assignment.assigned_date=params[:assignment]["assigned_date"]
+    @assignment.due_date=params[:assignment]["due_date"]
+    @assignment.name=params[:assignment]["name"]
+    @assignment.content=params[:assignment]["content"]
+    @assignment.links=params[:assignment]["links"]
+    @assignment.soln_links=params[:assignment]["soln_links"]
+    @assignment.soln_release=params[:assignment]["soln_release"]
+    @assignment.save
     serial,atype=[@assignment.serial,@assignment.atype]
     while(@assignments[atype][serial+1].duedate < @assignments[atype][serial].duedate) do
       #switch vals and increment serial
@@ -79,7 +87,8 @@ class AssignmentsController < ApplicationController
   
   #make params[:assgnid] point to the id of the assignment to be deleted
   def destroy
-    @assignment=Assignment.find(params[:assgnid])
+  	debugger
+    @assignment=Assignment.find(Integer(params[:assignid]))
     serial,atype=[@assignment.serial,@assignment.atype]
     @assignment.destroy
     
@@ -87,13 +96,14 @@ class AssignmentsController < ApplicationController
     assdata.total=assdata.total-1
     assdata.save
     
-    @assignment[atype].delete_at(serial)
+    @assignments[atype].delete_at(serial)
     
     while(serial<=assdata.total) do
       @assignments[atype][serial].serial=serial
       @assignments[atype][serial].save
       serial=serial+1
     end
+    render(:partial => "destroy");
   end
   
   # On the first call pass in class name as a params[classid] for example Math141 (one of the teacher's classes)

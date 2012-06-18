@@ -23,6 +23,7 @@ TestBaby::Application.routes.draw do
   get "assignments/editassignment"
   get "assignments/updateassignment"
   get "assignments/create"
+  get "assignments/destroy"
   get "twiliorespp/answerMachine"
   get "twiliorespp/query"
   get "classrooms/show"
