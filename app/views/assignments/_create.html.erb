@@ -21,6 +21,8 @@
       <%= f.text_area :content, :size => "30x5"%>
     </p>
     <p>
+      <%= f.hidden_field :atype, :value=> 0 %>
+      <%= f.hidden_field :class_id, :value=> 1 %>
       <%= f.submit "Create Assignment", :class => "btn btn-success" %>
     </p>
   <% end %>
