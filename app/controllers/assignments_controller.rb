@@ -20,7 +20,6 @@ class AssignmentsController < ApplicationController
     @list=@list.map {|i|i }.join(",")
     @classroom.list=@list
     @classroom.save
-    debugger
     render(:partial => "viewassignments", :locals => {:assignments => @assignments, :assdata => @assdata});
   end
  
@@ -36,22 +35,31 @@ class AssignmentsController < ApplicationController
   # make sure you dont set the serial and id
   def create
   	if(request.post?)
-    	@assignment=Assignment.new(params[:assignment])
-    	@assignments[@assignment.atype].push(@assignment)
-		@assignments[@assignment.atype].delete_at(0)
-		@assignments[@assignment.atype].sort! {|a,b| a.due_date <=> b.due_date}
-		@assignments[@assignment.atype].insert(0,nil)
+  		debugger
+  		@classroom=Classroom.find(Integer(params[:assignment][:class_id]))
+  		@assignments=@classroom.assignments.where(:atype=>Integer(params[:assignment][:atype]))
+    	@assignment=Assignment.new
+    	@assignment.name=(params[:assignment][:name])
+    	@assignment.assigned_date=Date.strptime((params[:assignment][:assigned_date]),'%m-%d-%Y')
+    	@assignment.due_date= Date.strptime((params[:assignment][:due_date]),'%m-%d-%Y')
+    	@assignment.content=(params[:assignment][:content])
+    	@assignment.atype=(params[:assignment][:atype])
+    	@assignment.save
+    	@classroom.assignments << @assignment
+    	@assignments.push(@assignment)
+		@assignments.sort! {|a,b| a.due_date <=> b.due_date}
 		
-		assdata = @channel.assdata.find_by_atype(atype)
+		assdata = @classroom.assdatas.find_by_atype(Integer(params[:assignment][:atype]))
 		assdata.total=assdata.total+1
 		assdata.save
 		
 		for i in 1..assdata.total do
-		  @assignments[@assignment.atype][i].serial=i
-		  @assignments[@assignment.atype][i].save
+		  @assignments[i].serial=i
+		  @assignments[i].save
 		end
+		render :nothing => "true";
 	else
-    		render(:partial => "create");
+    	render(:partial => "create");
 	end
   end
   
