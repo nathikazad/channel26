@@ -37,6 +37,8 @@ class AssignmentsController < ApplicationController
   def create
   	if(request.post?)
     	@assignment=Assignment.new(params[:assignment])
+
+      #dafuq is this?
     	@assignments[@assignment.atype].push(@assignment)
 		@assignments[@assignment.atype].delete_at(0)
 		@assignments[@assignment.atype].sort! {|a,b| a.due_date <=> b.due_date}
@@ -91,6 +93,8 @@ class AssignmentsController < ApplicationController
       @assignments[atype][serial].serial=serial
     end
     @assignments[atype][serial].save
+    #dont need to render anything here....
+    render :nothing => true
   end
   
   #make params[:assgnid] point to the id of the assignment to be deleted
