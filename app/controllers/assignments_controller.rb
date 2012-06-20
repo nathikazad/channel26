@@ -57,7 +57,7 @@ class AssignmentsController < ApplicationController
 		  @assignments[i].serial=i
 		  @assignments[i].save
 		end
-		render :nothing => "true";
+		render :nothing => true
 	else
     	render(:partial => "create");
 	end
